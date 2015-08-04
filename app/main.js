@@ -2,11 +2,22 @@ var React = require('react-native');
 
 var { Image, StyleSheet, Text, View } = React;
 
+var Swiper = require('react-native-swiper');
+
 module.exports = React.createClass({
   render: function() {
     return (
       <View style={styles.container}>
-        <Image source={ require('image!layer_1') } />
+        <Image source={ require('image!layer_1') }>
+          <Swiper>
+            <View>
+              <Image source={ require('image!layer_2') } />
+            </View>
+            <View>
+              <Image source={ require('image!layer_3') } />
+            </View>
+          </Swiper>
+        </Image>
         <Text style={styles.instructions}>
           Press Cmd+R to reload,{'\n'}
           Cmd+D or shake for dev menu
