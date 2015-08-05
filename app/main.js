@@ -8,20 +8,24 @@ module.exports = React.createClass({
   render: function() {
     return (
       <View style={styles.container}>
-        <Image source={ require('image!layer_1') }>
-          <Swiper>
-            <View>
+        <Image source={ require('image!layer_1') } style={{ flex: 1 }}>
+          <Swiper height={ 284 }>
+            <View style={{ alignItems: 'stretch', flex: 1 }}>
               <Image source={ require('image!layer_2') } />
             </View>
-            <View>
+            <View style={{ alignItems: 'stretch', flex: 1 }}>
               <Image source={ require('image!layer_3') } />
             </View>
           </Swiper>
+          <Swiper height={ 284 }>
+            <View style={{ alignItems: 'stretch', flex: 1 }}>
+              <Image source={ require('image!layer_3') } style={{ flex: 1 }} />
+            </View>
+            <View style={{ alignItems: 'stretch', flex: 1 }}>
+              <Image source={ require('image!layer_2') } style={{ flex: 1 }} />
+            </View>
+          </Swiper>
         </Image>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
       </View>
     );
   }
@@ -30,18 +34,8 @@ module.exports = React.createClass({
 var styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: 'stretch',
     justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
   },
 });
