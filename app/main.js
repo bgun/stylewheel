@@ -6,60 +6,93 @@ var Swiper = require('react-native-swiper');
 
 var styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: 'stretch',
-    justifyContent: 'center',
-    backgroundColor: '#FFFFFF',
+    flex: 1
   },
+  outfitStyle: {
+    flex: 1,
+    height: 580,
+    position: 'absolute',
+      top: 0,
+    width: 320
+  },
+  swiperTopStyle: {
+    borderColor: '#FF0000',
+    borderWidth: 5,
+    height: 240,
+    position: 'absolute',
+      left: 50,
+    width: 320
+  },
+  swiperBotStyle: {
+    borderColor: '#0000FF',
+    borderWidth: 10,
+    flex: 1,
+    height: 80,
+    position: 'absolute',
+      top: 0,
+      left: 0,
+    width: 320
+  },
+  scarfStyle: {
+    alignItems: 'stretch',
+    flex: 1
+  },
+  purseStyle: {
+    alignItems: 'stretch',
+    flex: 1
+  },
+  scarfImageStyle: {
+    alignItems: 'stretch',
+    flex: 1,
+    width: 320,
+    height: 200,
+    top: 285,
+    left: 2
+  },
+  purseImageStyle: {
+    alignItems: 'stretch',
+    flex: 1,
+    width: 320,
+    height: 200,
+    top: -295
+  }
 });
-var outfitStyle = {
-  flex: 1,
-  width: 320,
-  height: 568
-}
-var swiperTopStyle = {
-  alignItems: 'stretch',
-  flex: 1
-};
-var swiperBotStyle = {
-  alignItems: 'stretch',
-  flex: 1
-};
-var imageStyle = {
-  alignItems: 'stretch',
-  flex: 1,
-  width: 520,
-  height: 1000,
-};
+
+var ScarfView = React.createClass({
+  render: function() {
+    return (
+      <View style={ styles.scarfStyle }>
+        <Image style={ styles.scarfImageStyle } source={ require('image!scarves'+this.props.index) } />
+      </View>
+    );
+  }
+});
+
+var PurseView = React.createClass({
+  render: function() {
+    return (
+      <View style={ styles.purseStyle }>
+        <Image style={ styles.purseImageStyle } source={ require('image!purses'+this.props.index) } />
+      </View>
+    );
+  }
+});
 
 module.exports = React.createClass({
   render: function() {
     return (
       <View style={styles.container}>
-        <Image style={ outfitStyle } source={ require('image!outfit1') }>
-          <Swiper height={ 400 }>
-            <View style={ swiperTopStyle }><Image style={ imageStyle } source={ require('image!scarves1') } /></View>
-            <View style={ swiperTopStyle }><Image style={ imageStyle } source={ require('image!scarves2') } /></View>
-            <View style={ swiperTopStyle }><Image style={ imageStyle } source={ require('image!scarves3') } /></View>
-            <View style={ swiperTopStyle }><Image style={ imageStyle } source={ require('image!scarves4') } /></View>
-            <View style={ swiperTopStyle }><Image style={ imageStyle } source={ require('image!scarves5') } /></View>
-            <View style={ swiperTopStyle }><Image style={ imageStyle } source={ require('image!scarves6') } /></View>
-            <View style={ swiperTopStyle }><Image style={ imageStyle } source={ require('image!scarves7') } /></View>
-            <View style={ swiperTopStyle }><Image style={ imageStyle } source={ require('image!scarves8') } /></View>
-            <View style={ swiperTopStyle }><Image style={ imageStyle } source={ require('image!scarves9') } /></View>
-          </Swiper>
-          <Swiper style={{ height: 400, top: -200 }}>
-            <View style={ swiperBotStyle }><Image style={ imageStyle } source={ require('image!purses1') } /></View>
-            <View style={ swiperBotStyle }><Image style={ imageStyle } source={ require('image!purses2') } /></View>
-            <View style={ swiperBotStyle }><Image style={ imageStyle } source={ require('image!purses3') } /></View>
-            <View style={ swiperBotStyle }><Image style={ imageStyle } source={ require('image!purses4') } /></View>
-            <View style={ swiperBotStyle }><Image style={ imageStyle } source={ require('image!purses5') } /></View>
-            <View style={ swiperBotStyle }><Image style={ imageStyle } source={ require('image!purses6') } /></View>
-            <View style={ swiperBotStyle }><Image style={ imageStyle } source={ require('image!purses7') } /></View>
-            <View style={ swiperBotStyle }><Image style={ imageStyle } source={ require('image!purses8') } /></View>
-            <View style={ swiperBotStyle }><Image style={ imageStyle } source={ require('image!purses9') } /></View>
-          </Swiper>
-        </Image>
+        <Image style={ styles.outfitStyle } source={ require('image!outfit1') } />
+        <Swiper style={ styles.swiperTopStyle }>
+          { [1,2,3,4,5,6,7,8,9].map(function(i) {
+            <ScarfView index={ i } />
+          }) }
+        </Swiper>
+        <Swiper style={ styles.swiperBotStyle }>
+          { [1,2,3,4,5,6,7,8,9].map(function(i) {
+            <PurseView index={ i } />
+          }) }
+        </Swiper>
       </View>
     );
   }
