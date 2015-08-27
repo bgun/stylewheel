@@ -68,6 +68,25 @@ var styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: 'bold',
     textAlign: 'center'
+  },
+  descriptionContainer: {
+    backgroundColor: 'transparent',
+    position: 'absolute',
+      top: 0,
+      left: 200,
+      bottom: 0,
+      right: -200,
+  },
+  description: {
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    borderRadius: 10,
+    flex: 1,
+    margin: 10,
+    marginBottom: 0,
+    padding: 20
+  },
+  descriptionCopy: {
+    color: '#FFFFFF'
   }
 });
 
@@ -210,6 +229,11 @@ module.exports = React.createClass({
           </TouchableHighlight>
 
           <OutfitButton onPress={ this.chooseOutfit } />
+        </View>
+        <View style={ styles.descriptionContainer }>
+          <View style={ styles.description }><Text style={ styles.descriptionCopy }>Here is a description of the top item. It's a scarf, or maybe it's a necklace.</Text></View>
+          <View style={ styles.description }><Text style={ styles.descriptionCopy }>Here is a description of the bottom item. It's either a bracelet or a purse.</Text></View>
+          <View style={ styles.description }><Text style={ styles.descriptionCopy }>Here is a description of the outfit. Looks very nice!</Text></View>
         </View>
       </View>
     );
