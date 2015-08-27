@@ -1,14 +1,28 @@
 var React = require('react-native');
 
-var { ActionSheetIOS, Image, StyleSheet, Text, TouchableHighlight, View } = React;
+var {
+  ActionSheetIOS,
+  Image,
+  LayoutAnimation,
+  StatusBarIOS,
+  StyleSheet,
+  Text,
+  TouchableHighlight,
+  View
+} = React;
 
 var Swiper = require('react-native-swiper');
+
+var BraceletView = require('./BraceletView');
+var NecklaceView = require('./NecklaceView');
+var PurseView    = require('./PurseView');
+var ScarfView    = require('./ScarfView');
 
 var styles = StyleSheet.create({
   appContainer: {
     flex: 1,
     flexDirection: 'row',
-    left: -80
+    left: -200
   },
   appContainerWithMenu: {
     flex: 1,
@@ -20,8 +34,8 @@ var styles = StyleSheet.create({
     flexDirection: 'column'
   },
   menu: {
-    backgroundColor: 'rgba(0,0,0,0.3)',
-    width: 80
+    backgroundColor: 'rgba(0,0,0,0.1)',
+    width: 200
   },
   outfitStyle: {
     alignItems: 'stretch',
@@ -37,35 +51,23 @@ var styles = StyleSheet.create({
     alignItems: 'flex-start',
     height: 200
   },
-  scarfViewStyle: {
-    alignItems: 'flex-start',
-    flex: 1
-  },
-  purseViewStyle: {
-    alignItems: 'flex-start',
-    flex: 1
-  },
-  scarfImageStyle: {
-    alignItems: 'stretch',
+  outfitButton: {
+    backgroundColor: 'rgba(255,255,255,0.8)',
+    borderColor: 'rgba(50,100,150,0.2)',
+    borderRadius: 10,
+    borderWidth: 5,
     flex: 1,
-    width: 320,
-    top: 285,
-    left: 2
-  },
-  purseImageStyle: {
-    alignItems: 'stretch',
-    flex: 1,
-    width: 320,
-    top: -295
-  },
-  numberStyle: {
-    fontSize: 20,
-    height: 20,
+    padding: 8,
     position: 'absolute',
-      bottom: 200,
-      right: 0,
-    textAlign: 'center',
-    width: 40
+      bottom: 10,
+      left: 60,
+      right: -140
+  },
+  outfitButtonText: {
+    color: '#3366FF',
+    fontSize: 15,
+    fontWeight: 'bold',
+    textAlign: 'center'
   }
 });
 
@@ -80,49 +82,7 @@ var images = {
   outfit8 : require('image!outfit8'),
   outfit9 : require('image!outfit9'),
   outfit10: require('image!outfit10'),
-  // scarves
-  scarf1: require('image!scarves1'),
-  scarf2: require('image!scarves2'),
-  scarf3: require('image!scarves3'),
-  scarf4: require('image!scarves4'),
-  scarf5: require('image!scarves5'),
-  scarf6: require('image!scarves6'),
-  scarf7: require('image!scarves7'),
-  scarf8: require('image!scarves8'),
-  scarf9: require('image!scarves9'),
-  // purses
-  purse1: require('image!purses1'),
-  purse2: require('image!purses2'),
-  purse3: require('image!purses3'),
-  purse4: require('image!purses4'),
-  purse5: require('image!purses5'),
-  purse6: require('image!purses6'),
-  purse7: require('image!purses7'),
-  purse8: require('image!purses8'),
-  purse9: require('image!purses9'),
-}
-
-var ScarfView = React.createClass({
-  render: function() {
-    return (
-      <View style={ styles.scarfViewStyle }>
-        <Text style={ styles.numberStyle }>{ this.props.index }</Text>
-        <Image style={ styles.scarfImageStyle } source={ images['scarf'+this.props.index] } />
-      </View>
-    );
-  }
-});
-
-var PurseView = React.createClass({
-  render: function() {
-    return (
-      <View style={ styles.purseViewStyle }>
-        <Text style={ styles.numberStyle }>{ this.props.index }</Text>
-        <Image style={ styles.purseImageStyle } source={ images['purse'+this.props.index] } />
-      </View>
-    );
-  }
-});
+};
 
 var OUTFITS = [
   'pink dress 1',
@@ -137,29 +97,71 @@ var OUTFITS = [
   'white'
 ];
 
+var OutfitButton = React.createClass({
+  render: function() {
+    return (
+      <TouchableHighlight onPress={ this.props.onPress }>
+        <View style={ styles.outfitButton }>
+          <Text style={ styles.outfitButtonText }>Select an outfit...</Text>
+        </View>
+      </TouchableHighlight>
+    );
+  }
+});
+
+var Menu = React.createClass({
+  handlePress: function(itemGroup, track) {
+    this.props.onSelect(itemGroup, track);
+  },
+  render: function() {
+    return (
+      <View style={ styles.menu }>
+        <TouchableHighlight onPress={ this.handlePress.bind(this, 'scarf', 1) }>
+          <Text style={{ padding: 10 }}>TOP: Scarf</Text>
+        </TouchableHighlight>
+        <TouchableHighlight onPress={ this.handlePress.bind(this, 'necklace', 1) }>
+          <Text style={{ padding: 10 }}>TOP: Necklace</Text>
+        </TouchableHighlight>
+        <TouchableHighlight onPress={ this.handlePress.bind(this, 'bracelet', 2) }>
+          <Text style={{ padding: 10 }}>BOTTOM: Bracelet</Text>
+        </TouchableHighlight>
+        <TouchableHighlight onPress={ this.handlePress.bind(this, 'purse', 2) }>
+          <Text style={{ padding: 10 }}>BOTTOM: Purse</Text>
+        </TouchableHighlight>
+      </View>
+    );
+  }
+})
+
 module.exports = React.createClass({
+
   getInitialState: function() {
     return {
       outfit: 1,
-      scarf: 0,
-      showMenu: false
+      showMenu: false,
+      topItem: 'scarf',
+      bottomItem: 'purse'
     }
   },
+
+  componentDidMount() {
+    StatusBarIOS.setHidden(true);
+  },
+
   scrolled: function(e, state, context) {
     this.setState({
       scarf: context.state.index
     });
   },
+
   toggleMenu: function() {
+    LayoutAnimation.easeInEaseOut();
     this.setState({
       showMenu: !this.state.showMenu
     });
   },
+
   chooseOutfit: function() {
-    console.log("click");
-    this.setState({
-      showMenu: true
-    });
     ActionSheetIOS.showActionSheetWithOptions({
       options: OUTFITS,
       destructiveButtonIndex: this.state.outfit-1 // used for highlighting!
@@ -169,31 +171,45 @@ module.exports = React.createClass({
     });
   },
 
+  selectItem: function(itemGroup, track) {
+    // track can be 1 or 2
+    this.setState({
+      topItem   : track === 1 ? itemGroup : this.state.topItem,
+      bottomItem: track === 2 ? itemGroup : this.state.bottomItem,
+    });
+    this.toggleMenu();
+  },
+
   render: function() {
+
+    var itemGroups = {
+      bracelet: [1, 2, 3, 4, 5, 6, 7, 8, 9].map(i => <BraceletView key={ i } index={ i }/>),
+      necklace: [1, 2, 3, 4, 5, 6, 7, 8, 9].map(i => <NecklaceView key={ i } index={ i }/>),
+      purse   : [1, 2, 3, 4, 5, 6, 7, 8, 9].map(i => <PurseView key={ i } index={ i }/>),
+      scarf   : [1, 2, 3, 4, 5, 6, 7, 8, 9].map(i => <ScarfView key={ i } index={ i }/>)
+    };
+
+    var topItems    = itemGroups[this.state.topItem];
+    var bottomItems = itemGroups[this.state.bottomItem];
+
     return (
       <View style={ this.state.showMenu ? styles.appContainerWithMenu : styles.appContainer }>
-        <View style={ styles.menu }>
-          <Text>Hello Menu!</Text>
-        </View>
+        <Menu onSelect={ this.selectItem } />
         <View style={styles.outfitContainer}>
           <Image style={ styles.outfitStyle } source={ images['outfit'+(this.state.outfit)]}>
-            <Swiper contentContainerStyle={ styles.swiperTopStyle } onMomentumScrollEnd={ this.scrolled.bind(this) }>
-              { [1,2,3,4,5,6,7,8,9].map(function(i) {
-                return <ScarfView key={ i } index={ i } />;
-              }) }
+            <Swiper showsPagination={false} contentContainerStyle={ styles.swiperTopStyle } onMomentumScrollEnd={ this.scrolled }>
+              { topItems }
             </Swiper>
             <Swiper contentContainerStyle={ styles.swiperBotStyle }>
-              { [1,2,3,4,5,6,7,8,9].map(function(i) {
-                return <PurseView key={ i } index={ i } />;
-              }) }
+              { bottomItems }
             </Swiper>
           </Image>
-          <TouchableHighlight onPress={ this.toggleMenu } style={{ backgroundColor: '#00FF00', position: 'absolute', left: 10, top: 10, width: 50, height: 50 }}>
-            <Text>hiii</Text>
+
+          <TouchableHighlight onPress={ this.toggleMenu } style={{ position: 'absolute', left: 10, top: 10, width: 40, height: 40 }}>
+            <Image style={{ width: 40, height: 40 }} source={ require('image!ic_handbag') } />
           </TouchableHighlight>
-          <TouchableHighlight onPress={ this.chooseOutfit }>
-            <Text style={{ flex: 1, backgroundColor: '#FF0000', height: 30 }}>choose an outfit</Text>
-          </TouchableHighlight>
+
+          <OutfitButton onPress={ this.chooseOutfit } />
         </View>
       </View>
     );
