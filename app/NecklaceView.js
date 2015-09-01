@@ -32,7 +32,7 @@ module.exports = NecklaceView = React.createClass({
   render: function() {
     return (
       <View style={ styles.necklaceViewStyle }>
-        <Image style={ styles.necklaceImageStyle } source={ images['necklace'+this.props.index] } />
+        <Image style={ styles.necklaceImageStyle } source={ this.props.item.image } />
       </View>
     );
   }

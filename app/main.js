@@ -1,4 +1,5 @@
 var React = require('react-native');
+var _     = require('lodash');
 
 var {
   ActionSheetIOS,
@@ -17,6 +18,8 @@ var BraceletView = require('./BraceletView');
 var NecklaceView = require('./NecklaceView');
 var PurseView    = require('./PurseView');
 var ScarfView    = require('./ScarfView');
+
+var data = require('./data.js');
 
 var styles = StyleSheet.create({
   appContainer: {
@@ -73,48 +76,41 @@ var styles = StyleSheet.create({
     backgroundColor: 'transparent',
     position: 'absolute',
       top: 0,
-      left: 200,
+      left: 520,
       bottom: 0,
-      right: -200,
+      right: 120,
+  },
+  descriptionContainerOpen: {
+    backgroundColor: 'transparent',
+    position: 'absolute',
+    top: 0,
+    left: 200,
+    bottom: 0,
+    right: -200,
   },
   description: {
     backgroundColor: 'rgba(0,0,0,0.6)',
-    borderRadius: 10,
+    borderBottomColor: 'rgba(255,255,255,0.2)',
+    borderBottomWidth: 0.5,
     flex: 1,
-    margin: 10,
-    marginBottom: 0,
     padding: 20
+  },
+  descriptionName: {
+    color: '#FFFFFF',
+    fontSize: 30
   },
   descriptionCopy: {
     color: '#FFFFFF'
+  },
+  descriptionLink: {
+    color: '#3355FF'
+  },
+  descriptionPrice: {
+    color: '#DDDDDD',
+    fontSize: 24
   }
 });
 
-var images = {
-  outfit1 : require('image!outfit1'),
-  outfit2 : require('image!outfit2'),
-  outfit3 : require('image!outfit3'),
-  outfit4 : require('image!outfit4'),
-  outfit5 : require('image!outfit5'),
-  outfit6 : require('image!outfit6'),
-  outfit7 : require('image!outfit7'),
-  outfit8 : require('image!outfit8'),
-  outfit9 : require('image!outfit9'),
-  outfit10: require('image!outfit10'),
-};
-
-var OUTFITS = [
-  'pink dress 1',
-  'pink blazer',
-  'pink dress 2',
-  'black and gold',
-  'black dress',
-  'white and black stripes',
-  'cape cod',
-  'green',
-  'leopard',
-  'white'
-];
 
 var OutfitButton = React.createClass({
   render: function() {
@@ -135,16 +131,16 @@ var Menu = React.createClass({
   render: function() {
     return (
       <View style={ styles.menu }>
-        <TouchableHighlight onPress={ this.handlePress.bind(this, 'scarf', 1) }>
+        <TouchableHighlight onPress={ this.handlePress.bind(this, 'SCARVES', 1) }>
           <Text style={{ padding: 10 }}>TOP: Scarf</Text>
         </TouchableHighlight>
-        <TouchableHighlight onPress={ this.handlePress.bind(this, 'necklace', 1) }>
+        <TouchableHighlight onPress={ this.handlePress.bind(this, 'NECKLACES', 1) }>
           <Text style={{ padding: 10 }}>TOP: Necklace</Text>
         </TouchableHighlight>
-        <TouchableHighlight onPress={ this.handlePress.bind(this, 'bracelet', 2) }>
+        <TouchableHighlight onPress={ this.handlePress.bind(this, 'BRACELETS', 2) }>
           <Text style={{ padding: 10 }}>BOTTOM: Bracelet</Text>
         </TouchableHighlight>
-        <TouchableHighlight onPress={ this.handlePress.bind(this, 'purse', 2) }>
+        <TouchableHighlight onPress={ this.handlePress.bind(this, 'PURSES', 2) }>
           <Text style={{ padding: 10 }}>BOTTOM: Purse</Text>
         </TouchableHighlight>
       </View>
@@ -156,10 +152,13 @@ module.exports = React.createClass({
 
   getInitialState: function() {
     return {
-      outfit: 1,
-      showMenu: false,
-      topItem: 'scarf',
-      bottomItem: 'purse'
+      outfitIndex: 0,
+      showMenu   : false,
+      showDesc   : false,
+      topType    : 'NECKLACES',
+      topIndex   : 0,
+      bottomType : 'PURSES',
+      bottomIndex: 0
     }
   },
 
@@ -167,9 +166,15 @@ module.exports = React.createClass({
     StatusBarIOS.setHidden(true);
   },
 
-  scrolled: function(e, state, context) {
+  scrolledTop: function(e, state, context) {
     this.setState({
-      scarf: context.state.index
+      topIndex: context.state.index
+    });
+  },
+
+  scrolledBottom: function(e, state, context) {
+    this.setState({
+      bottomIndex: context.state.index
     });
   },
 
@@ -180,21 +185,28 @@ module.exports = React.createClass({
     });
   },
 
+  toggleDesc: function() {
+    LayoutAnimation.easeInEaseOut();
+    this.setState({
+      showDesc: !this.state.showDesc
+    });
+  },
+
   chooseOutfit: function() {
     ActionSheetIOS.showActionSheetWithOptions({
-      options: OUTFITS,
-      destructiveButtonIndex: this.state.outfit-1 // used for highlighting!
+      options: data['OUTFITS'].map(o => o.name),
+      destructiveButtonIndex: this.state.outfitIndex // used for highlighting!
     },
     (buttonIndex) => {
-      this.setState({ outfit: buttonIndex+1 });
+      this.setState({ outfitIndex: buttonIndex });
     });
   },
 
   selectItem: function(itemGroup, track) {
     // track can be 1 or 2
     this.setState({
-      topItem   : track === 1 ? itemGroup : this.state.topItem,
-      bottomItem: track === 2 ? itemGroup : this.state.bottomItem,
+      topType   : track === 1 ? itemGroup : this.state.topType,
+      bottomType: track === 2 ? itemGroup : this.state.bottomType,
     });
     this.toggleMenu();
   },
@@ -202,24 +214,28 @@ module.exports = React.createClass({
   render: function() {
 
     var itemGroups = {
-      bracelet: [1, 2, 3, 4, 5, 6, 7, 8, 9].map(i => <BraceletView key={ i } index={ i }/>),
-      necklace: [1, 2, 3, 4, 5, 6, 7, 8, 9].map(i => <NecklaceView key={ i } index={ i }/>),
-      purse   : [1, 2, 3, 4, 5, 6, 7, 8, 9].map(i => <PurseView key={ i } index={ i }/>),
-      scarf   : [1, 2, 3, 4, 5, 6, 7, 8, 9].map(i => <ScarfView key={ i } index={ i }/>)
+      BRACELETS: data['BRACELETS'].map((item, index) => <BraceletView key={ index } item={ item }/>),
+      NECKLACES: data['NECKLACES'].map((item, index) => <NecklaceView key={ index } item={ item }/>),
+      PURSES   : data['PURSES'   ].map((item, index) => <PurseView    key={ index } item={ item }/>),
+      SCARVES  : data['SCARVES'  ].map((item, index) => <ScarfView    key={ index } item={ item }/>)
     };
 
-    var topItems    = itemGroups[this.state.topItem];
-    var bottomItems = itemGroups[this.state.bottomItem];
+    var topItems    = itemGroups[this.state.topType];
+    var bottomItems = itemGroups[this.state.bottomType];
+
+    var topItem    = data[this.state.topType   ][this.state.topIndex   ];
+    var bottomItem = data[this.state.bottomType][this.state.bottomIndex];
+    var outfitItem = data['OUTFITS'][this.state.outfitIndex];
 
     return (
       <View style={ this.state.showMenu ? styles.appContainerWithMenu : styles.appContainer }>
         <Menu onSelect={ this.selectItem } />
-        <View style={styles.outfitContainer}>
-          <Image style={ styles.outfitStyle } source={ images['outfit'+(this.state.outfit)]}>
-            <Swiper showsPagination={false} contentContainerStyle={ styles.swiperTopStyle } onMomentumScrollEnd={ this.scrolled }>
+        <View style={ styles.outfitContainer }>
+          <Image style={ styles.outfitStyle } source={ outfitItem.image }>
+            <Swiper showsPagination={false} contentContainerStyle={ styles.swiperTopStyle } onMomentumScrollEnd={ this.scrolledTop }>
               { topItems }
             </Swiper>
-            <Swiper contentContainerStyle={ styles.swiperBotStyle }>
+            <Swiper contentContainerStyle={ styles.swiperBotStyle } onMomentumScrollEnd={ this.scrolledBottom }>
               { bottomItems }
             </Swiper>
           </Image>
@@ -228,12 +244,31 @@ module.exports = React.createClass({
             <Image style={{ width: 40, height: 40 }} source={ require('image!ic_handbag') } />
           </TouchableHighlight>
 
+          <TouchableHighlight onPress={ this.toggleDesc } style={{ position: 'absolute', right: 10, top: 10, width: 40, height: 40 }}>
+            <Image style={{ width: 40, height: 40 }} source={ require('image!ic_info') } />
+          </TouchableHighlight>
+
           <OutfitButton onPress={ this.chooseOutfit } />
         </View>
-        <View style={ styles.descriptionContainer }>
-          <View style={ styles.description }><Text style={ styles.descriptionCopy }>Here is a description of the top item. It's a scarf, or maybe it's a necklace.</Text></View>
-          <View style={ styles.description }><Text style={ styles.descriptionCopy }>Here is a description of the bottom item. It's either a bracelet or a purse.</Text></View>
-          <View style={ styles.description }><Text style={ styles.descriptionCopy }>Here is a description of the outfit. Looks very nice!</Text></View>
+        <View style={ this.state.showDesc ? styles.descriptionContainerOpen : styles.descriptionContainer }>
+          <View style={ styles.description }>
+            <Text style={ styles.descriptionName  }>{ topItem.name }</Text>
+            <Text style={ styles.descriptionCopy  }>{ topItem.description }</Text>
+            <Text style={ styles.descriptionLink  }>{ topItem.link }</Text>
+            <Text style={ styles.descriptionPrice }>{ topItem.price }</Text>
+          </View>
+          <View style={ styles.description }>
+            <Text style={ styles.descriptionName  }>{ bottomItem.name }</Text>
+            <Text style={ styles.descriptionCopy  }>{ bottomItem.description }</Text>
+            <Text style={ styles.descriptionLink  }>{ bottomItem.link }</Text>
+            <Text style={ styles.descriptionPrice }>{ bottomItem.price }</Text>
+          </View>
+          <View style={ styles.description }>
+            <Text style={ styles.descriptionName  }>{ outfitItem.name }</Text>
+            <Text style={ styles.descriptionCopy  }>{ outfitItem.description }</Text>
+            <Text style={ styles.descriptionLink  }>{ outfitItem.link }</Text>
+            <Text style={ styles.descriptionPrice }>{ outfitItem.price }</Text>
+          </View>
         </View>
       </View>
     );
