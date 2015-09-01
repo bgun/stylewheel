@@ -244,10 +244,6 @@ module.exports = React.createClass({
             <Image style={{ width: 40, height: 40 }} source={ require('image!ic_handbag') } />
           </TouchableHighlight>
 
-          <TouchableHighlight onPress={ this.toggleDesc } style={{ position: 'absolute', right: 10, top: 10, width: 40, height: 40 }}>
-            <Image style={{ width: 40, height: 40 }} source={ require('image!ic_info') } />
-          </TouchableHighlight>
-
           <OutfitButton onPress={ this.chooseOutfit } />
         </View>
         <View style={ this.state.showDesc ? styles.descriptionContainerOpen : styles.descriptionContainer }>
@@ -270,6 +266,10 @@ module.exports = React.createClass({
             <Text style={ styles.descriptionPrice }>{ outfitItem.price }</Text>
           </View>
         </View>
+
+        <TouchableHighlight onPress={ this.toggleDesc } style={{ position: 'absolute', right: -184, top: 14, width: 32, height: 32 }}>
+          <Image style={{ width: 40, height: 40 }} source={ require('image!ic_info') } />
+        </TouchableHighlight>
       </View>
     );
   }
