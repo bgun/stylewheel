@@ -1,26 +1,15 @@
-var React = require('react-native');
+var React   = require('react-native');
 
-var { Image, StyleSheet, View } = React;
+var { Image, PixelRatio, StyleSheet, View } = React;
 
-var styles = StyleSheet.create({
-  scarfViewStyle: {
-    alignItems: 'flex-start',
-    flex: 1
-  },
-  scarfImageStyle: {
-    alignItems: 'stretch',
-    flex: 1,
-    width: 320,
-    top: 290,
-    left: 2
-  }
-});
+var styles = require('./styles.js');
+
 
 module.exports = ScarfView = React.createClass({
   render: function() {
     return (
-      <View style={ styles.scarfViewStyle }>
-        <Image style={ styles.scarfImageStyle } source={ this.props.item.image } />
+      <View style={ styles.itemViewStyle }>
+        <Image style={ styles.topItemImageStyle } source={ this.props.item.image } />
       </View>
     );
   }

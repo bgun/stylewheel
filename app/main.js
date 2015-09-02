@@ -1,125 +1,49 @@
-var React = require('react-native');
-var _     = require('lodash');
+var React       = require('react-native');
+var Swiper      = require('react-native-swiper');
+var Display     = require('react-native-device-display');
+var _           = require('lodash');
 
 var {
   ActionSheetIOS,
   Image,
   LayoutAnimation,
+  LinkingIOS,
+  Modal,
+  PixelRatio,
   StatusBarIOS,
-  StyleSheet,
   Text,
   TouchableHighlight,
+  TouchableOpacity,
   View
 } = React;
 
-var Swiper = require('react-native-swiper');
 
 var BraceletView = require('./BraceletView');
 var NecklaceView = require('./NecklaceView');
 var PurseView    = require('./PurseView');
 var ScarfView    = require('./ScarfView');
 
+var styles = require('./styles.js');
 var data = require('./data.js');
 
-var styles = StyleSheet.create({
-  appContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    left: -200
+
+var TextLink = React.createClass({
+  doLink: function() {
+    LinkingIOS.openURL(this.props.url);
   },
-  appContainerWithMenu: {
-    flex: 1,
-    flexDirection: 'row',
-    left: 0
-  },
-  outfitContainer: {
-    flex: 1,
-    flexDirection: 'column'
-  },
-  menu: {
-    backgroundColor: 'rgba(0,0,0,0.1)',
-    width: 200
-  },
-  outfitStyle: {
-    alignItems: 'stretch',
-    flex: 1,
-    justifyContent: 'center',
-    width: 320
-  },
-  swiperTopStyle: {
-    alignItems: 'flex-start',
-    borderWidth: 5
-  },
-  swiperBotStyle: {
-    alignItems: 'flex-start',
-    height: 200
-  },
-  outfitButton: {
-    backgroundColor: 'rgba(255,255,255,0.8)',
-    borderColor: 'rgba(50,100,150,0.2)',
-    borderRadius: 10,
-    borderWidth: 5,
-    flex: 1,
-    padding: 8,
-    position: 'absolute',
-      bottom: 10,
-      left: 60,
-      right: -140
-  },
-  outfitButtonText: {
-    color: '#3366FF',
-    fontSize: 15,
-    fontWeight: 'bold',
-    textAlign: 'center'
-  },
-  descriptionContainer: {
-    backgroundColor: 'transparent',
-    position: 'absolute',
-      top: 0,
-      left: 520,
-      bottom: 0,
-      right: 120,
-  },
-  descriptionContainerOpen: {
-    backgroundColor: 'transparent',
-    position: 'absolute',
-    top: 0,
-    left: 200,
-    bottom: 0,
-    right: -200,
-  },
-  description: {
-    backgroundColor: 'rgba(0,0,0,0.6)',
-    borderBottomColor: 'rgba(255,255,255,0.2)',
-    borderBottomWidth: 0.5,
-    flex: 1,
-    padding: 20
-  },
-  descriptionName: {
-    color: '#FFFFFF',
-    fontSize: 30
-  },
-  descriptionCopy: {
-    color: '#FFFFFF'
-  },
-  descriptionLink: {
-    color: '#3355FF'
-  },
-  descriptionPrice: {
-    color: '#DDDDDD',
-    fontSize: 24
+  render: function() {
+    return <TouchableOpacity onPress={ this.doLink }><Text>{ this.props.children }</Text></TouchableOpacity>
   }
 });
-
 
 var OutfitButton = React.createClass({
   render: function() {
     return (
-      <TouchableHighlight onPress={ this.props.onPress }>
+      <TouchableOpacity onPress={ this.props.onPress }>
         <View style={ styles.outfitButton }>
           <Text style={ styles.outfitButtonText }>Select an outfit...</Text>
         </View>
-      </TouchableHighlight>
+      </TouchableOpacity>
     );
   }
 });
@@ -131,18 +55,26 @@ var Menu = React.createClass({
   render: function() {
     return (
       <View style={ styles.menu }>
-        <TouchableHighlight onPress={ this.handlePress.bind(this, 'SCARVES', 1) }>
-          <Text style={{ padding: 10 }}>TOP: Scarf</Text>
-        </TouchableHighlight>
-        <TouchableHighlight onPress={ this.handlePress.bind(this, 'NECKLACES', 1) }>
-          <Text style={{ padding: 10 }}>TOP: Necklace</Text>
-        </TouchableHighlight>
-        <TouchableHighlight onPress={ this.handlePress.bind(this, 'BRACELETS', 2) }>
-          <Text style={{ padding: 10 }}>BOTTOM: Bracelet</Text>
-        </TouchableHighlight>
-        <TouchableHighlight onPress={ this.handlePress.bind(this, 'PURSES', 2) }>
-          <Text style={{ padding: 10 }}>BOTTOM: Purse</Text>
-        </TouchableHighlight>
+        <Text style={ styles.menuHeading }>TOP</Text>
+        <TouchableOpacity onPress={ this.handlePress.bind(this, 'SCARVES', 1) }>
+          <Text style={ styles.menuButton }>Scarf</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={ this.handlePress.bind(this, 'NECKLACES', 1) }>
+          <Text style={ styles.menuButton }>Necklace</Text>
+        </TouchableOpacity>
+
+        <Text style={ styles.menuHeading }>BOTTOM</Text>
+        <TouchableOpacity onPress={ this.handlePress.bind(this, 'BRACELETS', 2) }>
+          <Text style={ styles.menuButton }>Bracelet</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={ this.handlePress.bind(this, 'PURSES', 2) }>
+          <Text style={ styles.menuButton }>Purse</Text>
+        </TouchableOpacity>
+
+        <Text style={ styles.menuHeading }>ABOUT US</Text>
+        <TouchableOpacity onPress={ this.props.handleContactButton }>
+          <Text style={ styles.menuButtonContact }>Contact</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -155,9 +87,10 @@ module.exports = React.createClass({
       outfitIndex: 0,
       showMenu   : false,
       showDesc   : false,
+      showContactModal: true,
       topType    : 'NECKLACES',
       topIndex   : 0,
-      bottomType : 'PURSES',
+      bottomType : 'BRACELETS',
       bottomIndex: 0
     }
   },
@@ -211,7 +144,21 @@ module.exports = React.createClass({
     this.toggleMenu();
   },
 
+  handleContactButton() {
+    this.setState({
+      showContactModal: true
+    });
+  },
+
   render: function() {
+
+    console.log({
+      width : Display.percentage('width', 100),
+      height: Display.percentage('height', 100),
+      ratio : PixelRatio.get(),
+      isPortrait: Display.isPortrait(),
+      isLandscape: Display.isLandscape()
+    });
 
     var itemGroups = {
       BRACELETS: data['BRACELETS'].map((item, index) => <BraceletView key={ index } item={ item }/>),
@@ -228,48 +175,56 @@ module.exports = React.createClass({
     var outfitItem = data['OUTFITS'][this.state.outfitIndex];
 
     return (
-      <View style={ this.state.showMenu ? styles.appContainerWithMenu : styles.appContainer }>
-        <Menu onSelect={ this.selectItem } />
-        <View style={ styles.outfitContainer }>
-          <Image style={ styles.outfitStyle } source={ outfitItem.image }>
-            <Swiper showsPagination={false} contentContainerStyle={ styles.swiperTopStyle } onMomentumScrollEnd={ this.scrolledTop }>
+      <View style={ styles.appContainer }>
+        <Menu onSelect={ this.selectItem } handleContactButton={ this.handleContactButton } />
+        <View style={ this.state.showMenu ? styles.mainContainerWithMenu : styles.mainContainer }>
+          <View style={ styles.outfitContainer }>
+            <Image style={ styles.outfitImageStyle } source={ outfitItem.image } />
+            <Swiper key='top' showsPagination={false} style={ styles.swiperTopStyle    } onMomentumScrollEnd={ this.scrolledTop }>
               { topItems }
             </Swiper>
-            <Swiper contentContainerStyle={ styles.swiperBotStyle } onMomentumScrollEnd={ this.scrolledBottom }>
+            <Swiper key='bot' showsPagination={false} style={ styles.swiperBottomStyle } onMomentumScrollEnd={ this.scrolledBottom }>
               { bottomItems }
             </Swiper>
-          </Image>
+          </View>
+
+          <OutfitButton onPress={ this.chooseOutfit } />
 
           <TouchableHighlight onPress={ this.toggleMenu } style={{ position: 'absolute', left: 10, top: 10, width: 40, height: 40 }}>
             <Image style={{ width: 40, height: 40 }} source={ require('image!ic_handbag') } />
           </TouchableHighlight>
 
-          <OutfitButton onPress={ this.chooseOutfit } />
-        </View>
-        <View style={ this.state.showDesc ? styles.descriptionContainerOpen : styles.descriptionContainer }>
-          <View style={ styles.description }>
-            <Text style={ styles.descriptionName  }>{ topItem.name }</Text>
-            <Text style={ styles.descriptionCopy  }>{ topItem.description }</Text>
-            <Text style={ styles.descriptionLink  }>{ topItem.link }</Text>
-            <Text style={ styles.descriptionPrice }>{ topItem.price }</Text>
+          <View style={ this.state.showDesc ? styles.descriptionContainerOpen : styles.descriptionContainer }>
+            <View style={ styles.description }>
+              <Text style={ styles.descriptionName  }>{ topItem.name }</Text>
+              <Text style={ styles.descriptionCopy  }>{ topItem.description }</Text>
+              <TextLink style={ styles.descriptionLink } url={ topItem.link }>{ topItem.link }</TextLink>
+              <Text style={ styles.descriptionPrice }>{ topItem.price }</Text>
+            </View>
+            <View style={ styles.description }>
+              <Text style={ styles.descriptionName  }>{ bottomItem.name }</Text>
+              <Text style={ styles.descriptionCopy  }>{ bottomItem.description }</Text>
+              <TextLink style={ styles.descriptionLink } url={ bottomItem.link }>{ bottomItem.link }</TextLink>
+              <Text style={ styles.descriptionPrice }>{ bottomItem.price }</Text>
+            </View>
+            <View style={ styles.description }>
+              <Text style={ styles.descriptionName  }>{ outfitItem.name }</Text>
+              <Text style={ styles.descriptionCopy  }>{ outfitItem.description }</Text>
+              <TextLink style={ styles.descriptionLink } url={ outfitItem.link }>{ outfitItem.link }</TextLink>
+              <Text style={ styles.descriptionPrice }>{ outfitItem.price }</Text>
+            </View>
           </View>
-          <View style={ styles.description }>
-            <Text style={ styles.descriptionName  }>{ bottomItem.name }</Text>
-            <Text style={ styles.descriptionCopy  }>{ bottomItem.description }</Text>
-            <Text style={ styles.descriptionLink  }>{ bottomItem.link }</Text>
-            <Text style={ styles.descriptionPrice }>{ bottomItem.price }</Text>
-          </View>
-          <View style={ styles.description }>
-            <Text style={ styles.descriptionName  }>{ outfitItem.name }</Text>
-            <Text style={ styles.descriptionCopy  }>{ outfitItem.description }</Text>
-            <Text style={ styles.descriptionLink  }>{ outfitItem.link }</Text>
-            <Text style={ styles.descriptionPrice }>{ outfitItem.price }</Text>
-          </View>
-        </View>
 
-        <TouchableHighlight onPress={ this.toggleDesc } style={{ position: 'absolute', right: -184, top: 14, width: 32, height: 32 }}>
-          <Image style={{ width: 40, height: 40 }} source={ require('image!ic_info') } />
-        </TouchableHighlight>
+          <TouchableHighlight onPress={ this.toggleDesc } style={{ position: 'absolute', right: 14, top: 14, width: 32, height: 32 }}>
+            <Image style={{ width: 32, height: 32 }} source={ require('image!ic_info') } />
+          </TouchableHighlight>
+
+        </View>
+        <Modal animated={ true } visible={ this.state.showContactModal } style={{ backgroundColor: '#FF0000', position: 'absolute' }}>
+          <View style={{ position: 'absolute' }}>
+            <Text style={{ fontSize: 50 }}>Modal! Here is some contact information</Text>
+          </View>
+        </Modal>
       </View>
     );
   }
