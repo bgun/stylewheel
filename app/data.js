@@ -5,54 +5,63 @@ var BRACELETS = [
     name  : 'Bracelet 1',
     image : require('image!bracelet1'),
     description: 'this is a bracelet',
+    price : '$10',
     link  : 'http://prettybracelet.com'
   },
   {
     name  : 'Bracelet 2',
     image : require('image!bracelet2'),
     description: 'this is a bracelet 2',
+    price : '$20',
     link  : 'http://prettybracelet.com'
   },
   {
     name  : 'Bracelet 3',
     image : require('image!bracelet3'),
     description: 'this is a bracelet 3',
+    price : '$30',
     link  : 'http://prettybracelet.com'
   },
   {
     name  : 'Bracelet 4',
     image : require('image!bracelet4'),
     description: 'this is a bracelet 4',
+    price : '$40',
     link  : 'http://prettybracelet.com'
   },
   {
     name  : 'Bracelet 5',
     image : require('image!bracelet5'),
     description: 'this is a bracelet 5',
+    price : '$50',
     link  : 'http://prettybracelet.com'
   },
   {
     name  : 'Bracelet 6',
     image : require('image!bracelet6'),
     description: 'this is a bracelet 6',
+    price : '$60',
     link  : 'http://prettybracelet.com'
   },
   {
     name  : 'Bracelet 7',
     image : require('image!bracelet7'),
     description: 'this is a bracelet 7',
+    price : '$70',
     link  : 'http://prettybracelet.com'
   },
   {
     name  : 'Bracelet 8',
     image : require('image!bracelet8'),
     description: 'this is a bracelet 8',
+    price : '$80',
     link  : 'http://prettybracelet.com'
   },
   {
     name  : 'Bracelet 9',
     image : require('image!bracelet9'),
     description: 'this is a bracelet 9',
+    price : '$90',
     link  : 'http://prettybracelet.com'
   }
 ];

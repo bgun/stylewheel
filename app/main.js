@@ -1,14 +1,14 @@
-var React       = require('react-native');
-var Swiper      = require('react-native-swiper');
-var Display     = require('react-native-device-display');
-var _           = require('lodash');
+var React        = require('react-native');
+var Swiper       = require('react-native-swiper');
+var Display      = require('react-native-device-display');
+var ActivityView = require('react-native-activity-view');
+var _            = require('lodash');
 
 var {
   ActionSheetIOS,
   Image,
   LayoutAnimation,
   LinkingIOS,
-  Modal,
   PixelRatio,
   StatusBarIOS,
   Text,
@@ -26,13 +26,25 @@ var ScarfView    = require('./ScarfView');
 var styles = require('./styles.js');
 var data = require('./data.js');
 
+var Modal = React.createClass({
+  render() {
+    return (
+      <View style={ styles.modal }>
+        <View style={ styles.modalContent }>
+        { this.props.children }
+        </View>
+        <TouchableHighlight onPress={ this.props.onClose }><Text style={ styles.modalCloseButton }>Close</Text></TouchableHighlight>
+      </View>
+    );
+  }
+});
 
 var TextLink = React.createClass({
   doLink: function() {
     LinkingIOS.openURL(this.props.url);
   },
   render: function() {
-    return <TouchableOpacity onPress={ this.doLink }><Text>{ this.props.children }</Text></TouchableOpacity>
+    return <TouchableOpacity onPress={ this.doLink }><Text style={ styles.link }>{ this.props.children }</Text></TouchableOpacity>
   }
 });
 
@@ -87,7 +99,7 @@ module.exports = React.createClass({
       outfitIndex: 0,
       showMenu   : false,
       showDesc   : false,
-      showContactModal: true,
+      showContactModal: null,
       topType    : 'NECKLACES',
       topIndex   : 0,
       bottomType : 'BRACELETS',
@@ -135,6 +147,15 @@ module.exports = React.createClass({
     });
   },
 
+  getRenderImage: function() {
+    var topItemType = this.state.topType    === 'SCARVES' ? 'scarves' : 'necklace';
+    var botItemType = this.state.bottomType === 'PURSES'  ? 'purses'  : 'bracelet';
+    var layer1 = 'outfit' +    (this.state.outfitIndex+1);
+    var layer2 = topItemType + (this.state.topIndex+1);
+    var layer3 = botItemType + (this.state.bottomIndex+1);
+    return 'http://stylewheel-backend.herokuapp.com/render?layer1='+layer1+'&layer2='+layer2+'&layer3='+layer3;
+  },
+
   selectItem: function(itemGroup, track) {
     // track can be 1 or 2
     this.setState({
@@ -144,10 +165,35 @@ module.exports = React.createClass({
     this.toggleMenu();
   },
 
-  handleContactButton() {
+  handleContactButton: function() {
+    console.log("contact us button pressed");
     this.setState({
       showContactModal: true
     });
+  },
+
+  closeModal: function() {
+    this.setState({
+      showMenu   : false,
+      showContactModal: false
+    });
+  },
+
+  handleShare: function() {
+    var t = this;
+    ActivityView.show({
+      text: "Check out the look I created using the Style Wheel app!",
+      url: "http://thestylewheel.com",
+      imageUrl: t.getRenderImage()
+    });
+    t.setState({
+      rendering: true
+    });
+    setTimeout(function() {
+      t.setState({
+        rendering: false
+      });
+    }, 2000);
   },
 
   render: function() {
@@ -178,7 +224,7 @@ module.exports = React.createClass({
       <View style={ styles.appContainer }>
         <Menu onSelect={ this.selectItem } handleContactButton={ this.handleContactButton } />
         <View style={ this.state.showMenu ? styles.mainContainerWithMenu : styles.mainContainer }>
-          <View style={ styles.outfitContainer }>
+          <View ref='outfit' style={ styles.outfitContainer }>
             <Image style={ styles.outfitImageStyle } source={ outfitItem.image } />
             <Swiper key='top' showsPagination={false} style={ styles.swiperTopStyle    } onMomentumScrollEnd={ this.scrolledTop }>
               { topItems }
@@ -215,16 +261,27 @@ module.exports = React.createClass({
             </View>
           </View>
 
-          <TouchableHighlight onPress={ this.toggleDesc } style={{ position: 'absolute', right: 14, top: 14, width: 32, height: 32 }}>
-            <Image style={{ width: 32, height: 32 }} source={ require('image!ic_info') } />
+          <TouchableHighlight onPress={ this.toggleDesc } style={{ position: 'absolute', right: 14, top: 14, width: 40, height: 40 }}>
+            <Image style={{ width: 40, height: 40 }} source={ require('image!ic_info') } />
           </TouchableHighlight>
 
+          <TouchableHighlight onPress={ this.handleShare } style={{ position: 'absolute', right: 14, top: 70, width: 40, height: 40 }}>
+            <Image style={{ width: 40, height: 40 }} source={ require('image!ic_heart') } />
+          </TouchableHighlight>
+
+          { this.state.rendering ?
+              <View style={ styles.modal }>
+                <Text>Saving your look...</Text>
+              </View>
+              : null }
+
         </View>
-        <Modal animated={ true } visible={ this.state.showContactModal } style={{ backgroundColor: '#FF0000', position: 'absolute' }}>
-          <View style={{ position: 'absolute' }}>
-            <Text style={{ fontSize: 50 }}>Modal! Here is some contact information</Text>
-          </View>
-        </Modal>
+        { this.state.showContactModal ?
+            <Modal onClose={ this.closeModal }>
+              <Text style={{ fontSize: 16 }}>For all business inquiries and licensing questions, please contact us directly at</Text>
+              <TextLink url={ 'mailto:info@thestylewheel.com' }>info@thestylewheel.com</TextLink>
+            </Modal>
+            : null }
       </View>
     );
   }
