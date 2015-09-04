@@ -51640,6 +51640,15 @@ _this.setState({outfitIndex:buttonIndex});});},
 
 
 
+getRenderImage:function(){
+var topItemType=this.state.topType === 'SCARVES'?'scarves':'necklace';
+var botItemType=this.state.bottomType === 'PURSES'?'purses':'bracelet';
+var layer1='outfit' + (this.state.outfitIndex + 1);
+var layer2=topItemType + (this.state.topIndex + 1);
+var layer3=botItemType + (this.state.bottomIndex + 1);
+return 'http://stylewheel-backend.herokuapp.com/render?layer1=' + layer1 + '&layer2=' + layer2 + '&layer3=' + layer3;},
+
+
 selectItem:function(itemGroup,track){
 
 this.setState({
@@ -51664,12 +51673,20 @@ showContactModal:false});},
 
 
 handleShare:function(){
+var t=this;
 ActivityView.show({
-text:"Download the Style Wheel app!",
+text:"Check out the look I created using the Style Wheel app!",
 url:"http://thestylewheel.com",
-imageUrl:"http://www.thestylewheel.com/wp-content/uploads/pp/images/logo_1415663251.png"});},
+imageUrl:t.getRenderImage()});
 
+t.setState({
+rendering:true});
 
+setTimeout(function(){
+t.setState({
+rendering:false});},
+
+2000);},
 
 
 render:function(){
@@ -51742,8 +51759,14 @@ React.createElement(Image,{style:{width:40,height:40},source:require('image!ic_i
 
 
 React.createElement(TouchableHighlight,{onPress:this.handleShare,style:{position:'absolute',right:14,top:70,width:40,height:40}},
-React.createElement(Image,{style:{width:40,height:40},source:require('image!ic_heart')}))),
+React.createElement(Image,{style:{width:40,height:40},source:require('image!ic_heart')})),
 
+
+this.state.rendering?
+React.createElement(View,{style:styles.modal},
+React.createElement(Text,null,'Saving your look...')):
+
+null),
 
 
 this.state.showContactModal?
@@ -64722,6 +64745,9 @@ module.exports = StyleSheet.create({
 appContainer:{
 backgroundColor:'#FFFFFF',
 flex:1},
+
+rendering:{},
+
 
 menu:{
 backgroundColor:'#C6C1C8',
