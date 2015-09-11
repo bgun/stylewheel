@@ -22,6 +22,13 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		B538FC601BA27DE0000B5877 /* EkMukta-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B538FC591BA27DE0000B5877 /* EkMukta-Bold.ttf */; };
+		B538FC611BA27DE0000B5877 /* EkMukta-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B538FC5A1BA27DE0000B5877 /* EkMukta-ExtraBold.ttf */; };
+		B538FC621BA27DE0000B5877 /* EkMukta-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B538FC5B1BA27DE0000B5877 /* EkMukta-ExtraLight.ttf */; };
+		B538FC631BA27DE0000B5877 /* EkMukta-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B538FC5C1BA27DE0000B5877 /* EkMukta-Light.ttf */; };
+		B538FC641BA27DE0000B5877 /* EkMukta-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B538FC5D1BA27DE0000B5877 /* EkMukta-Medium.ttf */; };
+		B538FC651BA27DE0000B5877 /* EkMukta-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B538FC5E1BA27DE0000B5877 /* EkMukta-Regular.ttf */; };
+		B538FC661BA27DE1000B5877 /* EkMukta-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B538FC5F1BA27DE0000B5877 /* EkMukta-SemiBold.ttf */; };
 		B5814AC11B969BFB00376182 /* DisplayDeviceUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = B5814AC01B969BFB00376182 /* DisplayDeviceUtil.m */; };
 		B5E074F31B96E73D00E7A9B4 /* libActivityView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B5E074F21B96E6F300E7A9B4 /* libActivityView.a */; };
 		B5E074FB1B96EDB000E7A9B4 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5E074FA1B96EDB000E7A9B4 /* Launch Screen.xib */; };
@@ -135,6 +142,13 @@
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		B538FC591BA27DE0000B5877 /* EkMukta-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "EkMukta-Bold.ttf"; path = "fonts/EkMukta-Bold.ttf"; sourceTree = "<group>"; };
+		B538FC5A1BA27DE0000B5877 /* EkMukta-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "EkMukta-ExtraBold.ttf"; path = "fonts/EkMukta-ExtraBold.ttf"; sourceTree = "<group>"; };
+		B538FC5B1BA27DE0000B5877 /* EkMukta-ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "EkMukta-ExtraLight.ttf"; path = "fonts/EkMukta-ExtraLight.ttf"; sourceTree = "<group>"; };
+		B538FC5C1BA27DE0000B5877 /* EkMukta-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "EkMukta-Light.ttf"; path = "fonts/EkMukta-Light.ttf"; sourceTree = "<group>"; };
+		B538FC5D1BA27DE0000B5877 /* EkMukta-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "EkMukta-Medium.ttf"; path = "fonts/EkMukta-Medium.ttf"; sourceTree = "<group>"; };
+		B538FC5E1BA27DE0000B5877 /* EkMukta-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "EkMukta-Regular.ttf"; path = "fonts/EkMukta-Regular.ttf"; sourceTree = "<group>"; };
+		B538FC5F1BA27DE0000B5877 /* EkMukta-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "EkMukta-SemiBold.ttf"; path = "fonts/EkMukta-SemiBold.ttf"; sourceTree = "<group>"; };
 		B5814ABF1B969BFB00376182 /* DisplayDeviceUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DisplayDeviceUtil.h; path = "node_modules/react-native-device-display/DisplayDeviceUtil.h"; sourceTree = "<group>"; };
 		B5814AC01B969BFB00376182 /* DisplayDeviceUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DisplayDeviceUtil.m; path = "node_modules/react-native-device-display/DisplayDeviceUtil.m"; sourceTree = "<group>"; };
 		B5E074ED1B96E6F300E7A9B4 /* ActivityView.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ActivityView.xcodeproj; path = "node_modules/react-native-activity-view/ActivityView.xcodeproj"; sourceTree = "<group>"; };
@@ -249,6 +263,7 @@
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				B5814ABF1B969BFB00376182 /* DisplayDeviceUtil.h */,
 				B5814AC01B969BFB00376182 /* DisplayDeviceUtil.m */,
+				B538FC271BA270C6000B5877 /* Resources */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -320,6 +335,20 @@
 				00E356EE1AD99517003FC87E /* stylewheelTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		B538FC271BA270C6000B5877 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				B538FC591BA27DE0000B5877 /* EkMukta-Bold.ttf */,
+				B538FC5A1BA27DE0000B5877 /* EkMukta-ExtraBold.ttf */,
+				B538FC5B1BA27DE0000B5877 /* EkMukta-ExtraLight.ttf */,
+				B538FC5C1BA27DE0000B5877 /* EkMukta-Light.ttf */,
+				B538FC5D1BA27DE0000B5877 /* EkMukta-Medium.ttf */,
+				B538FC5E1BA27DE0000B5877 /* EkMukta-Regular.ttf */,
+				B538FC5F1BA27DE0000B5877 /* EkMukta-SemiBold.ttf */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 		B5E074EE1B96E6F300E7A9B4 /* Products */ = {
@@ -543,7 +572,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B538FC651BA27DE0000B5877 /* EkMukta-Regular.ttf in Resources */,
+				B538FC601BA27DE0000B5877 /* EkMukta-Bold.ttf in Resources */,
+				B538FC611BA27DE0000B5877 /* EkMukta-ExtraBold.ttf in Resources */,
+				B538FC621BA27DE0000B5877 /* EkMukta-ExtraLight.ttf in Resources */,
+				B538FC661BA27DE1000B5877 /* EkMukta-SemiBold.ttf in Resources */,
+				B538FC631BA27DE0000B5877 /* EkMukta-Light.ttf in Resources */,
 				008F07F31AC5B25A0029DE68 /* main.jsbundle in Resources */,
+				B538FC641BA27DE0000B5877 /* EkMukta-Medium.ttf in Resources */,
 				B5E074FB1B96EDB000E7A9B4 /* Launch Screen.xib in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 			);
@@ -630,6 +666,7 @@
 					"$(SRCROOT)/node_modules/react-native-activity-view",
 				);
 				INFOPLIST_FILE = iOS/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = stylewheel;
@@ -648,6 +685,7 @@
 					"$(SRCROOT)/node_modules/react-native-activity-view",
 				);
 				INFOPLIST_FILE = iOS/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = stylewheel;

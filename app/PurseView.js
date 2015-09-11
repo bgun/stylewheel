@@ -9,7 +9,7 @@ module.exports = PurseView = React.createClass({
   render: function() {
     return (
       <View style={ styles.itemViewStyle }>
-        <Image style={ styles.bottomItemImageStyle } source={ this.props.item.image } />
+        <Image style={ styles.purseImageStyle } source={ this.props.item.image } />
       </View>
     );
   }

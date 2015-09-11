@@ -1,23 +1,28 @@
 var React   = require('react-native');
-var Display = require('react-native-device-display');
+var Dimensions = require('Dimensions');
 
 var { PixelRatio, StyleSheet } = React;
 
 
-var menuWidth = Display.width / PixelRatio.get();
 console.log("menu width", menuWidth);
+
+var wh = Dimensions.get('window').height;
+var ww = Dimensions.get('window').width;
+var menuWidth = ww / PixelRatio.get();
+console.log(wh, ww);
 
 module.exports = StyleSheet.create({
   appContainer: {
     backgroundColor: '#FFFFFF',
-    flex: 1
-  },
-  rendering: {
-
+    position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0
   },
   menu: {
     backgroundColor: '#C6C1C8',
-    height: Display.height,
+    height: wh,
     position: 'absolute',
       top: 0,
       right: menuWidth,
@@ -26,7 +31,7 @@ module.exports = StyleSheet.create({
   },
   link: {
     color: '#6688FF',
-    fontWeight: 'bold'
+    fontFamily: 'EkMukta-Light',
   },
   menuHeading: {
     fontSize: 13,
@@ -53,31 +58,43 @@ module.exports = StyleSheet.create({
   },
 
   mainContainer: {
-    flex: 1
-  },
-  mainContainerWithMenu: {
-    flex: 1,
-    left: menuWidth
-  },
-  outfitContainer: {
-    alignItems: 'center',
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-  },
-  outfitImageStyle: {
-    flex: 1,
-    height: Display.height,
     position: 'absolute',
       top: 0,
       left: 0,
-    width: Display.width
+      right: 0,
+      bottom: 0
+  },
+  withMenu: {
+    left: menuWidth,
+    right: -menuWidth
+  },
+  outfitContainer: {
+    flexDirection: 'column',
+    position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0
+  },
+  outfitImageStyle: {
+    height: wh,
+    position: 'absolute',
+      top: 0,
+      left: 0,
+    width: ww,
+  },
+  swipers: {
+    backgroundColor: 'transparent',
+    flexDirection: 'column',
+    position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0
   },
   swiperTopStyle: {
-    flex: 100
   },
   swiperBottomStyle: {
-    flex: 100
   },
 
   outfitButton: {
@@ -85,12 +102,14 @@ module.exports = StyleSheet.create({
     borderColor: 'rgba(50,100,150,0.2)',
     borderRadius: 10,
     borderWidth: 5,
-    flex: 1,
+    height: 45,
     padding: 8,
     position: 'absolute',
-      bottom: 10,
-      left: (Display.width - 200) / 2,
-    width: 200
+      bottom: 0,
+      left: ww * 0.1,
+      top: wh - 80,
+      right: 0,
+    width: ww * 0.8
   },
   outfitButtonText: {
     color: '#3366FF',
@@ -107,9 +126,9 @@ module.exports = StyleSheet.create({
     backgroundColor: 'transparent',
     position: 'absolute',
       top: 0,
-      left: Display.width,
+      left: ww,
       bottom: 0,
-    width: Display.width
+    width: ww,
   },
   descriptionContainerOpen: {
     backgroundColor: 'transparent',
@@ -117,7 +136,7 @@ module.exports = StyleSheet.create({
       top: 0,
       left: 0,
       bottom: 0,
-    width: Display.width
+    width: ww,
   },
   description: {
     backgroundColor: 'rgba(10,0,10,0.7)',
@@ -145,33 +164,42 @@ module.exports = StyleSheet.create({
 
   // images
   itemViewStyle: {
-    alignItems: 'flex-start',
-    flex: 1
   },
   topItemImageStyle: {
-    flex  : 1,
-    height: Display.height,
-    width: Display.width,
-    top: (Display.percentage('height', 89)),
-    left: 4
+    height: wh,
+    width: ww,
+    position: 'absolute',
+      top: -4,
+      left: 4
   },
-  bottomItemImageStyle: {
+  purseImageStyle: {
+    height: wh,
+    width: ww,
+    position: 'absolute',
+      top: -(ww * 0.8),
+      left: 10
+  },
+  braceletImageStyle: {
     alignItems: 'stretch',
-    flex: 1,
-    height: Display.height,
-    width: Display.width,
-    top: -(Display.percentage('height', 85)),
-    left: 10
+    height: wh,
+    width: ww,
+    position: 'absolute',
+      top: -(ww * 0.83),
+      left: 3
   },
   modal: {
     alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0.5)',
-    height: Display.height,
+    height: wh,
     justifyContent: 'center',
     position: 'absolute',
       top: 0,
       left: 0,
-    width: Display.width
+    width: ww,
+  },
+  savingText: {
+    color: '#FFFFFF',
+    fontSize: 20,
   },
   modalCloseButton: {
     backgroundColor: 'rgba(0,0,0,0.2)',

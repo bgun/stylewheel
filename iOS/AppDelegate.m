@@ -31,7 +31,7 @@
    * on the same Wi-Fi network.
    */
 
-  jsCodeLocation = [NSURL URLWithString:@"http://192.168.1.4:8081/index.ios.bundle"];
+  jsCodeLocation = [NSURL URLWithString:@"http://192.168.1.3:8081/index.ios.bundle"];
 
   /**
    * OPTION 2
@@ -43,11 +43,21 @@
    * see http://facebook.github.io/react-native/docs/runningondevice.html
    */
 
- //  jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+//   jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"stylewheel"
                                                    launchOptions:launchOptions];
+
+
+  for (NSString* family in [UIFont familyNames]) {
+    NSLog(@"%@", family);
+        
+    for (NSString* name in [UIFont fontNamesForFamilyName: family])
+    {
+        NSLog(@"  %@", name);
+    }
+  }
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [[UIViewController alloc] init];

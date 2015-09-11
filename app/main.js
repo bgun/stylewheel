@@ -1,6 +1,6 @@
 var React        = require('react-native');
 var Swiper       = require('react-native-swiper');
-var Display      = require('react-native-device-display');
+var Dimensions   = require('Dimensions');
 var ActivityView = require('react-native-activity-view');
 var _            = require('lodash');
 
@@ -17,6 +17,9 @@ var {
   View
 } = React;
 
+
+var wh = Dimensions.get('window').height;
+var ww = Dimensions.get('window').width;
 
 var BraceletView = require('./BraceletView');
 var NecklaceView = require('./NecklaceView');
@@ -96,7 +99,7 @@ module.exports = React.createClass({
 
   getInitialState: function() {
     return {
-      outfitIndex: 0,
+      outfitIndex: 1,
       showMenu   : false,
       showDesc   : false,
       showContactModal: null,
@@ -193,18 +196,10 @@ module.exports = React.createClass({
       t.setState({
         rendering: false
       });
-    }, 2000);
+    }, 5000);
   },
 
   render: function() {
-
-    console.log({
-      width : Display.percentage('width', 100),
-      height: Display.percentage('height', 100),
-      ratio : PixelRatio.get(),
-      isPortrait: Display.isPortrait(),
-      isLandscape: Display.isLandscape()
-    });
 
     var itemGroups = {
       BRACELETS: data['BRACELETS'].map((item, index) => <BraceletView key={ index } item={ item }/>),
@@ -223,15 +218,17 @@ module.exports = React.createClass({
     return (
       <View style={ styles.appContainer }>
         <Menu onSelect={ this.selectItem } handleContactButton={ this.handleContactButton } />
-        <View style={ this.state.showMenu ? styles.mainContainerWithMenu : styles.mainContainer }>
+        <View style={[ styles.mainContainer, (this.state.showMenu ? styles.withMenu : null)]}>
           <View ref='outfit' style={ styles.outfitContainer }>
             <Image style={ styles.outfitImageStyle } source={ outfitItem.image } />
-            <Swiper key='top' showsPagination={false} style={ styles.swiperTopStyle    } onMomentumScrollEnd={ this.scrolledTop }>
-              { topItems }
-            </Swiper>
-            <Swiper key='bot' showsPagination={false} style={ styles.swiperBottomStyle } onMomentumScrollEnd={ this.scrolledBottom }>
-              { bottomItems }
-            </Swiper>
+            <View style={ styles.swipers }>
+              <Swiper height={wh/2-20} key='top' showsPagination={false} style={ styles.swiperTopStyle    } onMomentumScrollEnd={ this.scrolledTop }>
+                { topItems }
+              </Swiper>
+              <Swiper height={wh/2-20} key='bot' showsPagination={false} style={ styles.swiperBottomStyle } onMomentumScrollEnd={ this.scrolledBottom }>
+                { bottomItems }
+              </Swiper>
+            </View>
           </View>
 
           <OutfitButton onPress={ this.chooseOutfit } />
@@ -271,7 +268,7 @@ module.exports = React.createClass({
 
           { this.state.rendering ?
               <View style={ styles.modal }>
-                <Text>Saving your look...</Text>
+                <Text style={ styles.savingText }>Saving your look...</Text>
               </View>
               : null }
 
