@@ -156,8 +156,8 @@ module.exports = React.createClass({
     var topItemType = this.state.topType    === 'SCARVES' ? 'scarves' : 'necklace';
     var botItemType = this.state.bottomType === 'PURSES'  ? 'purses'  : 'bracelet';
     var layer1 = 'outfit' +    (this.state.outfitIndex+1);
-    var layer2 = topItemType + (this.state.topIndex+1);
-    var layer3 = botItemType + (this.state.bottomIndex+1);
+    var layer2 = topItemType + (this.state.topIndex);
+    var layer3 = botItemType + (this.state.bottomIndex);
     return 'http://stylewheel-backend.herokuapp.com/render?layer1='+layer1+'&layer2='+layer2+'&layer3='+layer3;
   },
 
@@ -169,6 +169,7 @@ module.exports = React.createClass({
       bottomType : track === 2 ? itemGroup : this.state.bottomType,
       bottomIndex: track === 2 ? 1         : this.state.bottomIndex // reset to first (non-blank) image when you choose from menu
     });
+    console.log(this.state);
     this.toggleMenu();
   },
 
@@ -184,6 +185,10 @@ module.exports = React.createClass({
       showMenu   : false,
       showContactModal: false
     });
+  },
+
+  handleItemPress: function() {
+    console.log("press bracelet");
   },
 
   handleShare: function() {
@@ -206,10 +211,10 @@ module.exports = React.createClass({
   render: function() {
 
     var itemGroups = {
-      BRACELETS: data['BRACELETS'].map((item, index) => <BraceletView key={ index } item={ item }/>),
-      NECKLACES: data['NECKLACES'].map((item, index) => <NecklaceView key={ index } item={ item }/>),
-      PURSES   : data['PURSES'   ].map((item, index) => <PurseView    key={ index } item={ item }/>),
-      SCARVES  : data['SCARVES'  ].map((item, index) => <ScarfView    key={ index } item={ item }/>)
+      BRACELETS: data['BRACELETS'].map((item, index) => <BraceletView key={ index } item={ item } handlePress={ this.handleItemPress } />),
+      NECKLACES: data['NECKLACES'].map((item, index) => <NecklaceView key={ index } item={ item } handlePress={ this.handleItemPress } />),
+      PURSES   : data['PURSES'   ].map((item, index) => <PurseView    key={ index } item={ item } handlePress={ this.handleItemPress } />),
+      SCARVES  : data['SCARVES'  ].map((item, index) => <ScarfView    key={ index } item={ item } handlePress={ this.handleItemPress } />)
     };
 
     var topItems    = itemGroups[this.state.topType];
@@ -285,6 +290,12 @@ module.exports = React.createClass({
               <TextLink url={ 'mailto:info@thestylewheel.com' }>info@thestylewheel.com</TextLink>
             </Modal>
             : null }
+
+        { this.state.showDetailModal ?
+          <Modal onClose={ this.closeModal }>
+            <Image style={{ fontSize: 16 }} source={ require('image!bracelet9-sally') } />
+          </Modal>
+          : null }
       </View>
     );
   }
