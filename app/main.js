@@ -233,7 +233,11 @@ module.exports = React.createClass({
 
           <OutfitButton onPress={ this.chooseOutfit } />
 
-          <TouchableHighlight onPress={ this.toggleMenu } style={{ position: 'absolute', left: 10, top: 10, width: 40, height: 40 }}>
+          <TouchableHighlight onPress={ this.toggleMenu } style={{ position: 'absolute', left: 10, top: 10, width: 50, height: 50 }}>
+            <Image style={{ width: 40, height: 40 }} source={ require('image!ic_hanger') } />
+          </TouchableHighlight>
+
+          <TouchableHighlight onPress={ this.toggleMenu } style={{ position: 'absolute', left: 10, top: 70, width: 50, height: 50 }}>
             <Image style={{ width: 40, height: 40 }} source={ require('image!ic_handbag') } />
           </TouchableHighlight>
 
@@ -258,11 +262,11 @@ module.exports = React.createClass({
             </View>
           </View>
 
-          <TouchableHighlight onPress={ this.toggleDesc } style={{ position: 'absolute', right: 14, top: 14, width: 40, height: 40 }}>
-            <Image style={{ width: 40, height: 40 }} source={ require('image!ic_info') } />
+          <TouchableHighlight onPress={ this.toggleDesc } style={{ position: 'absolute', right: 10, top: 10, width: 50, height: 50 }}>
+            <Image style={{ width: 40, height: 40 }} source={ require('image!ic_tag') } />
           </TouchableHighlight>
 
-          <TouchableHighlight onPress={ this.handleShare } style={{ position: 'absolute', right: 14, top: 70, width: 40, height: 40 }}>
+          <TouchableHighlight onPress={ this.handleShare } style={{ position: 'absolute', right: 10, top: 70, width: 50, height: 50 }}>
             <Image style={{ width: 40, height: 40 }} source={ require('image!ic_heart') } />
           </TouchableHighlight>
 
