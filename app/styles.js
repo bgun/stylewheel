@@ -176,8 +176,8 @@ module.exports = StyleSheet.create({
     height: wh,
     width: ww,
     position: 'absolute',
-      top: -(ww * 0.8),
-      left: 10
+      top: -(ww * 0.8)-8,
+      left: 0
   },
   braceletImageStyle: {
     alignItems: 'stretch',

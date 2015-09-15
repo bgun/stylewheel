@@ -101,7 +101,7 @@ module.exports = React.createClass({
 
   getInitialState: function() {
     return {
-      outfitIndex: 1,
+      outfitIndex: 0,
       showMenu   : false,
       showDesc   : false,
       showContactModal: null,
@@ -164,8 +164,10 @@ module.exports = React.createClass({
   selectItem: function(itemGroup, track) {
     // track can be 1 or 2
     this.setState({
-      topType   : track === 1 ? itemGroup : this.state.topType,
-      bottomType: track === 2 ? itemGroup : this.state.bottomType,
+      topType    : track === 1 ? itemGroup : this.state.topType,
+      topIndex   : track === 1 ? 1         : this.state.topIndex, // reset to first (non-blank) image when you choose from menu
+      bottomType : track === 2 ? itemGroup : this.state.bottomType,
+      bottomIndex: track === 2 ? 1         : this.state.bottomIndex // reset to first (non-blank) image when you choose from menu
     });
     this.toggleMenu();
   },
