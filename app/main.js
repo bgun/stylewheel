@@ -29,6 +29,8 @@ var ScarfView    = require('./ScarfView');
 var styles = require('./styles.js');
 var data = require('./data.js');
 
+var ICON_SIZE = 50;
+
 var Modal = React.createClass({
   render() {
     return (
@@ -231,14 +233,12 @@ module.exports = React.createClass({
             </View>
           </View>
 
-          <OutfitButton onPress={ this.chooseOutfit } />
-
-          <TouchableHighlight onPress={ this.toggleMenu } style={{ position: 'absolute', left: 10, top: 10, width: 50, height: 50 }}>
-            <Image style={{ width: 40, height: 40 }} source={ require('image!ic_hanger') } />
+          <TouchableHighlight onPress={ this.chooseOutfit } style={{ position: 'absolute', left: 10, top: 10, width: ICON_SIZE, height: ICON_SIZE }}>
+            <Image style={{ width: ICON_SIZE, height: ICON_SIZE }} source={ require('image!ic_hanger') } />
           </TouchableHighlight>
 
-          <TouchableHighlight onPress={ this.toggleMenu } style={{ position: 'absolute', left: 10, top: 70, width: 50, height: 50 }}>
-            <Image style={{ width: 40, height: 40 }} source={ require('image!ic_handbag') } />
+          <TouchableHighlight onPress={ this.toggleMenu } style={{ position: 'absolute', left: 10, top: 70, width: ICON_SIZE, height: ICON_SIZE }}>
+            <Image style={{ width: ICON_SIZE, height: ICON_SIZE }} source={ require('image!ic_handbag') } />
           </TouchableHighlight>
 
           <View style={ this.state.showDesc ? styles.descriptionContainerOpen : styles.descriptionContainer }>
@@ -262,12 +262,12 @@ module.exports = React.createClass({
             </View>
           </View>
 
-          <TouchableHighlight onPress={ this.toggleDesc } style={{ position: 'absolute', right: 10, top: 10, width: 50, height: 50 }}>
-            <Image style={{ width: 40, height: 40 }} source={ require('image!ic_tag') } />
+          <TouchableHighlight onPress={ this.toggleDesc } style={{ position: 'absolute', right: 10, top: 10, width: ICON_SIZE, height: ICON_SIZE }}>
+            <Image style={{ width: ICON_SIZE, height: ICON_SIZE }} source={ require('image!ic_tag') } />
           </TouchableHighlight>
 
-          <TouchableHighlight onPress={ this.handleShare } style={{ position: 'absolute', right: 10, top: 70, width: 50, height: 50 }}>
-            <Image style={{ width: 40, height: 40 }} source={ require('image!ic_heart') } />
+          <TouchableHighlight onPress={ this.handleShare } style={{ position: 'absolute', right: 10, top: 70, width: ICON_SIZE, height: ICON_SIZE }}>
+            <Image style={{ width: ICON_SIZE, height: ICON_SIZE }} source={ require('image!ic_heart') } />
           </TouchableHighlight>
 
           { this.state.rendering ?
