@@ -86,6 +86,7 @@ module.exports = React.createClass({
 
   getInitialState: function() {
     return {
+      shownInstructions: false,
       outfitIndex: -1,
       showMenu   : false,
       showDesc   : false,
@@ -183,7 +184,15 @@ module.exports = React.createClass({
     }, 5000);
   },
 
+  hideInstructions: function() {
+    this.setState({
+      shownInstructions: true
+    });
+  },
+
   render: function() {
+
+    console.log("render", this.state);
 
     var itemGroups = {
       BRACELETS: data['BRACELETS'].map((item, index) => <BraceletView key={ index } item={ item } handlePress={ this.handleItemPress } />),
@@ -258,6 +267,12 @@ module.exports = React.createClass({
               </View>
               : null }
         </View>
+
+        { !this.state.shownInstructions ?
+          <TouchableOpacity style={ styles.instructions } onPress={ this.hideInstructions }>
+            <Image style={ styles.instructionImage } source={ require('image!instructions') } />
+          </TouchableOpacity>
+          : null }
 
         { this.state.outfitIndex === -1 ?
           <View style={ styles.startingOutfitPicker }>

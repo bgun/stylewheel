@@ -5,7 +5,7 @@ var BRACELETS = [
     name  : 'None selected',
     image : require('image!_blank'),
     image_detail: require('image!_blank'),
-    description: '',
+    description: 'Swipe left or right to show accessories!',
     price : '',
     link  : ''
   },
@@ -88,7 +88,7 @@ var NECKLACES = [
     name  : 'None selected',
     image : require('image!_blank'),
     image_detail: require('image!_blank'),
-    description: '',
+    description: 'Swipe left or right to show accessories!',
     price : '',
     link  : ''
   },
@@ -243,7 +243,7 @@ var PURSES = [
     name  : 'None selected',
     image : require('image!_blank'),
     image_detail: require('image!_blank'),
-    description: '',
+    description: 'Swipe left or right to show accessories!',
     price : '',
     link  : ''
   },
@@ -326,7 +326,7 @@ var SCARVES = [
     name  : 'None selected',
     image : require('image!_blank'),
     image_detail: require('image!_blank'),
-    description: '',
+    description: 'Swipe left or right to show accessories!',
     price : '',
     link  : ''
   },

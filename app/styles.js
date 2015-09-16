@@ -29,7 +29,7 @@ module.exports = StyleSheet.create({
       bottom: 0
   },
   menu: {
-    backgroundColor: '#C6C1C8',
+    backgroundColor: '#FEF',
     height: wh,
     position: 'absolute',
       top: 0,
@@ -42,10 +42,10 @@ module.exports = StyleSheet.create({
     fontFamily: 'EkMukta-Light',
   },
   menuOutfits: {
-    backgroundColor: '#B7B1B9'
+    backgroundColor: SW_ORANGE,
   },
   menuAccessories: {
-    backgroundColor: '#B7B1B9'
+    backgroundColor: SW_PINK,
   },
   menuHeading: {
     fontSize: 13,
@@ -54,21 +54,21 @@ module.exports = StyleSheet.create({
     textAlign: 'center',
   },
   menuButton: {
-    backgroundColor: 'rgba(0,0,0,0.2)',
-    color: '#FFEEFF',
-    fontSize: 16,
-    fontWeight: 'bold',
+    backgroundColor: 'rgba(255,255,255,0.5)',
+    color: SW_PURPLE,
+    fontSize: 17,
+    fontWeight: '300',
     marginBottom: 1,
     paddingHorizontal: 12,
     paddingVertical: 10
   },
   menuButtonContact: {
-    backgroundColor: 'rgba(0,0,0,0.2)',
-    color: '#FFEEFF',
-    fontSize: 15,
-    fontWeight: 'bold',
+    backgroundColor: 'rgba(0,0,0,0.1)',
+    color: SW_PURPLE,
+    fontSize: 16,
+    fontWeight: '300',
     paddingHorizontal: 12,
-    paddingVertical: 12
+    paddingVertical: 20
   },
 
   mainContainer: {
@@ -261,10 +261,21 @@ module.exports = StyleSheet.create({
   startingOufitPickerButton: {
     borderColor: '#FF0000',
     color: SW_PURPLE,
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: 18,
+    fontWeight: '300',
     lineHeight: wh/17,
     textAlign: 'center',
+    width: ww
+  },
+
+  instructions: {
+    backgroundColor: 'transparent'
+  },
+  instructionImage: {
+    height: wh,
+    position: 'absolute',
+      top: 0,
+      left: 0,
     width: ww
   }
 });
