@@ -5,10 +5,8 @@ var ActivityView = require('react-native-activity-view');
 var _            = require('lodash');
 
 var {
-  ActionSheetIOS,
   Image,
   LayoutAnimation,
-  LinkingIOS,
   PixelRatio,
   StatusBarIOS,
   Text,
@@ -21,6 +19,9 @@ var {
 var wh = Dimensions.get('window').height;
 var ww = Dimensions.get('window').width;
 
+var Modal        = require('./Modal');
+var TextLink     = require('./TextLink');
+
 var BraceletView = require('./BraceletView');
 var NecklaceView = require('./NecklaceView');
 var PurseView    = require('./PurseView');
@@ -31,47 +32,23 @@ var data = require('./data.js');
 
 var ICON_SIZE = 50;
 
-var Modal = React.createClass({
-  render() {
-    return (
-      <View style={ styles.modal }>
-        <View style={ styles.modalContent }>
-        { this.props.children }
-        </View>
-        <TouchableHighlight onPress={ this.props.onClose }><Text style={ styles.modalCloseButton }>Close</Text></TouchableHighlight>
-      </View>
-    );
-  }
-});
-
-var TextLink = React.createClass({
-  doLink: function() {
-    LinkingIOS.openURL(this.props.url);
-  },
-  render: function() {
-    return <TouchableOpacity onPress={ this.doLink }><Text style={ styles.link }>{ this.props.children }</Text></TouchableOpacity>
-  }
-});
-
-var OutfitButton = React.createClass({
-  render: function() {
-    return (
-      <TouchableOpacity onPress={ this.props.onPress }>
-        <View style={ styles.outfitButton }>
-          <Text style={ styles.outfitButtonText }>Select an outfit...</Text>
-        </View>
-      </TouchableOpacity>
-    );
-  }
-});
 
 var Menu = React.createClass({
   handlePress: function(itemGroup, track) {
     this.props.onSelect(itemGroup, track);
   },
   render: function() {
-    return (
-      <View style={ styles.menu }>
+    var outfitsSubmenu = (
+      <View style={ styles.menuOutfits }>
+        { data['OUTFITS'].map((outfit, index) => (
+          <TouchableOpacity onPress={ this.handlePress.bind(this, index, 3) }>
+            <Text style={ styles.menuButton }>{ outfit.name }</Text>
+          </TouchableOpacity>
+        )) }
+      </View>
+    );
+    var accessoriesSubmenu = (
+      <View style={ styles.menuAccessories }>
         <Text style={ styles.menuHeading }>TOP</Text>
         <TouchableOpacity onPress={ this.handlePress.bind(this, 'SCARVES', 1) }>
           <Text style={ styles.menuButton }>Scarf</Text>
@@ -87,7 +64,12 @@ var Menu = React.createClass({
         <TouchableOpacity onPress={ this.handlePress.bind(this, 'PURSES', 2) }>
           <Text style={ styles.menuButton }>Purse</Text>
         </TouchableOpacity>
-
+      </View>
+    );
+    return (
+      <View style={ styles.menu }>
+        { this.props.menu === 'outfits'     ? outfitsSubmenu : null }
+        { this.props.menu === 'accessories' ? accessoriesSubmenu : null }
         <Text style={ styles.menuHeading }>ABOUT US</Text>
         <TouchableOpacity onPress={ this.props.handleContactButton }>
           <Text style={ styles.menuButtonContact }>Contact</Text>
@@ -128,10 +110,10 @@ module.exports = React.createClass({
     });
   },
 
-  toggleMenu: function() {
+  toggleMenu: function(menuType) {
     LayoutAnimation.easeInEaseOut();
     this.setState({
-      showMenu: !this.state.showMenu
+      showMenu: this.state.showMenu ? null : menuType
     });
   },
 
@@ -139,16 +121,6 @@ module.exports = React.createClass({
     LayoutAnimation.easeInEaseOut();
     this.setState({
       showDesc: !this.state.showDesc
-    });
-  },
-
-  chooseOutfit: function() {
-    ActionSheetIOS.showActionSheetWithOptions({
-      options: data['OUTFITS'].map(o => o.name),
-      destructiveButtonIndex: this.state.outfitIndex // used for highlighting!
-    },
-    (buttonIndex) => {
-      this.setState({ outfitIndex: buttonIndex });
     });
   },
 
@@ -167,9 +139,9 @@ module.exports = React.createClass({
       topType    : track === 1 ? itemGroup : this.state.topType,
       topIndex   : track === 1 ? 1         : this.state.topIndex, // reset to first (non-blank) image when you choose from menu
       bottomType : track === 2 ? itemGroup : this.state.bottomType,
-      bottomIndex: track === 2 ? 1         : this.state.bottomIndex // reset to first (non-blank) image when you choose from menu
+      bottomIndex: track === 2 ? 1         : this.state.bottomIndex, // reset to first (non-blank) image when you choose from menu
+      outfitIndex: track === 3 ? itemGroup : this.state.outfitIndex
     });
-    console.log(this.state);
     this.toggleMenu();
   },
 
@@ -226,7 +198,7 @@ module.exports = React.createClass({
 
     return (
       <View style={ styles.appContainer }>
-        <Menu onSelect={ this.selectItem } handleContactButton={ this.handleContactButton } />
+        <Menu menu={ this.state.showMenu } onSelect={ this.selectItem } handleContactButton={ this.handleContactButton } />
         <View style={[ styles.mainContainer, (this.state.showMenu ? styles.withMenu : null)]}>
           <View ref='outfit' style={ styles.outfitContainer }>
             <Image style={ styles.outfitImageStyle } source={ outfitItem.image } />
@@ -240,12 +212,12 @@ module.exports = React.createClass({
             </View>
           </View>
 
-          <TouchableHighlight onPress={ this.chooseOutfit } style={{ position: 'absolute', left: 10, top: 10, width: ICON_SIZE, height: ICON_SIZE }}>
+          <TouchableHighlight onPress={ this.toggleMenu.bind(this, 'outfits') } style={{ position: 'absolute', left: 10, top: 10, width: ICON_SIZE, height: ICON_SIZE }}>
             <Image style={{ width: ICON_SIZE, height: ICON_SIZE }} source={ require('image!ic_hanger') } />
           </TouchableHighlight>
 
-          <TouchableHighlight onPress={ this.toggleMenu } style={{ position: 'absolute', left: 10, top: 70, width: ICON_SIZE, height: ICON_SIZE }}>
-            <Image style={{ width: ICON_SIZE, height: ICON_SIZE }} source={ require('image!ic_handbag') } />
+          <TouchableHighlight onPress={ this.toggleMenu.bind(this, 'accessories') } style={{ position: 'absolute', left: 10, top: 70, width: ICON_SIZE, height: ICON_SIZE }}>
+            <Image style={{ width: ICON_SIZE, height: ICON_SIZE }} source={ require('image!ic_purse') } />
           </TouchableHighlight>
 
           <View style={ this.state.showDesc ? styles.descriptionContainerOpen : styles.descriptionContainer }>

@@ -12,6 +12,9 @@ var menuWidth = ww / PixelRatio.get();
 console.log(wh, ww);
 
 module.exports = StyleSheet.create({
+  visible: {
+
+  },
   appContainer: {
     backgroundColor: '#FFFFFF',
     position: 'absolute',
@@ -33,6 +36,12 @@ module.exports = StyleSheet.create({
     color: '#6688FF',
     fontFamily: 'EkMukta-Light',
   },
+  menuOutfits: {
+    backgroundColor: '#88848A'
+  },
+  menuAccessories: {
+    backgroundColor: '#88848A'
+  },
   menuHeading: {
     fontSize: 13,
     marginTop: 20,
@@ -46,7 +55,7 @@ module.exports = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 1,
     paddingHorizontal: 12,
-    paddingVertical: 16
+    paddingVertical: 10
   },
   menuButtonContact: {
     backgroundColor: 'rgba(0,0,0,0.2)',
