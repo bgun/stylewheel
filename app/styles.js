@@ -11,6 +11,11 @@ var ww = Dimensions.get('window').width;
 var menuWidth = ww / PixelRatio.get();
 console.log(wh, ww);
 
+var SW_GREEN  = '#9acdb2';
+var SW_ORANGE = '#f6bb84';
+var SW_PINK   = '#c07aaa';
+var SW_PURPLE = '#362045';
+
 module.exports = StyleSheet.create({
   visible: {
 
@@ -225,5 +230,41 @@ module.exports = StyleSheet.create({
     borderRadius: 5,
     margin: 20,
     padding: 50
+  },
+
+  startingOutfitPicker: {
+    alignItems: 'center',
+    backgroundColor: SW_PURPLE,
+    flexDirection: 'column',
+    height: wh,
+    justifyContent: 'center',
+    position: 'absolute',
+      top: 0,
+      left: 0,
+    width: ww
+  },
+  startingOutfitPickerTouchable: {
+    backgroundColor: '#FFFFFF',
+    borderColor: SW_PINK,
+    borderBottomWidth: 1,
+    flex: 2,
+  },
+  startingOufitPickerHeading: {
+    color: '#FFFFFF',
+    flex: 3,
+    fontSize: 20,
+    fontWeight: "600",
+    lineHeight: wh/12,
+    marginBottom: 1,
+    textAlign: 'center'
+  },
+  startingOufitPickerButton: {
+    borderColor: '#FF0000',
+    color: SW_PURPLE,
+    fontSize: 16,
+    fontWeight: 'bold',
+    lineHeight: wh/17,
+    textAlign: 'center',
+    width: ww
   }
 });

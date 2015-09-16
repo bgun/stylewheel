@@ -1,11 +1,15 @@
-var React   = require('react-native');
+'use babel';
+
+import React from 'react-native';
 
 var { Image, TouchableOpacity, View } = React;
 
-var styles = require('./styles.js');
+import styles from './styles.js';
 
-module.exports = BraceletView = React.createClass({
-  render: function() {
+
+export default class BraceletView extends React.Component {
+
+  render() {
     return (
       <TouchableOpacity onPress={ this.props.handlePress }>
         <View style={ styles.itemViewStyle }>
@@ -14,4 +18,5 @@ module.exports = BraceletView = React.createClass({
       </TouchableOpacity>
     );
   }
-});
+
+}

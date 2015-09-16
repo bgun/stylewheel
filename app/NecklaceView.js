@@ -1,8 +1,10 @@
-var React   = require('react-native');
+'use babel';
+
+import React from 'react-native';
 
 var { Image, View } = React;
 
-var styles = require('./styles.js');
+import styles from './styles.js';
 
 
 module.exports = NecklaceView = React.createClass({

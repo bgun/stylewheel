@@ -34,6 +34,7 @@ var ICON_SIZE = 50;
 
 
 var Menu = React.createClass({
+  displayName: 'Menu',
   handlePress: function(itemGroup, track) {
     this.props.onSelect(itemGroup, track);
   },
@@ -81,9 +82,11 @@ var Menu = React.createClass({
 
 module.exports = React.createClass({
 
+  displayName: 'App',
+
   getInitialState: function() {
     return {
-      outfitIndex: 0,
+      outfitIndex: -1,
       showMenu   : false,
       showDesc   : false,
       showContactModal: null,
@@ -194,7 +197,7 @@ module.exports = React.createClass({
 
     var topItem    = data[this.state.topType   ][this.state.topIndex   ];
     var bottomItem = data[this.state.bottomType][this.state.bottomIndex];
-    var outfitItem = data['OUTFITS'][this.state.outfitIndex];
+    var outfitItem = this.state.outfitIndex >= 0 ? data['OUTFITS'][this.state.outfitIndex] : {};
 
     return (
       <View style={ styles.appContainer }>
@@ -254,19 +257,25 @@ module.exports = React.createClass({
                 <Text style={ styles.savingText }>Saving your look...</Text>
               </View>
               : null }
-
         </View>
 
-        <View style={ styles.startingOutfitPicker }>
-        </View>
-
+        { this.state.outfitIndex === -1 ?
+          <View style={ styles.startingOutfitPicker }>
+            <Text style={ styles.startingOufitPickerHeading }>Where you headed?</Text>
+            { data['OUTFITS'].map((outfit, index) => (
+              <TouchableOpacity key={ index } style={ styles.startingOutfitPickerTouchable } onPress={ this.selectItem.bind(this, index, 3) }>
+                <Text style={ styles.startingOufitPickerButton }>{ outfit.name }</Text>
+              </TouchableOpacity>
+            )) }
+          </View>
+          : null }
 
         { this.state.showContactModal ?
-            <Modal onClose={ this.closeModal }>
-              <Text style={{ fontSize: 16 }}>For all business inquiries and licensing questions, please contact us directly at</Text>
-              <TextLink url={ 'mailto:info@thestylewheel.com' }>info@thestylewheel.com</TextLink>
-            </Modal>
-            : null }
+          <Modal onClose={ this.closeModal }>
+            <Text style={{ fontSize: 16 }}>For all business inquiries and licensing questions, please contact us directly at</Text>
+            <TextLink url={ 'mailto:info@thestylewheel.com' }>info@thestylewheel.com</TextLink>
+          </Modal>
+          : null }
 
         { this.state.showDetailModal ?
           <Modal onClose={ this.closeModal }>

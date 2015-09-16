@@ -1,16 +1,20 @@
-var React   = require('react-native');
+'use babel';
+
+import React from 'react-native';
 
 var { Image, View } = React;
 
-var styles = require('./styles.js');
+import styles from './styles.js';
 
 
-module.exports = PurseView = React.createClass({
-  render: function() {
+export default class PurseView extends React.Component {
+
+  render() {
     return (
       <View style={ styles.itemViewStyle }>
         <Image style={ styles.purseImageStyle } source={ this.props.item.image } />
       </View>
     );
   }
-});
+
+}
