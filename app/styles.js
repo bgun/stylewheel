@@ -37,10 +37,10 @@ module.exports = StyleSheet.create({
     fontFamily: 'EkMukta-Light',
   },
   menuOutfits: {
-    backgroundColor: '#88848A'
+    backgroundColor: '#B7B1B9'
   },
   menuAccessories: {
-    backgroundColor: '#88848A'
+    backgroundColor: '#B7B1B9'
   },
   menuHeading: {
     fontSize: 13,

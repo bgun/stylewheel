@@ -41,7 +41,7 @@ var Menu = React.createClass({
     var outfitsSubmenu = (
       <View style={ styles.menuOutfits }>
         { data['OUTFITS'].map((outfit, index) => (
-          <TouchableOpacity onPress={ this.handlePress.bind(this, index, 3) }>
+          <TouchableOpacity key={ index } onPress={ this.handlePress.bind(this, index, 3) }>
             <Text style={ styles.menuButton }>{ outfit.name }</Text>
           </TouchableOpacity>
         )) }
@@ -113,7 +113,7 @@ module.exports = React.createClass({
   toggleMenu: function(menuType) {
     LayoutAnimation.easeInEaseOut();
     this.setState({
-      showMenu: this.state.showMenu ? null : menuType
+      showMenu: this.state.menuType ? null : menuType
     });
   },
 
@@ -256,6 +256,11 @@ module.exports = React.createClass({
               : null }
 
         </View>
+
+        <View style={ styles.startingOutfitPicker }>
+        </View>
+
+
         { this.state.showContactModal ?
             <Modal onClose={ this.closeModal }>
               <Text style={{ fontSize: 16 }}>For all business inquiries and licensing questions, please contact us directly at</Text>
@@ -268,6 +273,7 @@ module.exports = React.createClass({
             <Image style={{ fontSize: 16 }} source={ require('image!bracelet9-sally') } />
           </Modal>
           : null }
+
       </View>
     );
   }

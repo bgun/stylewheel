@@ -1,14 +1,24 @@
-var React = require('react-native');
+'use babel';
+
+import React from 'react-native';
+
+import styles from './styles.js';
 
 var { LinkingIOS, Text, TouchableOpacity, View } = React;
 
-var styles = require('./styles.js');
 
-module.exports = React.createClass({
-  doLink: function() {
+export default class TextLink extends React.Component {
+
+  doLink() {
     LinkingIOS.openURL(this.props.url);
-  },
-  render: function() {
-    return <TouchableOpacity onPress={ this.doLink }><Text style={ styles.link }>{ this.props.children }</Text></TouchableOpacity>
   }
-});
+
+  render() {
+    return (
+      <TouchableOpacity onPress={ this.doLink }>
+        <Text style={ styles.link }>{ this.props.children }</Text>
+      </TouchableOpacity>
+    );
+  }
+
+}

@@ -1,6 +1,6 @@
 var React = require('react-native');
 
-var { Image, TouchableOpacity, View } = React;
+var { Text, TouchableOpacity, View } = React;
 
 var styles = require('./styles.js');
 
@@ -11,7 +11,7 @@ module.exports = React.createClass({
         <View style={ styles.modalContent }>
           { this.props.children }
         </View>
-        <TouchableHighlight onPress={ this.props.onClose }><Text style={ styles.modalCloseButton }>Close</Text></TouchableHighlight>
+        <TouchableOpacity onPress={ this.props.onClose }><Text style={ styles.modalCloseButton }>Close</Text></TouchableOpacity>
       </View>
     );
   }
