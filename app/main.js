@@ -87,6 +87,7 @@ module.exports = React.createClass({
   getInitialState: function() {
     return {
       shownInstructions: false,
+      imageDetail: '',
       outfitIndex: -1,
       showMenu   : false,
       showDesc   : false,
@@ -163,8 +164,19 @@ module.exports = React.createClass({
     });
   },
 
-  handleItemPress: function() {
-    console.log("press bracelet");
+  handleItemPress: function(itemType, index) {
+    var item = data[itemType][index];
+    if(item.image_detail && item.image_detail.uri !== '_blank') {
+      this.setState({
+        imageDetail: item.image_detail
+      });
+    }
+  },
+
+  closeImageDetail: function() {
+    this.setState({
+      imageDetail: ''
+    });
   },
 
   handleShare: function() {
@@ -192,13 +204,11 @@ module.exports = React.createClass({
 
   render: function() {
 
-    console.log("render", this.state);
-
     var itemGroups = {
-      BRACELETS: data['BRACELETS'].map((item, index) => <BraceletView key={ index } item={ item } handlePress={ this.handleItemPress } />),
-      NECKLACES: data['NECKLACES'].map((item, index) => <NecklaceView key={ index } item={ item } handlePress={ this.handleItemPress } />),
-      PURSES   : data['PURSES'   ].map((item, index) => <PurseView    key={ index } item={ item } handlePress={ this.handleItemPress } />),
-      SCARVES  : data['SCARVES'  ].map((item, index) => <ScarfView    key={ index } item={ item } handlePress={ this.handleItemPress } />)
+      BRACELETS: data['BRACELETS'].map((item, index) => <BraceletView key={ index } item={ item } handlePress={ this.handleItemPress.bind(this, 'BRACELETS', index) } />),
+      NECKLACES: data['NECKLACES'].map((item, index) => <NecklaceView key={ index } item={ item } handlePress={ this.handleItemPress.bind(this, 'NECKLACES', index) } />),
+      PURSES   : data['PURSES'   ].map((item, index) => <PurseView    key={ index } item={ item } handlePress={ this.handleItemPress.bind(this, 'PURSES', index   ) } />),
+      SCARVES  : data['SCARVES'  ].map((item, index) => <ScarfView    key={ index } item={ item } handlePress={ this.handleItemPress.bind(this, 'SCARVES', index  ) } />)
     };
 
     var topItems    = itemGroups[this.state.topType];
@@ -292,9 +302,9 @@ module.exports = React.createClass({
           </Modal>
           : null }
 
-        { this.state.showDetailModal ?
-          <Modal onClose={ this.closeModal }>
-            <Image style={{ fontSize: 16 }} source={ require('image!bracelet9-sally') } />
+        { this.state.imageDetail ?
+          <Modal onClose={ this.closeImageDetail }>
+            <Image style={{ width: 250, height: 250 }} source={ this.state.imageDetail } />
           </Modal>
           : null }
 
