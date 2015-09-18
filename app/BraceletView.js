@@ -13,7 +13,7 @@ export default class BraceletView extends React.Component {
     return (
       <TouchableOpacity onPress={ this.props.handlePress }>
         <View style={ styles.itemViewStyle }>
-          <Image style={ styles.braceletImageStyle } source={ this.props.item.image } />
+          <Image style={ styles.middleImageStyle } source={ this.props.item.image } />
         </View>
       </TouchableOpacity>
     );

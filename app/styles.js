@@ -8,7 +8,7 @@ console.log("menu width", menuWidth);
 
 var wh = Dimensions.get('window').height;
 var ww = Dimensions.get('window').width;
-var menuWidth = ww / PixelRatio.get();
+var menuWidth = ww * 0.6;
 console.log(wh, ww);
 
 var SW_GREEN  = '#9acdb2';
@@ -16,10 +16,10 @@ var SW_ORANGE = '#f6bb84';
 var SW_PINK   = '#c07aaa';
 var SW_PURPLE = '#362045';
 
-module.exports = StyleSheet.create({
-  visible: {
+var ICON_SIZE = 50;
+var ICON_PAD  = 10;
 
-  },
+module.exports = StyleSheet.create({
   appContainer: {
     backgroundColor: '#FFFFFF',
     position: 'absolute',
@@ -33,7 +33,7 @@ module.exports = StyleSheet.create({
     height: wh,
     position: 'absolute',
       top: 0,
-      right: menuWidth,
+      left: 0,
       bottom: 0,
     width: menuWidth
   },
@@ -42,10 +42,10 @@ module.exports = StyleSheet.create({
     fontFamily: 'EkMukta-Light',
   },
   menuOutfits: {
-    backgroundColor: SW_ORANGE,
+    backgroundColor: SW_ORANGE
   },
   menuAccessories: {
-    backgroundColor: SW_PINK,
+    backgroundColor: SW_PINK
   },
   menuHeading: {
     fontSize: 13,
@@ -58,6 +58,7 @@ module.exports = StyleSheet.create({
     color: SW_PURPLE,
     fontSize: 17,
     fontWeight: '300',
+    height: 40,
     marginBottom: 1,
     paddingHorizontal: 12,
     paddingVertical: 10
@@ -70,7 +71,6 @@ module.exports = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 20
   },
-
   mainContainer: {
     position: 'absolute',
       top: 0,
@@ -108,6 +108,8 @@ module.exports = StyleSheet.create({
   },
   swiperTopStyle: {
   },
+  swiperMiddleStyle: {
+  },
   swiperBottomStyle: {
   },
 
@@ -131,8 +133,6 @@ module.exports = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center'
   },
-
-
 
 
   // Description panel
@@ -183,23 +183,23 @@ module.exports = StyleSheet.create({
     height: wh,
     width: ww,
     position: 'absolute',
-      top: -4,
+      top: 2,
       left: 4
   },
-  purseImageStyle: {
-    height: wh,
-    width: ww,
-    position: 'absolute',
-      top: -(ww * 0.8)-8,
-      left: 0
-  },
-  braceletImageStyle: {
+  middleImageStyle: {
     alignItems: 'stretch',
     height: wh,
     width: ww,
     position: 'absolute',
-      top: -(ww * 0.83),
-      left: 3
+    top: -(wh * 0.43),
+    left: 3
+  },
+  bottomImageStyle: {
+    height: wh,
+    width: ww,
+    position: 'absolute',
+      top: -(wh * 0.53)+10,
+      left: 0
   },
   modal: {
     alignItems: 'center',
@@ -229,15 +229,13 @@ module.exports = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     borderRadius: 5,
     margin: 20,
-    padding: 50
+    padding: 20
   },
 
   startingOutfitPicker: {
-    alignItems: 'center',
     backgroundColor: SW_PURPLE,
     flexDirection: 'column',
     height: wh,
-    justifyContent: 'center',
     position: 'absolute',
       top: 0,
       left: 0,
@@ -247,15 +245,15 @@ module.exports = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     borderColor: SW_PINK,
     borderBottomWidth: 1,
-    flex: 2,
+    height: wh/12
   },
   startingOufitPickerHeading: {
     color: '#FFFFFF',
     flex: 3,
     fontSize: 20,
     fontWeight: "600",
-    lineHeight: wh/12,
     marginBottom: 1,
+    padding: 20,
     textAlign: 'center'
   },
   startingOufitPickerButton: {
@@ -277,5 +275,30 @@ module.exports = StyleSheet.create({
       top: 0,
       left: 0,
     width: ww
+  },
+
+  iconTouchable: {
+    height: ICON_SIZE+20,
+    padding: 10,
+    position: 'absolute',
+    width: ICON_SIZE+20
+  },
+  iconImage: {
+    height: ICON_SIZE,
+    width: ICON_SIZE
+  },
+
+  launchContainer: {
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+    flex: 1,
+    height: wh,
+    justifyContent: 'center',
+    opacity: 1,
+    width: ww
+  },
+  launchImage: {
+    height: 350,
+    width: 270
   }
 });

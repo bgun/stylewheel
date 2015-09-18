@@ -5507,12 +5507,12 @@ function(){return 'MessageQueue.invokeCallback(' + cbID + ', ' + stringifySafe(a
 var callback=this._callbacks[cbID];
 if(__DEV__){
 var debug=this._debugInfo[cbID >> 1];
-var _module=debug && this._remoteModuleTable[debug[0]];
+var _module2=debug && this._remoteModuleTable[debug[0]];
 var method=debug && this._remoteMethodTable[debug[0]][debug[1]];
 if(!callback){
-console.error('Callback with id ' + cbID + ': ' + _module + '.' + method + '() not found');}else 
+console.error('Callback with id ' + cbID + ': ' + _module2 + '.' + method + '() not found');}else 
 if(SPY_MODE){
-console.log('N->JS : <callback for ' + _module + '.' + method + '>(' + JSON.stringify(args) + ')');}}
+console.log('N->JS : <callback for ' + _module2 + '.' + method + '>(' + JSON.stringify(args) + ')');}}
 
 
 this._callbacks[cbID & ~1] = null;
@@ -23483,7 +23483,7 @@ UIEdgeInsets:insetsDiffer};
 
 module.exports = requireNativeComponent;
 });
-__d('verifyPropTypes',["ReactNativeStyleAttributes","View"],function(global, require, requireDynamic, requireLazy, module, exports) {  'use strict';
+__d('verifyPropTypes',["ReactNativeStyleAttributes","View"],function(global, require, requireDynamic, requireLazy, module, exports) {  'use strict';Object.defineProperty(exports,'__esModule',{value:true});
 
 
 
@@ -43065,7 +43065,7 @@ Text:createAnimatedComponent(Text),
 Image:createAnimatedComponent(Image),
 createAnimatedComponent:createAnimatedComponent};
 });
-__d('Interpolation',[],function(global, require, requireDynamic, requireLazy, module, exports) {  'use strict';var _extends=Object.assign || function(target){for(var i=1;i < arguments.length;i++) {var source=arguments[i];for(var key in source) {if(Object.prototype.hasOwnProperty.call(source,key)){target[key] = source[key];}}}return target;};var _createClass=(function(){function defineProperties(target,props){for(var i=0;i < props.length;i++) {var descriptor=props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if('value' in descriptor)descriptor.writable = true;Object.defineProperty(target,descriptor.key,descriptor);}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor;};})();function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function');}}
+__d('Interpolation',[],function(global, require, requireDynamic, requireLazy, module, exports) {  'use strict';Object.defineProperty(exports,'__esModule',{value:true});var _extends=Object.assign || function(target){for(var i=1;i < arguments.length;i++) {var source=arguments[i];for(var key in source) {if(Object.prototype.hasOwnProperty.call(source,key)){target[key] = source[key];}}}return target;};var _createClass=(function(){function defineProperties(target,props){for(var i=0;i < props.length;i++) {var descriptor=props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if('value' in descriptor)descriptor.writable = true;Object.defineProperty(target,descriptor.key,descriptor);}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor;};})();function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function');}}
 
 
 
@@ -51491,14 +51491,14 @@ Object.keys(componentOrElement));}
 
 module.exports = findDOMNode;
 });
-__d('stylewheel/app/main.js',["image!ic_handbag","image!ic_info","image!ic_heart","ActivityView","react-native/Libraries/react-native/react-native.js","react-native-swiper/dist/index.js","react-native-device-display/display.js","lodash/index.js","stylewheel/app/BraceletView.js","stylewheel/app/NecklaceView.js","stylewheel/app/PurseView.js","stylewheel/app/ScarfView.js","stylewheel/app/styles.js","stylewheel/app/data.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  var React=require('react-native/Libraries/react-native/react-native.js');
+__d('stylewheel/app/main.js',["image!ic_hanger","image!ic_purse","image!ic_tag","image!ic_heart","image!instructions","Dimensions","ActivityView","react-native/Libraries/react-native/react-native.js","react-native-swiper/dist/index.js","lodash/index.js","stylewheel/app/Modal.js","stylewheel/app/TextLink.js","stylewheel/app/BraceletView.js","stylewheel/app/NecklaceView.js","stylewheel/app/PurseView.js","stylewheel/app/ScarfView.js","stylewheel/app/styles.js","stylewheel/app/data.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  var React=require('react-native/Libraries/react-native/react-native.js');
 var Swiper=require('react-native-swiper/dist/index.js');
-var Display=require('react-native-device-display/display.js');
+var Dimensions=require('Dimensions');
 var ActivityView=require('ActivityView');
 var _=require('lodash/index.js');var 
 
 
-ActionSheetIOS=
+Image=
 
 
 
@@ -51506,10 +51506,14 @@ ActionSheetIOS=
 
 
 
+React.Image;var LayoutAnimation=React.LayoutAnimation;var PixelRatio=React.PixelRatio;var StatusBarIOS=React.StatusBarIOS;var Text=React.Text;var TouchableHighlight=React.TouchableHighlight;var TouchableOpacity=React.TouchableOpacity;var View=React.View;
 
 
-React.ActionSheetIOS;var Image=React.Image;var LayoutAnimation=React.LayoutAnimation;var LinkingIOS=React.LinkingIOS;var PixelRatio=React.PixelRatio;var StatusBarIOS=React.StatusBarIOS;var Text=React.Text;var TouchableHighlight=React.TouchableHighlight;var TouchableOpacity=React.TouchableOpacity;var View=React.View;
+var wh=Dimensions.get('window').height;
+var ww=Dimensions.get('window').width;
 
+var Modal=require('stylewheel/app/Modal.js');
+var TextLink=require('stylewheel/app/TextLink.js');
 
 var BraceletView=require('stylewheel/app/BraceletView.js');
 var NecklaceView=require('stylewheel/app/NecklaceView.js');
@@ -51519,47 +51523,26 @@ var ScarfView=require('stylewheel/app/ScarfView.js');
 var styles=require('stylewheel/app/styles.js');
 var data=require('stylewheel/app/data.js');
 
-var Modal=React.createClass({
-render:function(){
-return (
-React.createElement(View,{style:styles.modal},
-React.createElement(View,{style:styles.modalContent},
-this.props.children),
-
-React.createElement(TouchableHighlight,{onPress:this.props.onClose},React.createElement(Text,{style:styles.modalCloseButton},'Close'))));}});
-
-
-
-
-
-var TextLink=React.createClass({
-doLink:function(){
-LinkingIOS.openURL(this.props.url);},
-
-render:function(){
-return React.createElement(TouchableOpacity,{onPress:this.doLink},React.createElement(Text,{style:styles.link},this.props.children));}});
-
-
-
-var OutfitButton=React.createClass({
-render:function(){
-return (
-React.createElement(TouchableOpacity,{onPress:this.props.onPress},
-React.createElement(View,{style:styles.outfitButton},
-React.createElement(Text,{style:styles.outfitButtonText},'Select an outfit...'))));}});
-
-
-
-
+var ICON_SIZE=50;
 
 
 var Menu=React.createClass({
+displayName:'Menu',
 handlePress:function(itemGroup,track){
 this.props.onSelect(itemGroup,track);},
 
-render:function(){
-return (
-React.createElement(View,{style:styles.menu},
+render:function(){var _this=this;
+var outfitsSubmenu=
+React.createElement(View,{style:styles.menuOutfits},
+data['OUTFITS'].map(function(outfit,index){return (
+React.createElement(TouchableOpacity,{key:index,onPress:_this.handlePress.bind(_this,index,3)},
+React.createElement(Text,{style:styles.menuButton},outfit.name)));}));
+
+
+
+
+var accessoriesSubmenu=
+React.createElement(View,{style:styles.menuAccessories},
 React.createElement(Text,{style:styles.menuHeading},'TOP'),
 React.createElement(TouchableOpacity,{onPress:this.handlePress.bind(this,'SCARVES',1)},
 React.createElement(Text,{style:styles.menuButton},'Scarf')),
@@ -51573,9 +51556,14 @@ React.createElement(TouchableOpacity,{onPress:this.handlePress.bind(this,'BRACEL
 React.createElement(Text,{style:styles.menuButton},'Bracelet')),
 
 React.createElement(TouchableOpacity,{onPress:this.handlePress.bind(this,'PURSES',2)},
-React.createElement(Text,{style:styles.menuButton},'Purse')),
+React.createElement(Text,{style:styles.menuButton},'Purse')));
 
 
+
+return (
+React.createElement(View,{style:styles.menu},
+this.props.menu === 'outfits'?outfitsSubmenu:null,
+this.props.menu === 'accessories'?accessoriesSubmenu:null,
 React.createElement(Text,{style:styles.menuHeading},'ABOUT US'),
 React.createElement(TouchableOpacity,{onPress:this.props.handleContactButton},
 React.createElement(Text,{style:styles.menuButtonContact},'Contact'))));}});
@@ -51587,9 +51575,13 @@ React.createElement(Text,{style:styles.menuButtonContact},'Contact'))));}});
 
 module.exports = React.createClass({
 
+displayName:'App',
+
 getInitialState:function(){
 return {
-outfitIndex:0,
+shownInstructions:false,
+imageDetail:'',
+outfitIndex:-1,
 showMenu:false,
 showDesc:false,
 showContactModal:null,
@@ -51616,10 +51608,10 @@ bottomIndex:context.state.index});},
 
 
 
-toggleMenu:function(){
+toggleMenu:function(menuType){
 LayoutAnimation.easeInEaseOut();
 this.setState({
-showMenu:!this.state.showMenu});},
+showMenu:this.state.menuType?null:menuType});},
 
 
 
@@ -51630,22 +51622,12 @@ showDesc:!this.state.showDesc});},
 
 
 
-chooseOutfit:function(){var _this=this;
-ActionSheetIOS.showActionSheetWithOptions({
-options:data['OUTFITS'].map(function(o){return o.name;}),
-destructiveButtonIndex:this.state.outfitIndex},
-
-function(buttonIndex){
-_this.setState({outfitIndex:buttonIndex});});},
-
-
-
 getRenderImage:function(){
 var topItemType=this.state.topType === 'SCARVES'?'scarves':'necklace';
 var botItemType=this.state.bottomType === 'PURSES'?'purses':'bracelet';
 var layer1='outfit' + (this.state.outfitIndex + 1);
-var layer2=topItemType + (this.state.topIndex + 1);
-var layer3=botItemType + (this.state.bottomIndex + 1);
+var layer2=topItemType + this.state.topIndex;
+var layer3=botItemType + this.state.bottomIndex;
 return 'http://stylewheel-backend.herokuapp.com/render?layer1=' + layer1 + '&layer2=' + layer2 + '&layer3=' + layer3;},
 
 
@@ -51653,7 +51635,10 @@ selectItem:function(itemGroup,track){
 
 this.setState({
 topType:track === 1?itemGroup:this.state.topType,
-bottomType:track === 2?itemGroup:this.state.bottomType});
+topIndex:track === 1?1:this.state.topIndex,
+bottomType:track === 2?itemGroup:this.state.bottomType,
+bottomIndex:track === 2?1:this.state.bottomIndex,
+outfitIndex:track === 3?itemGroup:this.state.outfitIndex});
 
 this.toggleMenu();},
 
@@ -51672,6 +51657,21 @@ showContactModal:false});},
 
 
 
+handleItemPress:function(itemType,index){
+var item=data[itemType][index];
+if(item.image_detail && item.image_detail.uri !== '_blank'){
+this.setState({
+imageDetail:item.image_detail});}},
+
+
+
+
+closeImageDetail:function(){
+this.setState({
+imageDetail:''});},
+
+
+
 handleShare:function(){
 var t=this;
 ActivityView.show({
@@ -51686,24 +51686,22 @@ setTimeout(function(){
 t.setState({
 rendering:false});},
 
-2000);},
+5000);},
 
 
-render:function(){
+hideInstructions:function(){
+this.setState({
+shownInstructions:true});},
 
-console.log({
-width:Display.percentage('width',100),
-height:Display.percentage('height',100),
-ratio:PixelRatio.get(),
-isPortrait:Display.isPortrait(),
-isLandscape:Display.isLandscape()});
 
+
+render:function(){var _this2=this;
 
 var itemGroups={
-BRACELETS:data['BRACELETS'].map(function(item,index){return React.createElement(BraceletView,{key:index,item:item});}),
-NECKLACES:data['NECKLACES'].map(function(item,index){return React.createElement(NecklaceView,{key:index,item:item});}),
-PURSES:data['PURSES'].map(function(item,index){return React.createElement(PurseView,{key:index,item:item});}),
-SCARVES:data['SCARVES'].map(function(item,index){return React.createElement(ScarfView,{key:index,item:item});})};
+BRACELETS:data['BRACELETS'].map(function(item,index){return React.createElement(BraceletView,{key:index,item:item,handlePress:_this2.handleItemPress.bind(_this2,'BRACELETS',index)});}),
+NECKLACES:data['NECKLACES'].map(function(item,index){return React.createElement(NecklaceView,{key:index,item:item,handlePress:_this2.handleItemPress.bind(_this2,'NECKLACES',index)});}),
+PURSES:data['PURSES'].map(function(item,index){return React.createElement(PurseView,{key:index,item:item,handlePress:_this2.handleItemPress.bind(_this2,'PURSES',index)});}),
+SCARVES:data['SCARVES'].map(function(item,index){return React.createElement(ScarfView,{key:index,item:item,handlePress:_this2.handleItemPress.bind(_this2,'SCARVES',index)});})};
 
 
 var topItems=itemGroups[this.state.topType];
@@ -51711,26 +51709,30 @@ var bottomItems=itemGroups[this.state.bottomType];
 
 var topItem=data[this.state.topType][this.state.topIndex];
 var bottomItem=data[this.state.bottomType][this.state.bottomIndex];
-var outfitItem=data['OUTFITS'][this.state.outfitIndex];
+var outfitItem=this.state.outfitIndex >= 0?data['OUTFITS'][this.state.outfitIndex]:{};
 
 return (
 React.createElement(View,{style:styles.appContainer},
-React.createElement(Menu,{onSelect:this.selectItem,handleContactButton:this.handleContactButton}),
-React.createElement(View,{style:this.state.showMenu?styles.mainContainerWithMenu:styles.mainContainer},
+React.createElement(Menu,{menu:this.state.showMenu,onSelect:this.selectItem,handleContactButton:this.handleContactButton}),
+React.createElement(View,{style:[styles.mainContainer,this.state.showMenu?styles.withMenu:null]},
 React.createElement(View,{ref:'outfit',style:styles.outfitContainer},
 React.createElement(Image,{style:styles.outfitImageStyle,source:outfitItem.image}),
-React.createElement(Swiper,{key:'top',showsPagination:false,style:styles.swiperTopStyle,onMomentumScrollEnd:this.scrolledTop},
+React.createElement(View,{style:styles.swipers},
+React.createElement(Swiper,{height:wh / 2 - 20,key:'top',showsPagination:false,style:styles.swiperTopStyle,onMomentumScrollEnd:this.scrolledTop},
 topItems),
 
-React.createElement(Swiper,{key:'bot',showsPagination:false,style:styles.swiperBottomStyle,onMomentumScrollEnd:this.scrolledBottom},
-bottomItems)),
+React.createElement(Swiper,{height:wh / 2 - 20,key:'bot',showsPagination:false,style:styles.swiperBottomStyle,onMomentumScrollEnd:this.scrolledBottom},
+bottomItems))),
 
 
 
-React.createElement(OutfitButton,{onPress:this.chooseOutfit}),
 
-React.createElement(TouchableHighlight,{onPress:this.toggleMenu,style:{position:'absolute',left:10,top:10,width:40,height:40}},
-React.createElement(Image,{style:{width:40,height:40},source:require('image!ic_handbag')})),
+React.createElement(TouchableHighlight,{onPress:this.toggleMenu.bind(this,'outfits'),style:{position:'absolute',left:10,top:10,width:ICON_SIZE,height:ICON_SIZE}},
+React.createElement(Image,{style:{width:ICON_SIZE,height:ICON_SIZE},source:require('image!ic_hanger')})),
+
+
+React.createElement(TouchableHighlight,{onPress:this.toggleMenu.bind(this,'accessories'),style:{position:'absolute',left:10,top:70,width:ICON_SIZE,height:ICON_SIZE}},
+React.createElement(Image,{style:{width:ICON_SIZE,height:ICON_SIZE},source:require('image!ic_purse')})),
 
 
 React.createElement(View,{style:this.state.showDesc?styles.descriptionContainerOpen:styles.descriptionContainer},
@@ -51754,25 +51756,48 @@ React.createElement(Text,{style:styles.descriptionPrice},outfitItem.price))),
 
 
 
-React.createElement(TouchableHighlight,{onPress:this.toggleDesc,style:{position:'absolute',right:14,top:14,width:40,height:40}},
-React.createElement(Image,{style:{width:40,height:40},source:require('image!ic_info')})),
+React.createElement(TouchableHighlight,{onPress:this.toggleDesc,style:{position:'absolute',right:10,top:10,width:ICON_SIZE,height:ICON_SIZE}},
+React.createElement(Image,{style:{width:ICON_SIZE,height:ICON_SIZE},source:require('image!ic_tag')})),
 
 
-React.createElement(TouchableHighlight,{onPress:this.handleShare,style:{position:'absolute',right:14,top:70,width:40,height:40}},
-React.createElement(Image,{style:{width:40,height:40},source:require('image!ic_heart')})),
+React.createElement(TouchableHighlight,{onPress:this.handleShare,style:{position:'absolute',right:10,top:70,width:ICON_SIZE,height:ICON_SIZE}},
+React.createElement(Image,{style:{width:ICON_SIZE,height:ICON_SIZE},source:require('image!ic_heart')})),
 
 
 this.state.rendering?
 React.createElement(View,{style:styles.modal},
-React.createElement(Text,null,'Saving your look...')):
+React.createElement(Text,{style:styles.savingText},'Saving your look...')):
 
 null),
 
+
+!this.state.shownInstructions?
+React.createElement(TouchableOpacity,{style:styles.instructions,onPress:this.hideInstructions},
+React.createElement(Image,{style:styles.instructionImage,source:require('image!instructions')})):
+
+null,
+
+this.state.outfitIndex === -1?
+React.createElement(View,{style:styles.startingOutfitPicker},
+React.createElement(Text,{style:styles.startingOufitPickerHeading},'Where you headed?'),
+data['OUTFITS'].map(function(outfit,index){return (
+React.createElement(TouchableOpacity,{key:index,style:styles.startingOutfitPickerTouchable,onPress:_this2.selectItem.bind(_this2,index,3)},
+React.createElement(Text,{style:styles.startingOufitPickerButton},outfit.name)));})):
+
+
+
+null,
 
 this.state.showContactModal?
 React.createElement(Modal,{onClose:this.closeModal},
 React.createElement(Text,{style:{fontSize:16}},'For all business inquiries and licensing questions, please contact us directly at'),
 React.createElement(TextLink,{url:'mailto:info@thestylewheel.com'},'info@thestylewheel.com')):
+
+null,
+
+this.state.imageDetail?
+React.createElement(Modal,{onClose:this.closeImageDetail},
+React.createElement(Image,{style:{width:250,height:250},source:this.state.imageDetail})):
 
 null));}});
 });
@@ -52276,73 +52301,6 @@ this.props.showsButtons && this.renderButtons());}});
 
 
 module.exports = exports['default'];
-});
-__d('react-native-device-display/display.js',["react-native/Libraries/react-native/react-native.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  var _createClass=(function(){function defineProperties(target,props){for(var i=0;i < props.length;i++) {var descriptor=props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if('value' in descriptor)descriptor.writable = true;Object.defineProperty(target,descriptor.key,descriptor);}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor;};})();function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function');}}var _require=require('react-native/Libraries/react-native/react-native.js');var NativeModules=_require.NativeModules;
-
-var DeviceUtil=NativeModules.DisplayDeviceUtil;
-var Dimensions=require('Dimensions');
-var RCTDeviceEventEmitter=require('RCTDeviceEventEmitter');var 
-
-Display=(function(){_createClass(Display,[{key:'updateProps',value:
-
-function updateProps(newWidth,newHeight){
-this.width = newWidth;
-this.height = newHeight;}}]);
-
-
-function Display(){_classCallCheck(this,Display);
-this.width = Dimensions.get("window").width;
-this.height = Dimensions.get("window").height;}_createClass(Display,[{key:'percentage',value:
-
-
-function percentage(type,value){
-if(type == 'width'){
-return value * (this.height / 100);}else 
-if(type == 'height'){
-return value * (this.width / 100);}else 
-{
-return 'Invalid Type (width / height)';}}},{key:'isPortrait',value:
-
-
-
-function isPortrait(){
-if(this.width < this.height){
-return true;}else 
-{
-return false;}}},{key:'isLandscape',value:
-
-
-
-function isLandscape(){
-if(this.width > this.height){
-return true;}else 
-{
-return false;}}},{key:'isTablet',value:
-
-
-
-function isTablet(){
-return DeviceUtil.isTablet;}},{key:'isPhone',value:
-
-
-function isPhone(){
-return DeviceUtil.isPhone;}},{key:'onOrientationDidChange',value:
-
-
-function onOrientationDidChange(handler){
-var main=this;
-return RCTDeviceEventEmitter.addListener(
-'orientationDidChange',
-function(newDimensions){
-main.updateProps(newDimensions.width,newDimensions.height);
-handler();});}}]);return Display;})();
-
-
-
-
-
-
-module.exports = new Display();
 });
 __d('ActivityView',["react-native/Libraries/react-native/react-native.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  'use strict';
 
@@ -64719,39 +64677,54 @@ root._ = _;}}).
 
 call(this);
 });
-__d('stylewheel/app/BraceletView.js',["react-native/Libraries/react-native/react-native.js","stylewheel/app/styles.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  var React=require('react-native/Libraries/react-native/react-native.js');var 
+__d('stylewheel/app/Modal.js',["react-native/Libraries/react-native/react-native.js","stylewheel/app/styles.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  var React=require('react-native/Libraries/react-native/react-native.js');var 
 
-Image=React.Image;var View=React.View;
+Text=React.Text;var TouchableOpacity=React.TouchableOpacity;var View=React.View;
 
 var styles=require('stylewheel/app/styles.js');
 
-
-module.exports = BraceletView = React.createClass({
+module.exports = React.createClass({
 render:function(){
 return (
-React.createElement(View,{style:styles.itemViewStyle},
-React.createElement(Image,{style:styles.bottomItemImageStyle,source:this.props.item.image})));}});
+React.createElement(View,{style:styles.modal},
+React.createElement(View,{style:styles.modalContent},
+this.props.children),
+
+React.createElement(TouchableOpacity,{onPress:this.props.onClose},React.createElement(Text,{style:styles.modalCloseButton},'Close'))));}});
 });
-__d('stylewheel/app/styles.js',["react-native/Libraries/react-native/react-native.js","react-native-device-display/display.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  var React=require('react-native/Libraries/react-native/react-native.js');
-var Display=require('react-native-device-display/display.js');var 
+__d('stylewheel/app/styles.js',["Dimensions","react-native/Libraries/react-native/react-native.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  var React=require('react-native/Libraries/react-native/react-native.js');
+var Dimensions=require('Dimensions');var 
 
 PixelRatio=React.PixelRatio;var StyleSheet=React.StyleSheet;
 
 
-var menuWidth=Display.width / PixelRatio.get();
 console.log("menu width",menuWidth);
 
+var wh=Dimensions.get('window').height;
+var ww=Dimensions.get('window').width;
+var menuWidth=ww / PixelRatio.get();
+console.log(wh,ww);
+
+var SW_GREEN='#9acdb2';
+var SW_ORANGE='#f6bb84';
+var SW_PINK='#c07aaa';
+var SW_PURPLE='#362045';
+
 module.exports = StyleSheet.create({
+visible:{},
+
+
 appContainer:{
 backgroundColor:'#FFFFFF',
-flex:1},
-
-rendering:{},
-
+position:'absolute',
+top:0,
+left:0,
+right:0,
+bottom:0},
 
 menu:{
-backgroundColor:'#C6C1C8',
-height:Display.height,
+backgroundColor:'#FEF',
+height:wh,
 position:'absolute',
 top:0,
 right:menuWidth,
@@ -64760,7 +64733,13 @@ width:menuWidth},
 
 link:{
 color:'#6688FF',
-fontWeight:'bold'},
+fontFamily:'EkMukta-Light'},
+
+menuOutfits:{
+backgroundColor:SW_ORANGE},
+
+menuAccessories:{
+backgroundColor:SW_PINK},
 
 menuHeading:{
 fontSize:13,
@@ -64769,49 +64748,61 @@ marginBottom:5,
 textAlign:'center'},
 
 menuButton:{
-backgroundColor:'rgba(0,0,0,0.2)',
-color:'#FFEEFF',
-fontSize:16,
-fontWeight:'bold',
+backgroundColor:'rgba(255,255,255,0.5)',
+color:SW_PURPLE,
+fontSize:17,
+fontWeight:'300',
 marginBottom:1,
 paddingHorizontal:12,
-paddingVertical:16},
+paddingVertical:10},
 
 menuButtonContact:{
-backgroundColor:'rgba(0,0,0,0.2)',
-color:'#FFEEFF',
-fontSize:15,
-fontWeight:'bold',
+backgroundColor:'rgba(0,0,0,0.1)',
+color:SW_PURPLE,
+fontSize:16,
+fontWeight:'300',
 paddingHorizontal:12,
-paddingVertical:12},
+paddingVertical:20},
 
 
 mainContainer:{
-flex:1},
-
-mainContainerWithMenu:{
-flex:1,
-left:menuWidth},
-
-outfitContainer:{
-alignItems:'center',
-flex:1,
-flexDirection:'column',
-justifyContent:'center'},
-
-outfitImageStyle:{
-flex:1,
-height:Display.height,
 position:'absolute',
 top:0,
 left:0,
-width:Display.width},
+right:0,
+bottom:0},
 
-swiperTopStyle:{
-flex:100},
+withMenu:{
+left:menuWidth,
+right:-menuWidth},
 
-swiperBottomStyle:{
-flex:100},
+outfitContainer:{
+flexDirection:'column',
+position:'absolute',
+top:0,
+left:0,
+right:0,
+bottom:0},
+
+outfitImageStyle:{
+height:wh,
+position:'absolute',
+top:0,
+left:0,
+width:ww},
+
+swipers:{
+backgroundColor:'transparent',
+flexDirection:'column',
+position:'absolute',
+top:0,
+left:0,
+right:0,
+bottom:0},
+
+swiperTopStyle:{},
+
+swiperBottomStyle:{},
 
 
 outfitButton:{
@@ -64819,12 +64810,14 @@ backgroundColor:'rgba(255,255,255,0.8)',
 borderColor:'rgba(50,100,150,0.2)',
 borderRadius:10,
 borderWidth:5,
-flex:1,
+height:45,
 padding:8,
 position:'absolute',
-bottom:10,
-left:(Display.width - 200) / 2,
-width:200},
+bottom:0,
+left:ww * 0.1,
+top:wh - 80,
+right:0,
+width:ww * 0.8},
 
 outfitButtonText:{
 color:'#3366FF',
@@ -64841,9 +64834,9 @@ descriptionContainer:{
 backgroundColor:'transparent',
 position:'absolute',
 top:0,
-left:Display.width,
+left:ww,
 bottom:0,
-width:Display.width},
+width:ww},
 
 descriptionContainerOpen:{
 backgroundColor:'transparent',
@@ -64851,7 +64844,7 @@ position:'absolute',
 top:0,
 left:0,
 bottom:0,
-width:Display.width},
+width:ww},
 
 description:{
 backgroundColor:'rgba(10,0,10,0.7)',
@@ -64878,34 +64871,43 @@ fontSize:24},
 
 
 
-itemViewStyle:{
-alignItems:'flex-start',
-flex:1},
+itemViewStyle:{},
 
 topItemImageStyle:{
-flex:1,
-height:Display.height,
-width:Display.width,
-top:Display.percentage('height',89),
+height:wh,
+width:ww,
+position:'absolute',
+top:-4,
 left:4},
 
-bottomItemImageStyle:{
+purseImageStyle:{
+height:wh,
+width:ww,
+position:'absolute',
+top:-(ww * 0.8) - 8,
+left:0},
+
+braceletImageStyle:{
 alignItems:'stretch',
-flex:1,
-height:Display.height,
-width:Display.width,
-top:-Display.percentage('height',85),
-left:10},
+height:wh,
+width:ww,
+position:'absolute',
+top:-(ww * 0.83),
+left:3},
 
 modal:{
 alignItems:'center',
 backgroundColor:'rgba(0,0,0,0.5)',
-height:Display.height,
+height:wh,
 justifyContent:'center',
 position:'absolute',
 top:0,
 left:0,
-width:Display.width},
+width:ww},
+
+savingText:{
+color:'#FFFFFF',
+fontSize:20},
 
 modalCloseButton:{
 backgroundColor:'rgba(0,0,0,0.2)',
@@ -64921,110 +64923,222 @@ modalContent:{
 backgroundColor:'#FFFFFF',
 borderRadius:5,
 margin:20,
-padding:50}});
+padding:50},
+
+
+startingOutfitPicker:{
+alignItems:'center',
+backgroundColor:SW_PURPLE,
+flexDirection:'column',
+height:wh,
+justifyContent:'center',
+position:'absolute',
+top:0,
+left:0,
+width:ww},
+
+startingOutfitPickerTouchable:{
+backgroundColor:'#FFFFFF',
+borderColor:SW_PINK,
+borderBottomWidth:1,
+flex:2},
+
+startingOufitPickerHeading:{
+color:'#FFFFFF',
+flex:3,
+fontSize:20,
+fontWeight:"600",
+lineHeight:wh / 12,
+marginBottom:1,
+textAlign:'center'},
+
+startingOufitPickerButton:{
+borderColor:'#FF0000',
+color:SW_PURPLE,
+fontSize:18,
+fontWeight:'300',
+lineHeight:wh / 17,
+textAlign:'center',
+width:ww},
+
+
+instructions:{
+backgroundColor:'transparent'},
+
+instructionImage:{
+height:wh,
+position:'absolute',
+top:0,
+left:0,
+width:ww}});
 });
-__d('stylewheel/app/NecklaceView.js',["react-native/Libraries/react-native/react-native.js","stylewheel/app/styles.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  var React=require('react-native/Libraries/react-native/react-native.js');var 
+__d('stylewheel/app/TextLink.js',["react-native/Libraries/react-native/react-native.js","stylewheel/app/styles.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  Object.defineProperty(exports,'__esModule',{value:true});var _createClass=(function(){function defineProperties(target,props){for(var i=0;i < props.length;i++) {var descriptor=props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if('value' in descriptor)descriptor.writable = true;Object.defineProperty(target,descriptor.key,descriptor);}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor;};})();var _get=function get(object,property,receiver){if(object === null)object = Function.prototype;var desc=Object.getOwnPropertyDescriptor(object,property);if(desc === undefined){var parent=Object.getPrototypeOf(object);if(parent === null){return undefined;}else {return get(parent,property,receiver);}}else if('value' in desc){return desc.value;}else {var getter=desc.get;if(getter === undefined){return undefined;}return getter.call(receiver);}};function _interopRequireDefault(obj){return obj && obj.__esModule?obj:{'default':obj};}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function');}}function _inherits(subClass,superClass){if(typeof superClass !== 'function' && superClass !== null){throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__ = superClass;}var _reactNative=require(
 
-Image=React.Image;var View=React.View;
+'react-native/Libraries/react-native/react-native.js');var _reactNative2=_interopRequireDefault(_reactNative);var _stylesJs=require(
 
-var styles=require('stylewheel/app/styles.js');
+'stylewheel/app/styles.js');var _stylesJs2=_interopRequireDefault(_stylesJs);'use babel';var 
+
+LinkingIOS=_reactNative2.default.LinkingIOS;var Text=_reactNative2.default.Text;var TouchableOpacity=_reactNative2.default.TouchableOpacity;var View=_reactNative2.default.View;var 
 
 
-module.exports = NecklaceView = React.createClass({
+TextLink=(function(_React$Component){_inherits(TextLink,_React$Component);function TextLink(){_classCallCheck(this,TextLink);_get(Object.getPrototypeOf(TextLink.prototype),'constructor',this).apply(this,arguments);}_createClass(TextLink,[{key:'doLink',value:
+
+function doLink(){
+LinkingIOS.openURL(this.props.url);}},{key:'render',value:
+
+
+function render(){
+return (
+_reactNative2.default.createElement(TouchableOpacity,{onPress:this.doLink},
+_reactNative2.default.createElement(Text,{style:_stylesJs2.default.link},this.props.children)));}}]);return TextLink;})(_reactNative2.default.Component);exports.default = TextLink;module.exports = exports.default;
+});
+__d('stylewheel/app/BraceletView.js',["react-native/Libraries/react-native/react-native.js","stylewheel/app/styles.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  Object.defineProperty(exports,'__esModule',{value:true});var _createClass=(function(){function defineProperties(target,props){for(var i=0;i < props.length;i++) {var descriptor=props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if('value' in descriptor)descriptor.writable = true;Object.defineProperty(target,descriptor.key,descriptor);}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor;};})();var _get=function get(object,property,receiver){if(object === null)object = Function.prototype;var desc=Object.getOwnPropertyDescriptor(object,property);if(desc === undefined){var parent=Object.getPrototypeOf(object);if(parent === null){return undefined;}else {return get(parent,property,receiver);}}else if('value' in desc){return desc.value;}else {var getter=desc.get;if(getter === undefined){return undefined;}return getter.call(receiver);}};function _interopRequireDefault(obj){return obj && obj.__esModule?obj:{'default':obj};}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function');}}function _inherits(subClass,superClass){if(typeof superClass !== 'function' && superClass !== null){throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__ = superClass;}var _reactNative=require(
+
+'react-native/Libraries/react-native/react-native.js');var _reactNative2=_interopRequireDefault(_reactNative);var _stylesJs=require(
+
+
+
+'stylewheel/app/styles.js');var _stylesJs2=_interopRequireDefault(_stylesJs);'use babel';var Image=_reactNative2.default.Image;var TouchableOpacity=_reactNative2.default.TouchableOpacity;var View=_reactNative2.default.View;var 
+
+
+BraceletView=(function(_React$Component){_inherits(BraceletView,_React$Component);function BraceletView(){_classCallCheck(this,BraceletView);_get(Object.getPrototypeOf(BraceletView.prototype),'constructor',this).apply(this,arguments);}_createClass(BraceletView,[{key:'render',value:
+
+function render(){
+return (
+_reactNative2.default.createElement(TouchableOpacity,{onPress:this.props.handlePress},
+_reactNative2.default.createElement(View,{style:_stylesJs2.default.itemViewStyle},
+_reactNative2.default.createElement(Image,{style:_stylesJs2.default.braceletImageStyle,source:this.props.item.image}))));}}]);return BraceletView;})(_reactNative2.default.Component);exports.default = BraceletView;module.exports = exports.default;
+});
+__d('stylewheel/app/NecklaceView.js',["react-native/Libraries/react-native/react-native.js","stylewheel/app/styles.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  function _interopRequireDefault(obj){return obj && obj.__esModule?obj:{'default':obj};}var _reactNative=require(
+
+'react-native/Libraries/react-native/react-native.js');var _reactNative2=_interopRequireDefault(_reactNative);var _stylesJs=require(
+
+
+
+'stylewheel/app/styles.js');var _stylesJs2=_interopRequireDefault(_stylesJs);'use babel';var Image=_reactNative2.default.Image;var TouchableOpacity=_reactNative2.default.TouchableOpacity;var View=_reactNative2.default.View;
+
+
+module.exports = NecklaceView = _reactNative2.default.createClass({
 render:function(){
 return (
-React.createElement(View,{style:styles.itemViewStyle},
-React.createElement(Image,{style:styles.topItemImageStyle,source:this.props.item.image})));}});
+_reactNative2.default.createElement(TouchableOpacity,{onPress:this.props.handlePress},
+_reactNative2.default.createElement(View,{style:_stylesJs2.default.itemViewStyle},
+_reactNative2.default.createElement(Image,{style:_stylesJs2.default.topItemImageStyle,source:this.props.item.image}))));}});
 });
-__d('stylewheel/app/PurseView.js',["react-native/Libraries/react-native/react-native.js","stylewheel/app/styles.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  var React=require('react-native/Libraries/react-native/react-native.js');var 
+__d('stylewheel/app/PurseView.js',["react-native/Libraries/react-native/react-native.js","stylewheel/app/styles.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  Object.defineProperty(exports,'__esModule',{value:true});var _createClass=(function(){function defineProperties(target,props){for(var i=0;i < props.length;i++) {var descriptor=props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if('value' in descriptor)descriptor.writable = true;Object.defineProperty(target,descriptor.key,descriptor);}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor;};})();var _get=function get(object,property,receiver){if(object === null)object = Function.prototype;var desc=Object.getOwnPropertyDescriptor(object,property);if(desc === undefined){var parent=Object.getPrototypeOf(object);if(parent === null){return undefined;}else {return get(parent,property,receiver);}}else if('value' in desc){return desc.value;}else {var getter=desc.get;if(getter === undefined){return undefined;}return getter.call(receiver);}};function _interopRequireDefault(obj){return obj && obj.__esModule?obj:{'default':obj};}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function');}}function _inherits(subClass,superClass){if(typeof superClass !== 'function' && superClass !== null){throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__ = superClass;}var _reactNative=require(
 
-Image=React.Image;var View=React.View;
-
-var styles=require('stylewheel/app/styles.js');
+'react-native/Libraries/react-native/react-native.js');var _reactNative2=_interopRequireDefault(_reactNative);var _stylesJs=require(
 
 
-module.exports = PurseView = React.createClass({
-render:function(){
+
+'stylewheel/app/styles.js');var _stylesJs2=_interopRequireDefault(_stylesJs);'use babel';var Image=_reactNative2.default.Image;var TouchableOpacity=_reactNative2.default.TouchableOpacity;var View=_reactNative2.default.View;var 
+
+
+PurseView=(function(_React$Component){_inherits(PurseView,_React$Component);function PurseView(){_classCallCheck(this,PurseView);_get(Object.getPrototypeOf(PurseView.prototype),'constructor',this).apply(this,arguments);}_createClass(PurseView,[{key:'render',value:
+
+function render(){
 return (
-React.createElement(View,{style:styles.itemViewStyle},
-React.createElement(Image,{style:styles.bottomItemImageStyle,source:this.props.item.image})));}});
+_reactNative2.default.createElement(TouchableOpacity,{onPress:this.props.handlePress},
+_reactNative2.default.createElement(View,{style:_stylesJs2.default.itemViewStyle},
+_reactNative2.default.createElement(Image,{style:_stylesJs2.default.purseImageStyle,source:this.props.item.image}))));}}]);return PurseView;})(_reactNative2.default.Component);exports.default = PurseView;module.exports = exports.default;
 });
-__d('stylewheel/app/ScarfView.js',["react-native/Libraries/react-native/react-native.js","stylewheel/app/styles.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  var React=require('react-native/Libraries/react-native/react-native.js');var 
+__d('stylewheel/app/ScarfView.js',["react-native/Libraries/react-native/react-native.js","stylewheel/app/styles.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  Object.defineProperty(exports,'__esModule',{value:true});var _createClass=(function(){function defineProperties(target,props){for(var i=0;i < props.length;i++) {var descriptor=props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if('value' in descriptor)descriptor.writable = true;Object.defineProperty(target,descriptor.key,descriptor);}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor;};})();var _get=function get(object,property,receiver){if(object === null)object = Function.prototype;var desc=Object.getOwnPropertyDescriptor(object,property);if(desc === undefined){var parent=Object.getPrototypeOf(object);if(parent === null){return undefined;}else {return get(parent,property,receiver);}}else if('value' in desc){return desc.value;}else {var getter=desc.get;if(getter === undefined){return undefined;}return getter.call(receiver);}};function _interopRequireDefault(obj){return obj && obj.__esModule?obj:{'default':obj};}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function');}}function _inherits(subClass,superClass){if(typeof superClass !== 'function' && superClass !== null){throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__ = superClass;}var _reactNative=require(
 
-Image=React.Image;var PixelRatio=React.PixelRatio;var StyleSheet=React.StyleSheet;var View=React.View;
-
-var styles=require('stylewheel/app/styles.js');
+'react-native/Libraries/react-native/react-native.js');var _reactNative2=_interopRequireDefault(_reactNative);var _stylesJs=require(
 
 
-module.exports = ScarfView = React.createClass({
-render:function(){
+
+'stylewheel/app/styles.js');var _stylesJs2=_interopRequireDefault(_stylesJs);'use babel';var Image=_reactNative2.default.Image;var TouchableOpacity=_reactNative2.default.TouchableOpacity;var View=_reactNative2.default.View;var 
+
+
+ScarfView=(function(_React$Component){_inherits(ScarfView,_React$Component);function ScarfView(){_classCallCheck(this,ScarfView);_get(Object.getPrototypeOf(ScarfView.prototype),'constructor',this).apply(this,arguments);}_createClass(ScarfView,[{key:'render',value:
+
+function render(){
 return (
-React.createElement(View,{style:styles.itemViewStyle},
-React.createElement(Image,{style:styles.topItemImageStyle,source:this.props.item.image})));}});
+_reactNative2.default.createElement(TouchableOpacity,{onPress:this.props.handlePress},
+_reactNative2.default.createElement(View,{style:_stylesJs2.default.itemViewStyle},
+_reactNative2.default.createElement(Image,{style:_stylesJs2.default.topItemImageStyle,source:this.props.item.image}))));}}]);return ScarfView;})(_reactNative2.default.Component);exports.default = ScarfView;module.exports = exports.default;
 });
-__d('stylewheel/app/data.js',["image!bracelet1","image!bracelet2","image!bracelet3","image!bracelet4","image!bracelet5","image!bracelet6","image!bracelet7","image!bracelet8","image!bracelet9","image!necklace1","image!necklace2","image!necklace3","image!necklace4","image!necklace5","image!necklace6","image!necklace7","image!necklace8","image!necklace9","image!outfit1","image!outfit2","image!outfit3","image!outfit4","image!outfit5","image!outfit6","image!outfit7","image!outfit8","image!outfit9","image!outfit10","image!purses1","image!purses2","image!purses3","image!purses4","image!purses5","image!purses6","image!purses7","image!purses8","image!purses9","image!scarves1","image!scarves2","image!scarves3","image!scarves4","image!scarves5","image!scarves6","image!scarves7","image!scarves8","image!scarves9","react-native/Libraries/react-native/react-native.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  var React=require('react-native/Libraries/react-native/react-native.js');
+__d('stylewheel/app/data.js',["image!_blank","image!_blank","image!bracelet1","image!bracelet1-luna","image!bracelet2","image!bracelet2-piper","image!bracelet3","image!bracelet3-abby","image!bracelet4","image!bracelet4-renegade","image!bracelet5","image!bracelet5-layne","image!bracelet6","image!bracelet6-amelie","image!bracelet7","image!bracelet7-becca","image!bracelet8","image!bracelet8-isabelle","image!bracelet9","image!bracelet9-sally","image!_blank","image!_blank","image!necklace1","image!necklace1-pegasus","image!necklace2","image!necklace2-alexis","image!necklace3","image!necklace3-courtney","image!necklace4","image!necklace4-fanella","image!necklace5","image!necklace5-kendra","image!necklace6","image!necklace6-sadie","image!necklace7","image!necklace7-livvy","image!necklace8","image!necklace8-amanda","image!necklace9","image!outfit1","image!outfit2","image!outfit3","image!outfit4","image!outfit5","image!outfit6","image!outfit7","image!outfit8","image!outfit9","image!outfit10","image!_blank","image!_blank","image!purses1","image!purses1-goldie","image!purses2","image!purses2-lizzy","image!purses3","image!purses3-martha","image!purses4","image!purses4-sparkle","image!purses5","image!purses5-leona","image!purses6","image!purses6-blanca","image!purses7","image!purses7-citron","image!purses8","image!purses8-elaine","image!purses9","image!purses9-azure","image!_blank","image!_blank","image!scarves1","image!scarves1-christine","image!scarves2","image!scarves2-carrie","image!scarves3","image!scarves3-jill","image!scarves4","image!scarves4-nina","image!scarves5","image!scarves5-katy","image!scarves6","image!scarves6-jessica","image!scarves7","image!scarves7-ashley","image!scarves8","image!scarves8-lilly","image!scarves9","image!scarves9-mary","react-native/Libraries/react-native/react-native.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  var React=require('react-native/Libraries/react-native/react-native.js');
 
 var BRACELETS=[
 {
-name:'Bracelet 1',
+name:'None selected',
+image:require('image!_blank'),
+image_detail:require('image!_blank'),
+description:'Swipe left or right to show accessories!',
+price:'',
+link:''},
+
+{
+name:'Luna',
 image:require('image!bracelet1'),
-description:'this is a bracelet',
+image_detail:require('image!bracelet1-luna'),
+description:'Triple wrap bracelet of woven faceted glass beads in white bronze and satin gold finishes suspended on a brass box chain creates instant layering.',
 price:'$10',
 link:'http://prettybracelet.com'},
 
 {
-name:'Bracelet 2',
+name:'Piper',
 image:require('image!bracelet2'),
-description:'this is a bracelet 2',
+image_detail:require('image!bracelet2-piper'),
+description:'Large natural stones wrap around your wrist for an organic, bohemian vibe.',
 price:'$20',
 link:'http://prettybracelet.com'},
 
 {
-name:'Bracelet 3',
+name:'Abby',
 image:require('image!bracelet3'),
-description:'this is a bracelet 3',
+image_detail:require('image!bracelet3-abby'),
+description:'Slip on these chic bangle bracelets for a vibrant finishing touch.',
 price:'$30',
 link:'http://prettybracelet.com'},
 
 {
-name:'Bracelet 4',
+name:'Renegade',
 image:require('image!bracelet4'),
-description:'this is a bracelet 4',
+image_detail:require('image!bracelet4-renegade'),
+description:'White bronze or gold plated spikes and black diamond pave beads adorn this Renegade cluster studded bracelet.',
 price:'$40',
 link:'http://prettybracelet.com'},
 
 {
-name:'Bracelet 5',
+name:'Layne',
 image:require('image!bracelet5'),
-description:'this is a bracelet 5',
+image_detail:require('image!bracelet5-layne'),
+description:'Statement cuff bracelet crafted from brass and wood. Features a bold design and rich gold-tone finish.',
 price:'$50',
 link:'http://prettybracelet.com'},
 
 {
-name:'Bracelet 6',
+name:'Amelie',
 image:require('image!bracelet6'),
-description:'this is a bracelet 6',
+image_detail:require('image!bracelet6-amelie'),
+description:'Faceted circular glass crystals sparkle in this staple arm piece.',
 price:'$60',
 link:'http://prettybracelet.com'},
 
 {
-name:'Bracelet 7',
+name:'Becca',
 image:require('image!bracelet7'),
-description:'this is a bracelet 7',
+image_detail:require('image!bracelet7-becca'),
+description:'Bright and bold. This bracelet features beautiful design details accented with a mix of hand-set colorful enamel and neutral glass stones. ',
 price:'$70',
 link:'http://prettybracelet.com'},
 
 {
-name:'Bracelet 8',
+name:'Isabelle',
 image:require('image!bracelet8'),
-description:'this is a bracelet 8',
+image_detail:require('image!bracelet8-isabelle'),
+description:'Silver coil bracelet with accents of neutral sparkle.',
 price:'$80',
 link:'http://prettybracelet.com'},
 
 {
-name:'Bracelet 9',
+name:'Sally',
 image:require('image!bracelet9'),
-description:'this is a bracelet 9',
+image_detail:require('image!bracelet9-sally'),
+description:'From a romantic evening out to a dinner party with friends, these gorgeous, cream-colored pearlized glass bead bracelets bring timeless elegance to any occasion.',
 price:'$90',
 link:'http://prettybracelet.com'}];
 
@@ -65032,65 +65146,81 @@ link:'http://prettybracelet.com'}];
 
 var NECKLACES=[
 {
-name:'Necklace 1',
+name:'None selected',
+image:require('image!_blank'),
+image_detail:require('image!_blank'),
+description:'Swipe left or right to show accessories!',
+price:'',
+link:''},
+
+{
+name:'Pegasus',
 image:require('image!necklace1'),
-description:'This is a fancy necklace 1',
+image_detail:require('image!necklace1-pegasus'),
+description:'A striking bib of intricate feathers hand sewn to silk organza cascade.',
 price:'$10',
 link:'http://prettynecklace.com'},
 
 {
-name:'Necklace 2',
+name:'Alexis',
 image:require('image!necklace2'),
-description:'This is a fancy necklace 2',
+image_detail:require('image!necklace2-alexis'),
+description:'Webbed angles give a minimalist touch to a versatile strand of modern pewter links.',
 price:'$20',
 link:'http://prettynecklace.com'},
 
 {
-name:'Necklace 3',
+name:'Courtney',
 image:require('image!necklace3'),
-description:'This is a fancy necklace 3',
+image_detail:require('image!necklace3-courtney'),
+description:'Bold, rich magenta stones link together in this gorgeous statement necklace, and is the perfect accoutrement for any look, day to night.',
 price:'$30',
 link:'http://prettynecklace.com'},
 
 {
-name:'Necklace 4',
+name:'Fanella',
 image:require('image!necklace4'),
-description:'This is a fancy necklace 4',
+image_detail:require('image!necklace4-fanella'),
+description:'An explosion of color incorporating deep shades of navy and green contrasted with soft pinks and citrine hand-set stones.',
 price:'$40',
 link:'http://prettynecklace.com'},
 
 {
-name:'Necklace 5',
+name:'Kendra',
 image:require('image!necklace5'),
-description:'This is a fancy necklace 5',
+image_detail:require('image!necklace5-kendra'),
+description:'This long necklace features dainty oval stones of naturally variegated banded agate, bringing a chic edge to your everyday style.',
 price:'$50',
 link:'http://prettynecklace.com'},
 
 {
-name:'Necklace 6',
+name:'Sadie',
 image:require('image!necklace6'),
-description:'This is a fancy necklace 6',
+image_detail:require('image!necklace6-sadie'),
+description:'Ace the luxe boho look: Try on wooded acrylic shapes with luxe crystal accents and bold yellow beaded fringe.',
 price:'$60',
 link:'http://prettynecklace.com'},
 
 {
-name:'Necklace 7',
+name:'Livvy',
 image:require('image!necklace7'),
-description:'This is a fancy necklace 7',
+image_detail:require('image!necklace7-livvy'),
+description:'A gold Y-shaped silhouette with hints of mint enamel and cognac sparkle on a smooth gold plated chain.',
 price:'$70',
 link:'http://prettynecklace.com'},
 
 {
-name:'Necklace 8',
+name:'Amanda',
 image:require('image!necklace8'),
-description:'This is a fancy necklace 8',
+image_detail:require('image!necklace8-amanda'),
+description:'Long chain tassels add serious drama to any outfit--the perfect way to tone down spring brights.',
 price:'$80',
 link:'http://prettynecklace.com'},
 
 {
-name:'Necklace 9',
+name:'Lauren',
 image:require('image!necklace9'),
-description:'This is a fancy necklace 9',
+description:'Double or triple this endless strand up for a chic, layered look.',
 price:'$90',
 link:'http://prettynecklace.com'}];
 
@@ -65098,70 +65228,70 @@ link:'http://prettynecklace.com'}];
 
 var OUTFITS=[
 {
-name:'Outfit 1',
+name:'Coachella',
 image:require('image!outfit1'),
 description:'Description',
 price:'$10',
 link:'http://prettyoutfit.com'},
 
 {
-name:'Outfit 2',
+name:'Drinks After Work',
 image:require('image!outfit2'),
 description:'Description 2',
 price:'$20',
 link:'http://prettyoutfit.com'},
 
 {
-name:'Outfit 3',
+name:'Baby Shower',
 image:require('image!outfit3'),
 description:'Description 3',
 price:'$30',
 link:'http://prettyoutfit.com'},
 
 {
-name:'Outfit 4',
+name:'Concert',
 image:require('image!outfit4'),
 description:'Description 4',
 price:'$40',
 link:'http://prettyoutfit.com'},
 
 {
-name:'Outfit 5',
+name:'Date Night',
 image:require('image!outfit5'),
 description:'Description 5',
 price:'$50',
 link:'http://prettyoutfit.com'},
 
 {
-name:'Outfit 6',
+name:'a Wedding',
 image:require('image!outfit6'),
 description:'Description 6',
 price:'$60',
 link:'http://prettyoutfit.com'},
 
 {
-name:'Outfit 7',
+name:'Yacht Club',
 image:require('image!outfit7'),
 description:'Description 7',
 price:'$70',
 link:'http://prettyoutfit.com'},
 
 {
-name:'Outfit 8',
+name:'Out and About',
 image:require('image!outfit8'),
 description:'Description 8',
 price:'$80',
 link:'http://prettyoutfit.com'},
 
 {
-name:'Outfit 9',
+name:'Office',
 image:require('image!outfit9'),
 description:'Description 9',
 price:'$90',
 link:'http://prettyoutfit.com'},
 
 {
-name:'Outfit 10',
+name:'Lunch with the Girls',
 image:require('image!outfit10'),
 description:'Description 10',
 price:'$100',
@@ -65171,65 +65301,82 @@ link:'http://prettyoutfit.com'}];
 
 var PURSES=[
 {
-name:'Purse 1',
+name:'None selected',
+image:require('image!_blank'),
+image_detail:require('image!_blank'),
+description:'Swipe left or right to show accessories!',
+price:'',
+link:''},
+
+{
+name:'Goldie',
 image:require('image!purses1'),
-description:'this is a very pretty purse',
+image_detail:require('image!purses1-goldie'),
+description:'Add some sleek shimmer to your look with this classic envelope clutch. You can even try it during the day with a chic crisp button-down and denim.',
 price:'$10',
 link:'http://prettypurses.com'},
 
 {
-name:'Purse 2',
+name:'Lizzy',
 image:require('image!purses2'),
-description:'this is a very pretty purse',
+image_detail:require('image!purses2-lizzy'),
+description:'Sleek and refined, the 440 Envelope Clutch is the silhouette of the season. Perfect for day or night in elegant embossed croc. Interior zip pocket and exterior back pocket. Magnetic closure.',
 price:'$20',
 link:'http://prettypurses.com'},
 
 {
-name:'Purse 3',
+name:'Martha',
 image:require('image!purses3'),
-description:'this is a very pretty purse',
+image_detail:require('image!purses3-martha'),
+description:'Perfect for date nights and late nights, shiny hardware gives this quilted clutch from a modern look.',
 price:'$30',
 link:'http://prettypurses.com'},
 
 {
-name:'Purse 4',
+name:'Sparkle',
 image:require('image!purses4'),
-description:'this is a very pretty purse',
+image_detail:require('image!purses4-sparkle'),
+description:'the perfect clutch to carry at your reception or after-party, this shining clutch makes a subtle nod to your newlywed status with its (tie the) knot closure; the printed lining, which reads “two of a kind,” is more overtly romantic.',
 price:'$40',
 link:'http://prettypurses.com'},
 
 {
-name:'Purse 5',
+name:'Leona',
 image:require('image!purses5'),
-description:'this is a very pretty purse',
+image_detail:require('image!purses5-leona'),
+description:'Calf hair clutch with gold tone accents on sides. Magnetic closure with studded cheetah ornament at closure. Optional chain strap.        ',
 price:'$50',
 link:'http://prettypurses.com'},
 
 {
-name:'Purse 6',
+name:'Blanca',
 image:require('image!purses6'),
-description:'this is a very pretty purse',
+image_detail:require('image!purses6-blanca'),
+description:'An elegant hand-beaded clutch is lined in lustrous satin and framed by polished metal.',
 price:'$60',
 link:'http://prettypurses.com'},
 
 {
-name:'Purse 7',
+name:'Citron',
 image:require('image!purses7'),
-description:'this is a very pretty purse',
+image_detail:require('image!purses7-citron'),
+description:'Features our unique perforated technique inspired by our Avalon jewelry styles. In need of a touch up? Hello gorgeous! Simply unsnap and use the mirror to check yourself out!',
 price:'$70',
 link:'http://prettypurses.com'},
 
 {
-name:'Purse 8',
+name:'Elaine',
 image:require('image!purses8'),
-description:'this is a very pretty purse',
+image_detail:require('image!purses8-elaine'),
+description:'Signature multi-colored print handbag makes the ultimate fashion statement whether paired with a jeans or a cocktail dress.',
 price:'$80',
 link:'http://prettypurses.com'},
 
 {
-name:'Purse 9',
+name:'Azure',
 image:require('image!purses9'),
-description:'this is a very pretty purse',
+image_detail:require('image!purses9-azure'),
+description:'Custom designed Stella & Dot hardware inspired by our laser cut Avalon jewelry styles, plus an oversized pyramid accent for just a little edge. Removeable strap can also be worn as a wrap bracelet.',
 price:'$90',
 link:'http://prettypurses.com'}];
 
@@ -65237,65 +65384,82 @@ link:'http://prettypurses.com'}];
 
 var SCARVES=[
 {
-name:'Scarf 1',
+name:'None selected',
+image:require('image!_blank'),
+image_detail:require('image!_blank'),
+description:'Swipe left or right to show accessories!',
+price:'',
+link:''},
+
+{
+name:'Christine',
 image:require('image!scarves1'),
-description:'this is a very long scarf',
+image_detail:require('image!scarves1-christine'),
+description:'Taupe and gold windowpane print extra long scarf.',
 price:'$10',
 link:'http://prettyscarves.com'},
 
 {
-name:'Scarf 2',
+name:'Carrie',
 image:require('image!scarves2'),
-description:'this is a very long scarf',
+image_detail:require('image!scarves2-carrie'),
+description:'Signature Drummond plaid of red and green.',
 price:'$20',
 link:'http://prettyscarves.com'},
 
 {
-name:'Scarf 3',
+name:'Jill',
 image:require('image!scarves3'),
-description:'this is a very pretty purse',
+image_detail:require('image!scarves3-jill'),
+description:'Find your wild side in this red and pink animal print scarf with gold sequins.',
 price:'$30',
 link:'http://prettyscarves.com'},
 
 {
-name:'Scarf 4',
+name:'Nina',
 image:require('image!scarves4'),
-description:'this is a very long scarf',
+image_detail:require('image!scarves4-nina'),
+description:'Soft pewter infinity scarf.',
 price:'$40',
 link:'http://prettyscarves.com'},
 
 {
-name:'Scarf 5',
+name:'Katy',
 image:require('image!scarves5'),
-description:'this is a very long scarf',
+image_detail:require('image!scarves5-katy'),
+description:'Solid black scarf with tiny gold stars.',
 price:'$50',
 link:'http://prettyscarves.com'},
 
 {
-name:'Scarf 6',
+name:'Jessica',
 image:require('image!scarves6'),
-description:'this is a very long scarf',
+image_detail:require('image!scarves6-jessica'),
+description:'Light weight tan and taupe animal print scarf. Gauze-like texture.',
 price:'$60',
 link:'http://prettyscarves.com'},
 
 {
-name:'Scarf 7',
+name:'Ashley',
 image:require('image!scarves7'),
-description:'this is a very long scarf',
+image_detail:require('image!scarves7-ashley'),
+description:'Mint floral infinity to brighten up any ensemble.',
 price:'$70',
 link:'http://prettyscarves.com'},
 
 {
-name:'Scarf 8',
+name:'Lilly',
 image:require('image!scarves8'),
-description:'this is a very long scarf',
+image_detail:require('image!scarves8-lilly'),
+description:'Solid hot pink scarf, large enough to use as a wrap.',
 price:'$80',
 link:'http://prettyscarves.com'},
 
 {
-name:'Scarf 9',
+name:'Mary',
 image:require('image!scarves9'),
-description:'this is a very long scarf',
+image_detail:require('image!scarves9-mary'),
+description:'Cobalt blue and gray windowpane print scarf. Tassel ends.',
 price:'$90',
 link:'http://prettyscarves.com'}];
 
@@ -65308,39 +65472,75 @@ OUTFITS:OUTFITS,
 PURSES:PURSES,
 SCARVES:SCARVES};
 });
+__d('image!_blank',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/_blank.imageset/_blank.png","uri":"_blank","width":1,"height":1,"deprecated":true};
+});
 __d('image!bracelet1',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/bracelet1.imageset/bracelet1.png","uri":"bracelet1","width":700,"height":1050,"deprecated":true};
+});
+__d('image!bracelet1-luna',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/bracelet1-luna.imageset/bracelet1-luna.jpg","uri":"bracelet1-luna","width":236,"height":357,"deprecated":true};
 });
 __d('image!bracelet2',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/bracelet2.imageset/bracelet2.png","uri":"bracelet2","width":700,"height":1050,"deprecated":true};
 });
+__d('image!bracelet2-piper',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/bracelet2-piper.imageset/bracelet2-piper.jpg","uri":"bracelet2-piper","width":236,"height":177,"deprecated":true};
+});
 __d('image!bracelet3',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/bracelet3.imageset/bracelet3.png","uri":"bracelet3","width":700,"height":1050,"deprecated":true};
+});
+__d('image!bracelet3-abby',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/bracelet3-abby.imageset/bracelet3-abby.jpg","uri":"bracelet3-abby","width":420,"height":560,"deprecated":true};
 });
 __d('image!bracelet4',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/bracelet4.imageset/bracelet4.png","uri":"bracelet4","width":700,"height":1050,"deprecated":true};
 });
+__d('image!bracelet4-renegade',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/bracelet4-renegade.imageset/bracelet4-renegade.jpg","uri":"bracelet4-renegade","width":450,"height":682,"deprecated":true};
+});
 __d('image!bracelet5',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/bracelet5.imageset/bracelet5.png","uri":"bracelet5","width":700,"height":1050,"deprecated":true};
+});
+__d('image!bracelet5-layne',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/bracelet5-layne.imageset/bracelet5-layne.jpg","uri":"bracelet5-layne","width":336,"height":596,"deprecated":true};
 });
 __d('image!bracelet6',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/bracelet6.imageset/bracelet6.png","uri":"bracelet6","width":700,"height":1050,"deprecated":true};
 });
+__d('image!bracelet6-amelie',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/bracelet6-amelie.imageset/bracelet6-amelie.jpg","uri":"bracelet6-amelie","width":736,"height":1114,"deprecated":true};
+});
 __d('image!bracelet7',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/bracelet7.imageset/bracelet7.png","uri":"bracelet7","width":700,"height":1050,"deprecated":true};
+});
+__d('image!bracelet7-becca',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/bracelet7-becca.imageset/bracelet7-becca.jpg","uri":"bracelet7-becca","width":450,"height":682,"deprecated":true};
 });
 __d('image!bracelet8',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/bracelet8.imageset/bracelet8.png","uri":"bracelet8","width":700,"height":1050,"deprecated":true};
 });
+__d('image!bracelet8-isabelle',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/bracelet8-isabelle.imageset/bracelet8-isabelle.jpg","uri":"bracelet8-isabelle","width":450,"height":682,"deprecated":true};
+});
 __d('image!bracelet9',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/bracelet9.imageset/bracelet9.png","uri":"bracelet9","width":700,"height":1050,"deprecated":true};
+});
+__d('image!bracelet9-sally',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/bracelet9-sally.imageset/bracelet9-sally.jpg","uri":"bracelet9-sally","width":164,"height":205,"deprecated":true};
 });
 __d('image!necklace1',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/necklace1.imageset/necklace1.png","uri":"necklace1","width":700,"height":1050,"deprecated":true};
 });
+__d('image!necklace1-pegasus',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/necklace1-pegasus.imageset/necklace1-pegasus.jpg","uri":"necklace1-pegasus","width":450,"height":682,"deprecated":true};
+});
 __d('image!necklace2',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/necklace2.imageset/necklace2.png","uri":"necklace2","width":700,"height":1050,"deprecated":true};
+});
+__d('image!necklace2-alexis',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/necklace2-alexis.imageset/necklace2-alexis.jpg","uri":"necklace2-alexis","width":231,"height":321,"deprecated":true};
 });
 __d('image!necklace3',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/necklace3.imageset/necklace3.png","uri":"necklace3","width":700,"height":1050,"deprecated":true};
 });
+__d('image!necklace3-courtney',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/necklace3-courtney.imageset/necklace3-courtney.jpg","uri":"necklace3-courtney","width":300,"height":300,"deprecated":true};
+});
 __d('image!necklace4',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/necklace4.imageset/necklace4.png","uri":"necklace4","width":700,"height":1050,"deprecated":true};
+});
+__d('image!necklace4-fanella',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/necklace4-fanella.imageset/necklace4-fanella.jpg","uri":"necklace4-fanella","width":450,"height":682,"deprecated":true};
 });
 __d('image!necklace5',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/necklace5.imageset/necklace5.png","uri":"necklace5","width":700,"height":1050,"deprecated":true};
 });
+__d('image!necklace5-kendra',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/necklace5-kendra.imageset/necklace5-kendra.jpg","uri":"necklace5-kendra","width":800,"height":1000,"deprecated":true};
+});
 __d('image!necklace6',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/necklace6.imageset/necklace6.png","uri":"necklace6","width":700,"height":1050,"deprecated":true};
+});
+__d('image!necklace6-sadie',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/necklace6-sadie.imageset/necklace6-sadie.jpg","uri":"necklace6-sadie","width":453,"height":487,"deprecated":true};
 });
 __d('image!necklace7',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/necklace7.imageset/necklace7.png","uri":"necklace7","width":700,"height":1050,"deprecated":true};
 });
+__d('image!necklace7-livvy',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/necklace7-livvy.imageset/necklace7-livvy.jpg","uri":"necklace7-livvy","width":314,"height":370,"deprecated":true};
+});
 __d('image!necklace8',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/necklace8.imageset/necklace8.png","uri":"necklace8","width":700,"height":1050,"deprecated":true};
+});
+__d('image!necklace8-amanda',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/necklace8-amanda.imageset/necklace8-amanda.jpg","uri":"necklace8-amanda","width":300,"height":300,"deprecated":true};
 });
 __d('image!necklace9',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/necklace9.imageset/necklace9.png","uri":"necklace9","width":700,"height":1050,"deprecated":true};
 });
@@ -65366,45 +65566,85 @@ __d('image!outfit10',[],function(global, require, requireDynamic, requireLazy, m
 });
 __d('image!purses1',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/purses1.imageset/purses1.png","uri":"purses1","width":700,"height":1050,"deprecated":true};
 });
+__d('image!purses1-goldie',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/purses1-goldie.imageset/purses1-goldie.jpg","uri":"purses1-goldie","width":300,"height":300,"deprecated":true};
+});
 __d('image!purses2',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/purses2.imageset/purses2.png","uri":"purses2","width":700,"height":1050,"deprecated":true};
+});
+__d('image!purses2-lizzy',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/purses2-lizzy.imageset/purses2-lizzy.jpg","uri":"purses2-lizzy","width":300,"height":300,"deprecated":true};
 });
 __d('image!purses3',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/purses3.imageset/purses3.png","uri":"purses3","width":700,"height":1050,"deprecated":true};
 });
+__d('image!purses3-martha',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/purses3-martha.imageset/purses3-martha.jpg","uri":"purses3-martha","width":236,"height":314,"deprecated":true};
+});
 __d('image!purses4',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/purses4.imageset/purses4.png","uri":"purses4","width":700,"height":1050,"deprecated":true};
+});
+__d('image!purses4-sparkle',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/purses4-sparkle.imageset/purses4-sparkle.jpg","uri":"purses4-sparkle","width":265,"height":353,"deprecated":true};
 });
 __d('image!purses5',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/purses5.imageset/purses5.png","uri":"purses5","width":700,"height":1050,"deprecated":true};
 });
+__d('image!purses5-leona',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/purses5-leona.imageset/purses5-leona.jpg","uri":"purses5-leona","width":350,"height":537,"deprecated":true};
+});
 __d('image!purses6',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/purses6.imageset/purses6.png","uri":"purses6","width":700,"height":1050,"deprecated":true};
+});
+__d('image!purses6-blanca',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/purses6-blanca.imageset/purses6-blanca.jpg","uri":"purses6-blanca","width":522,"height":280,"deprecated":true};
 });
 __d('image!purses7',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/purses7.imageset/purses7.png","uri":"purses7","width":700,"height":1050,"deprecated":true};
 });
+__d('image!purses7-citron',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/purses7-citron.imageset/purses7-citron.jpg","uri":"purses7-citron","width":845,"height":1280,"deprecated":true};
+});
 __d('image!purses8',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/purses8.imageset/purses8.png","uri":"purses8","width":700,"height":1050,"deprecated":true};
+});
+__d('image!purses8-elaine',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/purses8-elaine.imageset/purses8-elaine.jpg","uri":"purses8-elaine","width":362,"height":478,"deprecated":true};
 });
 __d('image!purses9',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/purses9.imageset/purses9.png","uri":"purses9","width":700,"height":1050,"deprecated":true};
 });
+__d('image!purses9-azure',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/purses9-azure.imageset/purses9-azure.jpg","uri":"purses9-azure","width":354,"height":354,"deprecated":true};
+});
 __d('image!scarves1',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/scarves1.imageset/scarves1.png","uri":"scarves1","width":700,"height":1050,"deprecated":true};
+});
+__d('image!scarves1-christine',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/scarves1-christine.imageset/scarves1-christine.png","uri":"scarves1-christine","width":768,"height":768,"deprecated":true};
 });
 __d('image!scarves2',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/scarves2.imageset/scarves2.png","uri":"scarves2","width":700,"height":1050,"deprecated":true};
 });
+__d('image!scarves2-carrie',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/scarves2-carrie.imageset/scarves2-carrie.png","uri":"scarves2-carrie","width":768,"height":768,"deprecated":true};
+});
 __d('image!scarves3',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/scarves3.imageset/scarves3.png","uri":"scarves3","width":700,"height":1050,"deprecated":true};
+});
+__d('image!scarves3-jill',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/scarves3-jill.imageset/scarves3-jill.png","uri":"scarves3-jill","width":768,"height":768,"deprecated":true};
 });
 __d('image!scarves4',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/scarves4.imageset/scarves4.png","uri":"scarves4","width":700,"height":1050,"deprecated":true};
 });
+__d('image!scarves4-nina',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/scarves4-nina.imageset/scarves4-nina.png","uri":"scarves4-nina","width":768,"height":768,"deprecated":true};
+});
 __d('image!scarves5',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/scarves5.imageset/scarves5.png","uri":"scarves5","width":700,"height":1050,"deprecated":true};
+});
+__d('image!scarves5-katy',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/scarves5-katy.imageset/scarves5-katy.png","uri":"scarves5-katy","width":768,"height":768,"deprecated":true};
 });
 __d('image!scarves6',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/scarves6.imageset/scarves6.png","uri":"scarves6","width":700,"height":1050,"deprecated":true};
 });
+__d('image!scarves6-jessica',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/scarves6-jessica.imageset/scarves6-jessica.png","uri":"scarves6-jessica","width":768,"height":768,"deprecated":true};
+});
 __d('image!scarves7',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/scarves7.imageset/scarves7.png","uri":"scarves7","width":700,"height":1050,"deprecated":true};
+});
+__d('image!scarves7-ashley',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/scarves7-ashley.imageset/scarves7-ashley.png","uri":"scarves7-ashley","width":768,"height":768,"deprecated":true};
 });
 __d('image!scarves8',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/scarves8.imageset/scarves8.png","uri":"scarves8","width":700,"height":1050,"deprecated":true};
 });
+__d('image!scarves8-lilly',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/scarves8-lilly.imageset/scarves8-lilly.png","uri":"scarves8-lilly","width":768,"height":768,"deprecated":true};
+});
 __d('image!scarves9',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/scarves9.imageset/scarves9.png","uri":"scarves9","width":700,"height":1050,"deprecated":true};
 });
-__d('image!ic_handbag',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/ic_handbag.imageset/ic_handbag.png","uri":"ic_handbag","width":256,"height":256,"deprecated":true};
+__d('image!scarves9-mary',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/scarves9-mary.imageset/scarves9-mary.png","uri":"scarves9-mary","width":768,"height":768,"deprecated":true};
 });
-__d('image!ic_info',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/ic_info.imageset/ic_info.png","uri":"ic_info","width":128,"height":128,"deprecated":true};
+__d('image!ic_hanger',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/ic_hanger.imageset/ic_hanger.png","uri":"ic_hanger","width":128,"height":128,"deprecated":true};
+});
+__d('image!ic_purse',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/ic_purse.imageset/ic_purse.png","uri":"ic_purse","width":128,"height":128,"deprecated":true};
+});
+__d('image!ic_tag',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/ic_tag.imageset/ic_tag.png","uri":"ic_tag","width":128,"height":128,"deprecated":true};
 });
 __d('image!ic_heart',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/ic_heart.imageset/ic_heart.png","uri":"ic_heart","width":128,"height":128,"deprecated":true};
+});
+__d('image!instructions',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/instructions.imageset/instructions.png","uri":"instructions","width":700,"height":1050,"deprecated":true};
 });
 ;require("stylewheel/index.ios.js");
 //@ sourceMappingURL=/index.ios.map

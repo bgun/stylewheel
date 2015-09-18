@@ -159,6 +159,7 @@ var NECKLACES = [
   {
     name  : 'Lauren',
     image : require('image!necklace9'),
+    image_detail: require('image!necklace9-lauren'),
     description: 'Double or triple this endless strand up for a chic, layered look.',
     price : '$90',
     link  : 'http://prettynecklace.com'

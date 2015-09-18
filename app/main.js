@@ -5,9 +5,11 @@ var ActivityView = require('react-native-activity-view');
 var _            = require('lodash');
 
 var {
+  Animated,
   Image,
   LayoutAnimation,
   PixelRatio,
+  ScrollView,
   StatusBarIOS,
   Text,
   TouchableHighlight,
@@ -30,8 +32,6 @@ var ScarfView    = require('./ScarfView');
 var styles = require('./styles.js');
 var data = require('./data.js');
 
-var ICON_SIZE = 50;
-
 
 var Menu = React.createClass({
   displayName: 'Menu',
@@ -42,7 +42,7 @@ var Menu = React.createClass({
     var outfitsSubmenu = (
       <View style={ styles.menuOutfits }>
         { data['OUTFITS'].map((outfit, index) => (
-          <TouchableOpacity key={ index } onPress={ this.handlePress.bind(this, index, 3) }>
+          <TouchableOpacity key={ index } onPress={ this.handlePress.bind(this, index, 4) }>
             <Text style={ styles.menuButton }>{ outfit.name }</Text>
           </TouchableOpacity>
         )) }
@@ -50,20 +50,12 @@ var Menu = React.createClass({
     );
     var accessoriesSubmenu = (
       <View style={ styles.menuAccessories }>
-        <Text style={ styles.menuHeading }>TOP</Text>
+        <Text style={ styles.menuHeading }>TOP ITEM</Text>
         <TouchableOpacity onPress={ this.handlePress.bind(this, 'SCARVES', 1) }>
           <Text style={ styles.menuButton }>Scarf</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={ this.handlePress.bind(this, 'NECKLACES', 1) }>
           <Text style={ styles.menuButton }>Necklace</Text>
-        </TouchableOpacity>
-
-        <Text style={ styles.menuHeading }>BOTTOM</Text>
-        <TouchableOpacity onPress={ this.handlePress.bind(this, 'BRACELETS', 2) }>
-          <Text style={ styles.menuButton }>Bracelet</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={ this.handlePress.bind(this, 'PURSES', 2) }>
-          <Text style={ styles.menuButton }>Purse</Text>
         </TouchableOpacity>
       </View>
     );
@@ -86,21 +78,32 @@ module.exports = React.createClass({
 
   getInitialState: function() {
     return {
+      launchFadeAnim: new Animated.Value(1),
       shownInstructions: false,
       imageDetail: '',
       outfitIndex: -1,
-      showMenu   : false,
-      showDesc   : false,
       showContactModal: null,
+      showDesc   : false,
+      showMenu   : false,
+      showLaunch : true,
       topType    : 'NECKLACES',
       topIndex   : 0,
-      bottomType : 'BRACELETS',
+      middleType : 'BRACELETS',
+      middleIndex: 0,
+      bottomType : 'PURSES',
       bottomIndex: 0
     }
   },
 
   componentDidMount() {
+    var t = this;
     StatusBarIOS.setHidden(true);
+    setTimeout(function() {
+      Animated.timing(
+        t.state.launchFadeAnim,
+        { toValue: 0 }
+      ).start();
+    }, 3000);
   },
 
   scrolledTop: function(e, state, context) {
@@ -108,7 +111,11 @@ module.exports = React.createClass({
       topIndex: context.state.index
     });
   },
-
+  scrolledMiddle: function(e, state, context) {
+    this.setState({
+      middleIndex: context.state.index
+    });
+  },
   scrolledBottom: function(e, state, context) {
     this.setState({
       bottomIndex: context.state.index
@@ -130,28 +137,30 @@ module.exports = React.createClass({
   },
 
   getRenderImage: function() {
-    var topItemType = this.state.topType    === 'SCARVES' ? 'scarves' : 'necklace';
-    var botItemType = this.state.bottomType === 'PURSES'  ? 'purses'  : 'bracelet';
-    var layer1 = 'outfit' +    (this.state.outfitIndex+1);
-    var layer2 = topItemType + (this.state.topIndex);
+    var topItemType = this.state.topType    === 'SCARVES'   ? 'scarves' : 'necklace';
+    var midItemType = 'bracelets';
+    var botItemType = 'purses';
+    var layer0 = 'outfit' +    (this.state.outfitIndex+1);
+    var layer1 = topItemType + (this.state.topIndex);
+    var layer1 = midItemType + (this.state.middleIndex);
     var layer3 = botItemType + (this.state.bottomIndex);
     return 'http://stylewheel-backend.herokuapp.com/render?layer1='+layer1+'&layer2='+layer2+'&layer3='+layer3;
   },
 
   selectItem: function(itemGroup, track) {
-    // track can be 1 or 2
     this.setState({
       topType    : track === 1 ? itemGroup : this.state.topType,
       topIndex   : track === 1 ? 1         : this.state.topIndex, // reset to first (non-blank) image when you choose from menu
-      bottomType : track === 2 ? itemGroup : this.state.bottomType,
-      bottomIndex: track === 2 ? 1         : this.state.bottomIndex, // reset to first (non-blank) image when you choose from menu
-      outfitIndex: track === 3 ? itemGroup : this.state.outfitIndex
+      middleType : track === 2 ? itemGroup : this.state.middleType,
+      middleIndex: track === 2 ? 1         : this.state.middleIndex, // reset to first (non-blank) image when you choose from menu
+      bottomType : track === 3 ? itemGroup : this.state.bottomType,
+      bottomIndex: track === 3 ? 1         : this.state.bottomIndex, // reset to first (non-blank) image when you choose from menu
+      outfitIndex: track === 4 ? itemGroup : this.state.outfitIndex
     });
     this.toggleMenu();
   },
 
   handleContactButton: function() {
-    console.log("contact us button pressed");
     this.setState({
       showContactModal: true
     });
@@ -212,10 +221,13 @@ module.exports = React.createClass({
     };
 
     var topItems    = itemGroups[this.state.topType];
+    var middleItems = itemGroups[this.state.middleType];
     var bottomItems = itemGroups[this.state.bottomType];
 
     var topItem    = data[this.state.topType   ][this.state.topIndex   ];
+    var middleItem = data[this.state.middleType][this.state.middleIndex];
     var bottomItem = data[this.state.bottomType][this.state.bottomIndex];
+
     var outfitItem = this.state.outfitIndex >= 0 ? data['OUTFITS'][this.state.outfitIndex] : {};
 
     return (
@@ -225,21 +237,24 @@ module.exports = React.createClass({
           <View ref='outfit' style={ styles.outfitContainer }>
             <Image style={ styles.outfitImageStyle } source={ outfitItem.image } />
             <View style={ styles.swipers }>
-              <Swiper height={wh/2-20} key='top' showsPagination={false} style={ styles.swiperTopStyle    } onMomentumScrollEnd={ this.scrolledTop }>
+              <Swiper height={wh*0.43} key='top' showsPagination={false} style={ styles.swiperTopStyle    } onMomentumScrollEnd={ this.scrolledTop }>
                 { topItems }
               </Swiper>
-              <Swiper height={wh/2-20} key='bot' showsPagination={false} style={ styles.swiperBottomStyle } onMomentumScrollEnd={ this.scrolledBottom }>
+              <Swiper height={wh*0.1} key='mid' showsPagination={false} style={ styles.swiperMiddleStyle } onMomentumScrollEnd={ this.scrolledMiddle }>
+                { middleItems }
+              </Swiper>
+              <Swiper height={wh*0.47} key='bot' showsPagination={false} style={ styles.swiperBottomStyle } onMomentumScrollEnd={ this.scrolledBottom }>
                 { bottomItems }
               </Swiper>
             </View>
           </View>
 
-          <TouchableHighlight onPress={ this.toggleMenu.bind(this, 'outfits') } style={{ position: 'absolute', left: 10, top: 10, width: ICON_SIZE, height: ICON_SIZE }}>
-            <Image style={{ width: ICON_SIZE, height: ICON_SIZE }} source={ require('image!ic_hanger') } />
+          <TouchableHighlight onPress={ this.toggleMenu.bind(this, 'outfits') } style={[styles.iconTouchable, { left: 0, top: 0  }]}>
+            <Image style={ styles.iconImage } source={ require('image!ic_hanger') } />
           </TouchableHighlight>
 
-          <TouchableHighlight onPress={ this.toggleMenu.bind(this, 'accessories') } style={{ position: 'absolute', left: 10, top: 70, width: ICON_SIZE, height: ICON_SIZE }}>
-            <Image style={{ width: ICON_SIZE, height: ICON_SIZE }} source={ require('image!ic_purse') } />
+          <TouchableHighlight onPress={ this.toggleMenu.bind(this, 'accessories') } style={[styles.iconTouchable, { left: 0, top: 70 }]}>
+            <Image style={ styles.iconImage } source={ require('image!ic_purse') } />
           </TouchableHighlight>
 
           <View style={ this.state.showDesc ? styles.descriptionContainerOpen : styles.descriptionContainer }>
@@ -250,25 +265,25 @@ module.exports = React.createClass({
               <Text style={ styles.descriptionPrice }>{ topItem.price }</Text>
             </View>
             <View style={ styles.description }>
+              <Text style={ styles.descriptionName  }>{ middleItem.name }</Text>
+              <Text style={ styles.descriptionCopy  }>{ middleItem.description }</Text>
+              <TextLink style={ styles.descriptionLink } url={ middleItem.link }>{ middleItem.link }</TextLink>
+              <Text style={ styles.descriptionPrice }>{ middleItem.price }</Text>
+            </View>
+            <View style={ styles.description }>
               <Text style={ styles.descriptionName  }>{ bottomItem.name }</Text>
               <Text style={ styles.descriptionCopy  }>{ bottomItem.description }</Text>
               <TextLink style={ styles.descriptionLink } url={ bottomItem.link }>{ bottomItem.link }</TextLink>
               <Text style={ styles.descriptionPrice }>{ bottomItem.price }</Text>
             </View>
-            <View style={ styles.description }>
-              <Text style={ styles.descriptionName  }>{ outfitItem.name }</Text>
-              <Text style={ styles.descriptionCopy  }>{ outfitItem.description }</Text>
-              <TextLink style={ styles.descriptionLink } url={ outfitItem.link }>{ outfitItem.link }</TextLink>
-              <Text style={ styles.descriptionPrice }>{ outfitItem.price }</Text>
-            </View>
           </View>
 
-          <TouchableHighlight onPress={ this.toggleDesc } style={{ position: 'absolute', right: 10, top: 10, width: ICON_SIZE, height: ICON_SIZE }}>
-            <Image style={{ width: ICON_SIZE, height: ICON_SIZE }} source={ require('image!ic_tag') } />
+          <TouchableHighlight onPress={ this.toggleDesc } style={[styles.iconTouchable, { right: 0, top: 0 }]}>
+            <Image style={ styles.iconImage } source={ require('image!ic_tag') } />
           </TouchableHighlight>
 
-          <TouchableHighlight onPress={ this.handleShare } style={{ position: 'absolute', right: 10, top: 70, width: ICON_SIZE, height: ICON_SIZE }}>
-            <Image style={{ width: ICON_SIZE, height: ICON_SIZE }} source={ require('image!ic_heart') } />
+          <TouchableHighlight onPress={ this.handleShare } style={[styles.iconTouchable, { right: 0, top: 70 }]}>
+            <Image style={ styles.iconImage } source={ require('image!ic_heart') } />
           </TouchableHighlight>
 
           { this.state.rendering ?
@@ -285,14 +300,14 @@ module.exports = React.createClass({
           : null }
 
         { this.state.outfitIndex === -1 ?
-          <View style={ styles.startingOutfitPicker }>
+          <ScrollView style={ styles.startingOutfitPicker }>
             <Text style={ styles.startingOufitPickerHeading }>Where you headed?</Text>
             { data['OUTFITS'].map((outfit, index) => (
-              <TouchableOpacity key={ index } style={ styles.startingOutfitPickerTouchable } onPress={ this.selectItem.bind(this, index, 3) }>
+              <TouchableOpacity key={ index } style={ styles.startingOutfitPickerTouchable } onPress={ this.selectItem.bind(this, index, 4) }>
                 <Text style={ styles.startingOufitPickerButton }>{ outfit.name }</Text>
               </TouchableOpacity>
             )) }
-          </View>
+          </ScrollView>
           : null }
 
         { this.state.showContactModal ?
@@ -307,6 +322,10 @@ module.exports = React.createClass({
             <Image style={{ width: 250, height: 250 }} source={ this.state.imageDetail } />
           </Modal>
           : null }
+
+        <Animated.View style={[styles.launchContainer, { opacity: this.state.launchFadeAnim }]}>
+          <Image style={ styles.launchImage } source={ require('image!launch') } />
+        </Animated.View>
 
       </View>
     );
