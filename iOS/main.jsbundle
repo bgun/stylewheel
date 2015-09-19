@@ -51491,14 +51491,14 @@ Object.keys(componentOrElement));}
 
 module.exports = findDOMNode;
 });
-__d('stylewheel/app/main.js',["image!ic_hanger","image!ic_purse","image!ic_tag","image!ic_heart","image!instructions","Dimensions","ActivityView","react-native/Libraries/react-native/react-native.js","react-native-swiper/dist/index.js","lodash/index.js","stylewheel/app/Modal.js","stylewheel/app/TextLink.js","stylewheel/app/BraceletView.js","stylewheel/app/NecklaceView.js","stylewheel/app/PurseView.js","stylewheel/app/ScarfView.js","stylewheel/app/styles.js","stylewheel/app/data.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  var React=require('react-native/Libraries/react-native/react-native.js');
+__d('stylewheel/app/main.js',["image!ic_hanger","image!ic_purse","image!ic_tag","image!ic_heart","image!instructions","image!launch","Dimensions","ActivityView","react-native/Libraries/react-native/react-native.js","react-native-swiper/dist/index.js","lodash/index.js","stylewheel/app/Modal.js","stylewheel/app/TextLink.js","stylewheel/app/BraceletView.js","stylewheel/app/NecklaceView.js","stylewheel/app/PurseView.js","stylewheel/app/ScarfView.js","stylewheel/app/styles.js","stylewheel/app/data.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  var React=require('react-native/Libraries/react-native/react-native.js');
 var Swiper=require('react-native-swiper/dist/index.js');
 var Dimensions=require('Dimensions');
 var ActivityView=require('ActivityView');
 var _=require('lodash/index.js');var 
 
 
-Image=
+Animated=
 
 
 
@@ -51506,7 +51506,9 @@ Image=
 
 
 
-React.Image;var LayoutAnimation=React.LayoutAnimation;var PixelRatio=React.PixelRatio;var StatusBarIOS=React.StatusBarIOS;var Text=React.Text;var TouchableHighlight=React.TouchableHighlight;var TouchableOpacity=React.TouchableOpacity;var View=React.View;
+
+
+React.Animated;var Image=React.Image;var LayoutAnimation=React.LayoutAnimation;var PixelRatio=React.PixelRatio;var ScrollView=React.ScrollView;var StatusBarIOS=React.StatusBarIOS;var Text=React.Text;var TouchableHighlight=React.TouchableHighlight;var TouchableOpacity=React.TouchableOpacity;var View=React.View;
 
 
 var wh=Dimensions.get('window').height;
@@ -51523,8 +51525,6 @@ var ScarfView=require('stylewheel/app/ScarfView.js');
 var styles=require('stylewheel/app/styles.js');
 var data=require('stylewheel/app/data.js');
 
-var ICON_SIZE=50;
-
 
 var Menu=React.createClass({
 displayName:'Menu',
@@ -51535,7 +51535,7 @@ render:function(){var _this=this;
 var outfitsSubmenu=
 React.createElement(View,{style:styles.menuOutfits},
 data['OUTFITS'].map(function(outfit,index){return (
-React.createElement(TouchableOpacity,{key:index,onPress:_this.handlePress.bind(_this,index,3)},
+React.createElement(TouchableOpacity,{key:index,onPress:_this.handlePress.bind(_this,index,4)},
 React.createElement(Text,{style:styles.menuButton},outfit.name)));}));
 
 
@@ -51543,20 +51543,12 @@ React.createElement(Text,{style:styles.menuButton},outfit.name)));}));
 
 var accessoriesSubmenu=
 React.createElement(View,{style:styles.menuAccessories},
-React.createElement(Text,{style:styles.menuHeading},'TOP'),
+React.createElement(Text,{style:styles.menuHeading},'TOP ITEM'),
 React.createElement(TouchableOpacity,{onPress:this.handlePress.bind(this,'SCARVES',1)},
 React.createElement(Text,{style:styles.menuButton},'Scarf')),
 
 React.createElement(TouchableOpacity,{onPress:this.handlePress.bind(this,'NECKLACES',1)},
-React.createElement(Text,{style:styles.menuButton},'Necklace')),
-
-
-React.createElement(Text,{style:styles.menuHeading},'BOTTOM'),
-React.createElement(TouchableOpacity,{onPress:this.handlePress.bind(this,'BRACELETS',2)},
-React.createElement(Text,{style:styles.menuButton},'Bracelet')),
-
-React.createElement(TouchableOpacity,{onPress:this.handlePress.bind(this,'PURSES',2)},
-React.createElement(Text,{style:styles.menuButton},'Purse')));
+React.createElement(Text,{style:styles.menuButton},'Necklace')));
 
 
 
@@ -51579,27 +51571,42 @@ displayName:'App',
 
 getInitialState:function(){
 return {
+launchFadeAnim:new Animated.Value(1),
 shownInstructions:false,
 imageDetail:'',
 outfitIndex:-1,
-showMenu:false,
-showDesc:false,
 showContactModal:null,
+showDesc:false,
+showMenu:false,
+showLaunch:true,
 topType:'NECKLACES',
 topIndex:0,
-bottomType:'BRACELETS',
+middleType:'BRACELETS',
+middleIndex:0,
+bottomType:'PURSES',
 bottomIndex:0};},
 
 
 
 componentDidMount:function(){
-StatusBarIOS.setHidden(true);},
+var t=this;
+StatusBarIOS.setHidden(true);
+setTimeout(function(){
+Animated.timing(
+t.state.launchFadeAnim,
+{toValue:0}).
+start();},
+3000);},
 
 
 scrolledTop:function(e,state,context){
 this.setState({
 topIndex:context.state.index});},
 
+
+scrolledMiddle:function(e,state,context){
+this.setState({
+middleIndex:context.state.index});},
 
 
 scrolledBottom:function(e,state,context){
@@ -51624,27 +51631,29 @@ showDesc:!this.state.showDesc});},
 
 getRenderImage:function(){
 var topItemType=this.state.topType === 'SCARVES'?'scarves':'necklace';
-var botItemType=this.state.bottomType === 'PURSES'?'purses':'bracelet';
-var layer1='outfit' + (this.state.outfitIndex + 1);
-var layer2=topItemType + this.state.topIndex;
+var midItemType='bracelets';
+var botItemType='purses';
+var layer0='outfit' + (this.state.outfitIndex + 1);
+var layer1=topItemType + this.state.topIndex;
+var layer1=midItemType + this.state.middleIndex;
 var layer3=botItemType + this.state.bottomIndex;
 return 'http://stylewheel-backend.herokuapp.com/render?layer1=' + layer1 + '&layer2=' + layer2 + '&layer3=' + layer3;},
 
 
 selectItem:function(itemGroup,track){
-
 this.setState({
 topType:track === 1?itemGroup:this.state.topType,
 topIndex:track === 1?1:this.state.topIndex,
-bottomType:track === 2?itemGroup:this.state.bottomType,
-bottomIndex:track === 2?1:this.state.bottomIndex,
-outfitIndex:track === 3?itemGroup:this.state.outfitIndex});
+middleType:track === 2?itemGroup:this.state.middleType,
+middleIndex:track === 2?1:this.state.middleIndex,
+bottomType:track === 3?itemGroup:this.state.bottomType,
+bottomIndex:track === 3?1:this.state.bottomIndex,
+outfitIndex:track === 4?itemGroup:this.state.outfitIndex});
 
 this.toggleMenu();},
 
 
 handleContactButton:function(){
-console.log("contact us button pressed");
 this.setState({
 showContactModal:true});},
 
@@ -51705,10 +51714,13 @@ SCARVES:data['SCARVES'].map(function(item,index){return React.createElement(Scar
 
 
 var topItems=itemGroups[this.state.topType];
+var middleItems=itemGroups[this.state.middleType];
 var bottomItems=itemGroups[this.state.bottomType];
 
 var topItem=data[this.state.topType][this.state.topIndex];
+var middleItem=data[this.state.middleType][this.state.middleIndex];
 var bottomItem=data[this.state.bottomType][this.state.bottomIndex];
+
 var outfitItem=this.state.outfitIndex >= 0?data['OUTFITS'][this.state.outfitIndex]:{};
 
 return (
@@ -51718,21 +51730,24 @@ React.createElement(View,{style:[styles.mainContainer,this.state.showMenu?styles
 React.createElement(View,{ref:'outfit',style:styles.outfitContainer},
 React.createElement(Image,{style:styles.outfitImageStyle,source:outfitItem.image}),
 React.createElement(View,{style:styles.swipers},
-React.createElement(Swiper,{height:wh / 2 - 20,key:'top',showsPagination:false,style:styles.swiperTopStyle,onMomentumScrollEnd:this.scrolledTop},
+React.createElement(Swiper,{height:wh * 0.43,key:'top',showsPagination:false,style:styles.swiperTopStyle,onMomentumScrollEnd:this.scrolledTop},
 topItems),
 
-React.createElement(Swiper,{height:wh / 2 - 20,key:'bot',showsPagination:false,style:styles.swiperBottomStyle,onMomentumScrollEnd:this.scrolledBottom},
+React.createElement(Swiper,{height:wh * 0.1,key:'mid',showsPagination:false,style:styles.swiperMiddleStyle,onMomentumScrollEnd:this.scrolledMiddle},
+middleItems),
+
+React.createElement(Swiper,{height:wh * 0.47,key:'bot',showsPagination:false,style:styles.swiperBottomStyle,onMomentumScrollEnd:this.scrolledBottom},
 bottomItems))),
 
 
 
 
-React.createElement(TouchableHighlight,{onPress:this.toggleMenu.bind(this,'outfits'),style:{position:'absolute',left:10,top:10,width:ICON_SIZE,height:ICON_SIZE}},
-React.createElement(Image,{style:{width:ICON_SIZE,height:ICON_SIZE},source:require('image!ic_hanger')})),
+React.createElement(TouchableHighlight,{onPress:this.toggleMenu.bind(this,'outfits'),style:[styles.iconTouchable,{left:0,top:0}]},
+React.createElement(Image,{style:styles.iconImage,source:require('image!ic_hanger')})),
 
 
-React.createElement(TouchableHighlight,{onPress:this.toggleMenu.bind(this,'accessories'),style:{position:'absolute',left:10,top:70,width:ICON_SIZE,height:ICON_SIZE}},
-React.createElement(Image,{style:{width:ICON_SIZE,height:ICON_SIZE},source:require('image!ic_purse')})),
+React.createElement(TouchableHighlight,{onPress:this.toggleMenu.bind(this,'accessories'),style:[styles.iconTouchable,{left:0,top:70}]},
+React.createElement(Image,{style:styles.iconImage,source:require('image!ic_purse')})),
 
 
 React.createElement(View,{style:this.state.showDesc?styles.descriptionContainerOpen:styles.descriptionContainer},
@@ -51743,25 +51758,25 @@ React.createElement(TextLink,{style:styles.descriptionLink,url:topItem.link},top
 React.createElement(Text,{style:styles.descriptionPrice},topItem.price)),
 
 React.createElement(View,{style:styles.description},
+React.createElement(Text,{style:styles.descriptionName},middleItem.name),
+React.createElement(Text,{style:styles.descriptionCopy},middleItem.description),
+React.createElement(TextLink,{style:styles.descriptionLink,url:middleItem.link},middleItem.link),
+React.createElement(Text,{style:styles.descriptionPrice},middleItem.price)),
+
+React.createElement(View,{style:styles.description},
 React.createElement(Text,{style:styles.descriptionName},bottomItem.name),
 React.createElement(Text,{style:styles.descriptionCopy},bottomItem.description),
 React.createElement(TextLink,{style:styles.descriptionLink,url:bottomItem.link},bottomItem.link),
-React.createElement(Text,{style:styles.descriptionPrice},bottomItem.price)),
-
-React.createElement(View,{style:styles.description},
-React.createElement(Text,{style:styles.descriptionName},outfitItem.name),
-React.createElement(Text,{style:styles.descriptionCopy},outfitItem.description),
-React.createElement(TextLink,{style:styles.descriptionLink,url:outfitItem.link},outfitItem.link),
-React.createElement(Text,{style:styles.descriptionPrice},outfitItem.price))),
+React.createElement(Text,{style:styles.descriptionPrice},bottomItem.price))),
 
 
 
-React.createElement(TouchableHighlight,{onPress:this.toggleDesc,style:{position:'absolute',right:10,top:10,width:ICON_SIZE,height:ICON_SIZE}},
-React.createElement(Image,{style:{width:ICON_SIZE,height:ICON_SIZE},source:require('image!ic_tag')})),
+React.createElement(TouchableHighlight,{onPress:this.toggleDesc,style:[styles.iconTouchable,{right:0,top:0}]},
+React.createElement(Image,{style:styles.iconImage,source:require('image!ic_tag')})),
 
 
-React.createElement(TouchableHighlight,{onPress:this.handleShare,style:{position:'absolute',right:10,top:70,width:ICON_SIZE,height:ICON_SIZE}},
-React.createElement(Image,{style:{width:ICON_SIZE,height:ICON_SIZE},source:require('image!ic_heart')})),
+React.createElement(TouchableHighlight,{onPress:this.handleShare,style:[styles.iconTouchable,{right:0,top:70}]},
+React.createElement(Image,{style:styles.iconImage,source:require('image!ic_heart')})),
 
 
 this.state.rendering?
@@ -51778,10 +51793,10 @@ React.createElement(Image,{style:styles.instructionImage,source:require('image!i
 null,
 
 this.state.outfitIndex === -1?
-React.createElement(View,{style:styles.startingOutfitPicker},
+React.createElement(ScrollView,{style:styles.startingOutfitPicker},
 React.createElement(Text,{style:styles.startingOufitPickerHeading},'Where you headed?'),
 data['OUTFITS'].map(function(outfit,index){return (
-React.createElement(TouchableOpacity,{key:index,style:styles.startingOutfitPickerTouchable,onPress:_this2.selectItem.bind(_this2,index,3)},
+React.createElement(TouchableOpacity,{key:index,style:styles.startingOutfitPickerTouchable,onPress:_this2.selectItem.bind(_this2,index,4)},
 React.createElement(Text,{style:styles.startingOufitPickerButton},outfit.name)));})):
 
 
@@ -51799,7 +51814,10 @@ this.state.imageDetail?
 React.createElement(Modal,{onClose:this.closeImageDetail},
 React.createElement(Image,{style:{width:250,height:250},source:this.state.imageDetail})):
 
-null));}});
+null,
+
+React.createElement(Animated.View,{style:[styles.launchContainer,{opacity:this.state.launchFadeAnim}]},
+React.createElement(Image,{style:styles.launchImage,source:require('image!launch')}))));}});
 });
 __d('react-native-swiper/dist/index.js',["react-native/Libraries/react-native/react-native.js","react-timer-mixin/TimerMixin.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  'use strict';
 
@@ -64687,8 +64705,10 @@ module.exports = React.createClass({
 render:function(){
 return (
 React.createElement(View,{style:styles.modal},
+React.createElement(TouchableOpacity,{onPress:this.props.onClose},
 React.createElement(View,{style:styles.modalContent},
-this.props.children),
+this.props.children)),
+
 
 React.createElement(TouchableOpacity,{onPress:this.props.onClose},React.createElement(Text,{style:styles.modalCloseButton},'Close'))));}});
 });
@@ -64702,7 +64722,7 @@ console.log("menu width",menuWidth);
 
 var wh=Dimensions.get('window').height;
 var ww=Dimensions.get('window').width;
-var menuWidth=ww / PixelRatio.get();
+var menuWidth=ww * 0.6;
 console.log(wh,ww);
 
 var SW_GREEN='#9acdb2';
@@ -64710,10 +64730,10 @@ var SW_ORANGE='#f6bb84';
 var SW_PINK='#c07aaa';
 var SW_PURPLE='#362045';
 
+var ICON_SIZE=50;
+var ICON_PAD=10;
+
 module.exports = StyleSheet.create({
-visible:{},
-
-
 appContainer:{
 backgroundColor:'#FFFFFF',
 position:'absolute',
@@ -64727,7 +64747,7 @@ backgroundColor:'#FEF',
 height:wh,
 position:'absolute',
 top:0,
-right:menuWidth,
+left:0,
 bottom:0,
 width:menuWidth},
 
@@ -64752,6 +64772,7 @@ backgroundColor:'rgba(255,255,255,0.5)',
 color:SW_PURPLE,
 fontSize:17,
 fontWeight:'300',
+height:40,
 marginBottom:1,
 paddingHorizontal:12,
 paddingVertical:10},
@@ -64763,7 +64784,6 @@ fontSize:16,
 fontWeight:'300',
 paddingHorizontal:12,
 paddingVertical:20},
-
 
 mainContainer:{
 position:'absolute',
@@ -64802,6 +64822,8 @@ bottom:0},
 
 swiperTopStyle:{},
 
+swiperMiddleStyle:{},
+
 swiperBottomStyle:{},
 
 
@@ -64824,8 +64846,6 @@ color:'#3366FF',
 fontSize:15,
 fontWeight:'bold',
 textAlign:'center'},
-
-
 
 
 
@@ -64877,23 +64897,23 @@ topItemImageStyle:{
 height:wh,
 width:ww,
 position:'absolute',
-top:-4,
+top:2,
 left:4},
 
-purseImageStyle:{
-height:wh,
-width:ww,
-position:'absolute',
-top:-(ww * 0.8) - 8,
-left:0},
-
-braceletImageStyle:{
+middleImageStyle:{
 alignItems:'stretch',
 height:wh,
 width:ww,
 position:'absolute',
-top:-(ww * 0.83),
+top:-(wh * 0.43),
 left:3},
+
+bottomImageStyle:{
+height:wh,
+width:ww,
+position:'absolute',
+top:-(wh * 0.53) + 10,
+left:0},
 
 modal:{
 alignItems:'center',
@@ -64923,15 +64943,13 @@ modalContent:{
 backgroundColor:'#FFFFFF',
 borderRadius:5,
 margin:20,
-padding:50},
+padding:20},
 
 
 startingOutfitPicker:{
-alignItems:'center',
 backgroundColor:SW_PURPLE,
 flexDirection:'column',
 height:wh,
-justifyContent:'center',
 position:'absolute',
 top:0,
 left:0,
@@ -64941,15 +64959,15 @@ startingOutfitPickerTouchable:{
 backgroundColor:'#FFFFFF',
 borderColor:SW_PINK,
 borderBottomWidth:1,
-flex:2},
+height:wh / 12},
 
 startingOufitPickerHeading:{
 color:'#FFFFFF',
 flex:3,
 fontSize:20,
 fontWeight:"600",
-lineHeight:wh / 12,
 marginBottom:1,
+padding:20,
 textAlign:'center'},
 
 startingOufitPickerButton:{
@@ -64970,7 +64988,32 @@ height:wh,
 position:'absolute',
 top:0,
 left:0,
-width:ww}});
+width:ww},
+
+
+iconTouchable:{
+height:ICON_SIZE + 20,
+padding:10,
+position:'absolute',
+width:ICON_SIZE + 20},
+
+iconImage:{
+height:ICON_SIZE,
+width:ICON_SIZE},
+
+
+launchContainer:{
+alignItems:'center',
+backgroundColor:'#FFFFFF',
+flex:1,
+height:wh,
+justifyContent:'center',
+opacity:1,
+width:ww},
+
+launchImage:{
+height:350,
+width:270}});
 });
 __d('stylewheel/app/TextLink.js',["react-native/Libraries/react-native/react-native.js","stylewheel/app/styles.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  Object.defineProperty(exports,'__esModule',{value:true});var _createClass=(function(){function defineProperties(target,props){for(var i=0;i < props.length;i++) {var descriptor=props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if('value' in descriptor)descriptor.writable = true;Object.defineProperty(target,descriptor.key,descriptor);}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor;};})();var _get=function get(object,property,receiver){if(object === null)object = Function.prototype;var desc=Object.getOwnPropertyDescriptor(object,property);if(desc === undefined){var parent=Object.getPrototypeOf(object);if(parent === null){return undefined;}else {return get(parent,property,receiver);}}else if('value' in desc){return desc.value;}else {var getter=desc.get;if(getter === undefined){return undefined;}return getter.call(receiver);}};function _interopRequireDefault(obj){return obj && obj.__esModule?obj:{'default':obj};}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function');}}function _inherits(subClass,superClass){if(typeof superClass !== 'function' && superClass !== null){throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__ = superClass;}var _reactNative=require(
 
@@ -65007,7 +65050,7 @@ function render(){
 return (
 _reactNative2.default.createElement(TouchableOpacity,{onPress:this.props.handlePress},
 _reactNative2.default.createElement(View,{style:_stylesJs2.default.itemViewStyle},
-_reactNative2.default.createElement(Image,{style:_stylesJs2.default.braceletImageStyle,source:this.props.item.image}))));}}]);return BraceletView;})(_reactNative2.default.Component);exports.default = BraceletView;module.exports = exports.default;
+_reactNative2.default.createElement(Image,{style:_stylesJs2.default.middleImageStyle,source:this.props.item.image}))));}}]);return BraceletView;})(_reactNative2.default.Component);exports.default = BraceletView;module.exports = exports.default;
 });
 __d('stylewheel/app/NecklaceView.js',["react-native/Libraries/react-native/react-native.js","stylewheel/app/styles.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  function _interopRequireDefault(obj){return obj && obj.__esModule?obj:{'default':obj};}var _reactNative=require(
 
@@ -65040,7 +65083,7 @@ function render(){
 return (
 _reactNative2.default.createElement(TouchableOpacity,{onPress:this.props.handlePress},
 _reactNative2.default.createElement(View,{style:_stylesJs2.default.itemViewStyle},
-_reactNative2.default.createElement(Image,{style:_stylesJs2.default.purseImageStyle,source:this.props.item.image}))));}}]);return PurseView;})(_reactNative2.default.Component);exports.default = PurseView;module.exports = exports.default;
+_reactNative2.default.createElement(Image,{style:_stylesJs2.default.bottomImageStyle,source:this.props.item.image}))));}}]);return PurseView;})(_reactNative2.default.Component);exports.default = PurseView;module.exports = exports.default;
 });
 __d('stylewheel/app/ScarfView.js',["react-native/Libraries/react-native/react-native.js","stylewheel/app/styles.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  Object.defineProperty(exports,'__esModule',{value:true});var _createClass=(function(){function defineProperties(target,props){for(var i=0;i < props.length;i++) {var descriptor=props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if('value' in descriptor)descriptor.writable = true;Object.defineProperty(target,descriptor.key,descriptor);}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor;};})();var _get=function get(object,property,receiver){if(object === null)object = Function.prototype;var desc=Object.getOwnPropertyDescriptor(object,property);if(desc === undefined){var parent=Object.getPrototypeOf(object);if(parent === null){return undefined;}else {return get(parent,property,receiver);}}else if('value' in desc){return desc.value;}else {var getter=desc.get;if(getter === undefined){return undefined;}return getter.call(receiver);}};function _interopRequireDefault(obj){return obj && obj.__esModule?obj:{'default':obj};}function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function');}}function _inherits(subClass,superClass){if(typeof superClass !== 'function' && superClass !== null){throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__ = superClass;}var _reactNative=require(
 
@@ -65059,7 +65102,7 @@ _reactNative2.default.createElement(TouchableOpacity,{onPress:this.props.handleP
 _reactNative2.default.createElement(View,{style:_stylesJs2.default.itemViewStyle},
 _reactNative2.default.createElement(Image,{style:_stylesJs2.default.topItemImageStyle,source:this.props.item.image}))));}}]);return ScarfView;})(_reactNative2.default.Component);exports.default = ScarfView;module.exports = exports.default;
 });
-__d('stylewheel/app/data.js',["image!_blank","image!_blank","image!bracelet1","image!bracelet1-luna","image!bracelet2","image!bracelet2-piper","image!bracelet3","image!bracelet3-abby","image!bracelet4","image!bracelet4-renegade","image!bracelet5","image!bracelet5-layne","image!bracelet6","image!bracelet6-amelie","image!bracelet7","image!bracelet7-becca","image!bracelet8","image!bracelet8-isabelle","image!bracelet9","image!bracelet9-sally","image!_blank","image!_blank","image!necklace1","image!necklace1-pegasus","image!necklace2","image!necklace2-alexis","image!necklace3","image!necklace3-courtney","image!necklace4","image!necklace4-fanella","image!necklace5","image!necklace5-kendra","image!necklace6","image!necklace6-sadie","image!necklace7","image!necklace7-livvy","image!necklace8","image!necklace8-amanda","image!necklace9","image!outfit1","image!outfit2","image!outfit3","image!outfit4","image!outfit5","image!outfit6","image!outfit7","image!outfit8","image!outfit9","image!outfit10","image!_blank","image!_blank","image!purses1","image!purses1-goldie","image!purses2","image!purses2-lizzy","image!purses3","image!purses3-martha","image!purses4","image!purses4-sparkle","image!purses5","image!purses5-leona","image!purses6","image!purses6-blanca","image!purses7","image!purses7-citron","image!purses8","image!purses8-elaine","image!purses9","image!purses9-azure","image!_blank","image!_blank","image!scarves1","image!scarves1-christine","image!scarves2","image!scarves2-carrie","image!scarves3","image!scarves3-jill","image!scarves4","image!scarves4-nina","image!scarves5","image!scarves5-katy","image!scarves6","image!scarves6-jessica","image!scarves7","image!scarves7-ashley","image!scarves8","image!scarves8-lilly","image!scarves9","image!scarves9-mary","react-native/Libraries/react-native/react-native.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  var React=require('react-native/Libraries/react-native/react-native.js');
+__d('stylewheel/app/data.js',["image!_blank","image!_blank","image!bracelet1","image!bracelet1-luna","image!bracelet2","image!bracelet2-piper","image!bracelet3","image!bracelet3-abby","image!bracelet4","image!bracelet4-renegade","image!bracelet5","image!bracelet5-layne","image!bracelet6","image!bracelet6-amelie","image!bracelet7","image!bracelet7-becca","image!bracelet8","image!bracelet8-isabelle","image!bracelet9","image!bracelet9-sally","image!_blank","image!_blank","image!necklace1","image!necklace1-pegasus","image!necklace2","image!necklace2-alexis","image!necklace3","image!necklace3-courtney","image!necklace4","image!necklace4-fanella","image!necklace5","image!necklace5-kendra","image!necklace6","image!necklace6-sadie","image!necklace7","image!necklace7-livvy","image!necklace8","image!necklace8-amanda","image!necklace9","image!necklace9-lauren","image!outfit1","image!outfit2","image!outfit3","image!outfit4","image!outfit5","image!outfit6","image!outfit7","image!outfit8","image!outfit9","image!outfit10","image!_blank","image!_blank","image!purses1","image!purses1-goldie","image!purses2","image!purses2-lizzy","image!purses3","image!purses3-martha","image!purses4","image!purses4-sparkle","image!purses5","image!purses5-leona","image!purses6","image!purses6-blanca","image!purses7","image!purses7-citron","image!purses8","image!purses8-elaine","image!purses9","image!purses9-azure","image!_blank","image!_blank","image!scarves1","image!scarves1-christine","image!scarves2","image!scarves2-carrie","image!scarves3","image!scarves3-jill","image!scarves4","image!scarves4-nina","image!scarves5","image!scarves5-katy","image!scarves6","image!scarves6-jessica","image!scarves7","image!scarves7-ashley","image!scarves8","image!scarves8-lilly","image!scarves9","image!scarves9-mary","react-native/Libraries/react-native/react-native.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  var React=require('react-native/Libraries/react-native/react-native.js');
 
 var BRACELETS=[
 {
@@ -65220,6 +65263,7 @@ link:'http://prettynecklace.com'},
 {
 name:'Lauren',
 image:require('image!necklace9'),
+image_detail:require('image!necklace9-lauren'),
 description:'Double or triple this endless strand up for a chic, layered look.',
 price:'$90',
 link:'http://prettynecklace.com'}];
@@ -65476,73 +65520,75 @@ __d('image!_blank',[],function(global, require, requireDynamic, requireLazy, mod
 });
 __d('image!bracelet1',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/bracelet1.imageset/bracelet1.png","uri":"bracelet1","width":700,"height":1050,"deprecated":true};
 });
-__d('image!bracelet1-luna',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/bracelet1-luna.imageset/bracelet1-luna.jpg","uri":"bracelet1-luna","width":236,"height":357,"deprecated":true};
+__d('image!bracelet1-luna',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/bracelet1-luna.imageset/bracelet1-luna.jpg","uri":"bracelet1-luna","width":400,"height":400,"deprecated":true};
 });
 __d('image!bracelet2',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/bracelet2.imageset/bracelet2.png","uri":"bracelet2","width":700,"height":1050,"deprecated":true};
 });
-__d('image!bracelet2-piper',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/bracelet2-piper.imageset/bracelet2-piper.jpg","uri":"bracelet2-piper","width":236,"height":177,"deprecated":true};
+__d('image!bracelet2-piper',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/bracelet2-piper.imageset/bracelet2-piper.jpg","uri":"bracelet2-piper","width":236,"height":236,"deprecated":true};
 });
 __d('image!bracelet3',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/bracelet3.imageset/bracelet3.png","uri":"bracelet3","width":700,"height":1050,"deprecated":true};
 });
-__d('image!bracelet3-abby',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/bracelet3-abby.imageset/bracelet3-abby.jpg","uri":"bracelet3-abby","width":420,"height":560,"deprecated":true};
+__d('image!bracelet3-abby',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/bracelet3-abby.imageset/bracelet3-abby.jpg","uri":"bracelet3-abby","width":500,"height":500,"deprecated":true};
 });
 __d('image!bracelet4',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/bracelet4.imageset/bracelet4.png","uri":"bracelet4","width":700,"height":1050,"deprecated":true};
 });
-__d('image!bracelet4-renegade',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/bracelet4-renegade.imageset/bracelet4-renegade.jpg","uri":"bracelet4-renegade","width":450,"height":682,"deprecated":true};
+__d('image!bracelet4-renegade',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/bracelet4-renegade.imageset/bracelet4-renegade.jpg","uri":"bracelet4-renegade","width":450,"height":450,"deprecated":true};
 });
 __d('image!bracelet5',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/bracelet5.imageset/bracelet5.png","uri":"bracelet5","width":700,"height":1050,"deprecated":true};
 });
-__d('image!bracelet5-layne',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/bracelet5-layne.imageset/bracelet5-layne.jpg","uri":"bracelet5-layne","width":336,"height":596,"deprecated":true};
+__d('image!bracelet5-layne',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/bracelet5-layne.imageset/bracelet5-layne.jpg","uri":"bracelet5-layne","width":450,"height":450,"deprecated":true};
 });
 __d('image!bracelet6',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/bracelet6.imageset/bracelet6.png","uri":"bracelet6","width":700,"height":1050,"deprecated":true};
 });
-__d('image!bracelet6-amelie',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/bracelet6-amelie.imageset/bracelet6-amelie.jpg","uri":"bracelet6-amelie","width":736,"height":1114,"deprecated":true};
+__d('image!bracelet6-amelie',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/bracelet6-amelie.imageset/bracelet6-amelie.jpg","uri":"bracelet6-amelie","width":500,"height":500,"deprecated":true};
 });
 __d('image!bracelet7',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/bracelet7.imageset/bracelet7.png","uri":"bracelet7","width":700,"height":1050,"deprecated":true};
 });
-__d('image!bracelet7-becca',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/bracelet7-becca.imageset/bracelet7-becca.jpg","uri":"bracelet7-becca","width":450,"height":682,"deprecated":true};
+__d('image!bracelet7-becca',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/bracelet7-becca.imageset/bracelet7-becca.jpg","uri":"bracelet7-becca","width":500,"height":500,"deprecated":true};
 });
 __d('image!bracelet8',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/bracelet8.imageset/bracelet8.png","uri":"bracelet8","width":700,"height":1050,"deprecated":true};
 });
-__d('image!bracelet8-isabelle',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/bracelet8-isabelle.imageset/bracelet8-isabelle.jpg","uri":"bracelet8-isabelle","width":450,"height":682,"deprecated":true};
+__d('image!bracelet8-isabelle',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/bracelet8-isabelle.imageset/bracelet8-isabelle.jpg","uri":"bracelet8-isabelle","width":500,"height":500,"deprecated":true};
 });
 __d('image!bracelet9',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/bracelet9.imageset/bracelet9.png","uri":"bracelet9","width":700,"height":1050,"deprecated":true};
 });
-__d('image!bracelet9-sally',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/bracelet9-sally.imageset/bracelet9-sally.jpg","uri":"bracelet9-sally","width":164,"height":205,"deprecated":true};
+__d('image!bracelet9-sally',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/bracelet9-sally.imageset/bracelet9-sally.jpg","uri":"bracelet9-sally","width":205,"height":205,"deprecated":true};
 });
 __d('image!necklace1',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/necklace1.imageset/necklace1.png","uri":"necklace1","width":700,"height":1050,"deprecated":true};
 });
-__d('image!necklace1-pegasus',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/necklace1-pegasus.imageset/necklace1-pegasus.jpg","uri":"necklace1-pegasus","width":450,"height":682,"deprecated":true};
+__d('image!necklace1-pegasus',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/necklace1-pegasus.imageset/necklace1-pegasus.jpg","uri":"necklace1-pegasus","width":500,"height":500,"deprecated":true};
 });
 __d('image!necklace2',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/necklace2.imageset/necklace2.png","uri":"necklace2","width":700,"height":1050,"deprecated":true};
 });
-__d('image!necklace2-alexis',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/necklace2-alexis.imageset/necklace2-alexis.jpg","uri":"necklace2-alexis","width":231,"height":321,"deprecated":true};
+__d('image!necklace2-alexis',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/necklace2-alexis.imageset/necklace2-alexis.jpg","uri":"necklace2-alexis","width":350,"height":350,"deprecated":true};
 });
 __d('image!necklace3',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/necklace3.imageset/necklace3.png","uri":"necklace3","width":700,"height":1050,"deprecated":true};
 });
-__d('image!necklace3-courtney',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/necklace3-courtney.imageset/necklace3-courtney.jpg","uri":"necklace3-courtney","width":300,"height":300,"deprecated":true};
+__d('image!necklace3-courtney',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/necklace3-courtney.imageset/necklace3-courtney.jpg","uri":"necklace3-courtney","width":350,"height":350,"deprecated":true};
 });
 __d('image!necklace4',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/necklace4.imageset/necklace4.png","uri":"necklace4","width":700,"height":1050,"deprecated":true};
 });
-__d('image!necklace4-fanella',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/necklace4-fanella.imageset/necklace4-fanella.jpg","uri":"necklace4-fanella","width":450,"height":682,"deprecated":true};
+__d('image!necklace4-fanella',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/necklace4-fanella.imageset/necklace4-fanella.jpg","uri":"necklace4-fanella","width":500,"height":500,"deprecated":true};
 });
 __d('image!necklace5',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/necklace5.imageset/necklace5.png","uri":"necklace5","width":700,"height":1050,"deprecated":true};
 });
-__d('image!necklace5-kendra',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/necklace5-kendra.imageset/necklace5-kendra.jpg","uri":"necklace5-kendra","width":800,"height":1000,"deprecated":true};
+__d('image!necklace5-kendra',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/necklace5-kendra.imageset/necklace5-kendra.jpg","uri":"necklace5-kendra","width":500,"height":500,"deprecated":true};
 });
 __d('image!necklace6',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/necklace6.imageset/necklace6.png","uri":"necklace6","width":700,"height":1050,"deprecated":true};
 });
-__d('image!necklace6-sadie',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/necklace6-sadie.imageset/necklace6-sadie.jpg","uri":"necklace6-sadie","width":453,"height":487,"deprecated":true};
+__d('image!necklace6-sadie',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/necklace6-sadie.imageset/necklace6-sadie.jpg","uri":"necklace6-sadie","width":500,"height":500,"deprecated":true};
 });
 __d('image!necklace7',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/necklace7.imageset/necklace7.png","uri":"necklace7","width":700,"height":1050,"deprecated":true};
 });
-__d('image!necklace7-livvy',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/necklace7-livvy.imageset/necklace7-livvy.jpg","uri":"necklace7-livvy","width":314,"height":370,"deprecated":true};
+__d('image!necklace7-livvy',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/necklace7-livvy.imageset/necklace7-livvy.jpg","uri":"necklace7-livvy","width":400,"height":400,"deprecated":true};
 });
 __d('image!necklace8',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/necklace8.imageset/necklace8.png","uri":"necklace8","width":700,"height":1050,"deprecated":true};
 });
 __d('image!necklace8-amanda',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/necklace8-amanda.imageset/necklace8-amanda.jpg","uri":"necklace8-amanda","width":300,"height":300,"deprecated":true};
 });
 __d('image!necklace9',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/necklace9.imageset/necklace9.png","uri":"necklace9","width":700,"height":1050,"deprecated":true};
+});
+__d('image!necklace9-lauren',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/necklace9-lauren.imageset/necklace9-lauren.jpg","uri":"necklace9-lauren","width":400,"height":400,"deprecated":true};
 });
 __d('image!outfit1',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/outfit1.imageset/outfit1.png","uri":"outfit1","width":700,"height":1050,"deprecated":true};
 });
@@ -65566,35 +65612,35 @@ __d('image!outfit10',[],function(global, require, requireDynamic, requireLazy, m
 });
 __d('image!purses1',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/purses1.imageset/purses1.png","uri":"purses1","width":700,"height":1050,"deprecated":true};
 });
-__d('image!purses1-goldie',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/purses1-goldie.imageset/purses1-goldie.jpg","uri":"purses1-goldie","width":300,"height":300,"deprecated":true};
+__d('image!purses1-goldie',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/purses1-goldie.imageset/purses1-goldie.jpg","uri":"purses1-goldie","width":400,"height":400,"deprecated":true};
 });
 __d('image!purses2',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/purses2.imageset/purses2.png","uri":"purses2","width":700,"height":1050,"deprecated":true};
 });
-__d('image!purses2-lizzy',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/purses2-lizzy.imageset/purses2-lizzy.jpg","uri":"purses2-lizzy","width":300,"height":300,"deprecated":true};
+__d('image!purses2-lizzy',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/purses2-lizzy.imageset/purses2-lizzy.jpg","uri":"purses2-lizzy","width":400,"height":400,"deprecated":true};
 });
 __d('image!purses3',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/purses3.imageset/purses3.png","uri":"purses3","width":700,"height":1050,"deprecated":true};
 });
-__d('image!purses3-martha',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/purses3-martha.imageset/purses3-martha.jpg","uri":"purses3-martha","width":236,"height":314,"deprecated":true};
+__d('image!purses3-martha',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/purses3-martha.imageset/purses3-martha.jpg","uri":"purses3-martha","width":314,"height":314,"deprecated":true};
 });
 __d('image!purses4',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/purses4.imageset/purses4.png","uri":"purses4","width":700,"height":1050,"deprecated":true};
 });
-__d('image!purses4-sparkle',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/purses4-sparkle.imageset/purses4-sparkle.jpg","uri":"purses4-sparkle","width":265,"height":353,"deprecated":true};
+__d('image!purses4-sparkle',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/purses4-sparkle.imageset/purses4-sparkle.jpg","uri":"purses4-sparkle","width":300,"height":300,"deprecated":true};
 });
 __d('image!purses5',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/purses5.imageset/purses5.png","uri":"purses5","width":700,"height":1050,"deprecated":true};
 });
-__d('image!purses5-leona',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/purses5-leona.imageset/purses5-leona.jpg","uri":"purses5-leona","width":350,"height":537,"deprecated":true};
+__d('image!purses5-leona',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/purses5-leona.imageset/purses5-leona.jpg","uri":"purses5-leona","width":350,"height":350,"deprecated":true};
 });
 __d('image!purses6',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/purses6.imageset/purses6.png","uri":"purses6","width":700,"height":1050,"deprecated":true};
 });
-__d('image!purses6-blanca',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/purses6-blanca.imageset/purses6-blanca.jpg","uri":"purses6-blanca","width":522,"height":280,"deprecated":true};
+__d('image!purses6-blanca',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/purses6-blanca.imageset/purses6-blanca.jpg","uri":"purses6-blanca","width":522,"height":522,"deprecated":true};
 });
 __d('image!purses7',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/purses7.imageset/purses7.png","uri":"purses7","width":700,"height":1050,"deprecated":true};
 });
-__d('image!purses7-citron',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/purses7-citron.imageset/purses7-citron.jpg","uri":"purses7-citron","width":845,"height":1280,"deprecated":true};
+__d('image!purses7-citron',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/purses7-citron.imageset/purses7-citron.jpg","uri":"purses7-citron","width":500,"height":500,"deprecated":true};
 });
 __d('image!purses8',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/purses8.imageset/purses8.png","uri":"purses8","width":700,"height":1050,"deprecated":true};
 });
-__d('image!purses8-elaine',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/purses8-elaine.imageset/purses8-elaine.jpg","uri":"purses8-elaine","width":362,"height":478,"deprecated":true};
+__d('image!purses8-elaine',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/purses8-elaine.imageset/purses8-elaine.jpg","uri":"purses8-elaine","width":500,"height":500,"deprecated":true};
 });
 __d('image!purses9',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/purses9.imageset/purses9.png","uri":"purses9","width":700,"height":1050,"deprecated":true};
 });
@@ -65602,39 +65648,39 @@ __d('image!purses9-azure',[],function(global, require, requireDynamic, requireLa
 });
 __d('image!scarves1',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/scarves1.imageset/scarves1.png","uri":"scarves1","width":700,"height":1050,"deprecated":true};
 });
-__d('image!scarves1-christine',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/scarves1-christine.imageset/scarves1-christine.png","uri":"scarves1-christine","width":768,"height":768,"deprecated":true};
+__d('image!scarves1-christine',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/scarves1-christine.imageset/scarves1-christine.png","uri":"scarves1-christine","width":601,"height":601,"deprecated":true};
 });
 __d('image!scarves2',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/scarves2.imageset/scarves2.png","uri":"scarves2","width":700,"height":1050,"deprecated":true};
 });
-__d('image!scarves2-carrie',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/scarves2-carrie.imageset/scarves2-carrie.png","uri":"scarves2-carrie","width":768,"height":768,"deprecated":true};
+__d('image!scarves2-carrie',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/scarves2-carrie.imageset/scarves2-carrie.png","uri":"scarves2-carrie","width":411,"height":411,"deprecated":true};
 });
 __d('image!scarves3',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/scarves3.imageset/scarves3.png","uri":"scarves3","width":700,"height":1050,"deprecated":true};
 });
-__d('image!scarves3-jill',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/scarves3-jill.imageset/scarves3-jill.png","uri":"scarves3-jill","width":768,"height":768,"deprecated":true};
+__d('image!scarves3-jill',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/scarves3-jill.imageset/scarves3-jill.png","uri":"scarves3-jill","width":591,"height":591,"deprecated":true};
 });
 __d('image!scarves4',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/scarves4.imageset/scarves4.png","uri":"scarves4","width":700,"height":1050,"deprecated":true};
 });
-__d('image!scarves4-nina',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/scarves4-nina.imageset/scarves4-nina.png","uri":"scarves4-nina","width":768,"height":768,"deprecated":true};
+__d('image!scarves4-nina',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/scarves4-nina.imageset/scarves4-nina.png","uri":"scarves4-nina","width":557,"height":557,"deprecated":true};
 });
 __d('image!scarves5',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/scarves5.imageset/scarves5.png","uri":"scarves5","width":700,"height":1050,"deprecated":true};
 });
-__d('image!scarves5-katy',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/scarves5-katy.imageset/scarves5-katy.png","uri":"scarves5-katy","width":768,"height":768,"deprecated":true};
+__d('image!scarves5-katy',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/scarves5-katy.imageset/scarves5-katy.png","uri":"scarves5-katy","width":650,"height":650,"deprecated":true};
 });
 __d('image!scarves6',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/scarves6.imageset/scarves6.png","uri":"scarves6","width":700,"height":1050,"deprecated":true};
 });
-__d('image!scarves6-jessica',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/scarves6-jessica.imageset/scarves6-jessica.png","uri":"scarves6-jessica","width":768,"height":768,"deprecated":true};
+__d('image!scarves6-jessica',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/scarves6-jessica.imageset/scarves6-jessica.png","uri":"scarves6-jessica","width":447,"height":447,"deprecated":true};
 });
 __d('image!scarves7',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/scarves7.imageset/scarves7.png","uri":"scarves7","width":700,"height":1050,"deprecated":true};
 });
-__d('image!scarves7-ashley',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/scarves7-ashley.imageset/scarves7-ashley.png","uri":"scarves7-ashley","width":768,"height":768,"deprecated":true};
+__d('image!scarves7-ashley',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/scarves7-ashley.imageset/scarves7-ashley.png","uri":"scarves7-ashley","width":457,"height":457,"deprecated":true};
 });
 __d('image!scarves8',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/scarves8.imageset/scarves8.png","uri":"scarves8","width":700,"height":1050,"deprecated":true};
 });
-__d('image!scarves8-lilly',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/scarves8-lilly.imageset/scarves8-lilly.png","uri":"scarves8-lilly","width":768,"height":768,"deprecated":true};
+__d('image!scarves8-lilly',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/scarves8-lilly.imageset/scarves8-lilly.png","uri":"scarves8-lilly","width":502,"height":502,"deprecated":true};
 });
 __d('image!scarves9',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/scarves9.imageset/scarves9.png","uri":"scarves9","width":700,"height":1050,"deprecated":true};
 });
-__d('image!scarves9-mary',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/scarves9-mary.imageset/scarves9-mary.png","uri":"scarves9-mary","width":768,"height":768,"deprecated":true};
+__d('image!scarves9-mary',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/scarves9-mary.imageset/scarves9-mary.png","uri":"scarves9-mary","width":441,"height":441,"deprecated":true};
 });
 __d('image!ic_hanger',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/ic_hanger.imageset/ic_hanger.png","uri":"ic_hanger","width":128,"height":128,"deprecated":true};
 });
@@ -65645,6 +65691,8 @@ __d('image!ic_tag',[],function(global, require, requireDynamic, requireLazy, mod
 __d('image!ic_heart',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/ic_heart.imageset/ic_heart.png","uri":"ic_heart","width":128,"height":128,"deprecated":true};
 });
 __d('image!instructions',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/instructions.imageset/instructions.png","uri":"instructions","width":700,"height":1050,"deprecated":true};
+});
+__d('image!launch',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/launch.imageset/launch.png","uri":"launch","width":540,"height":700,"deprecated":true};
 });
 ;require("stylewheel/index.ios.js");
 //@ sourceMappingURL=/index.ios.map

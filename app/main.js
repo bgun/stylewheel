@@ -237,10 +237,10 @@ module.exports = React.createClass({
           <View ref='outfit' style={ styles.outfitContainer }>
             <Image style={ styles.outfitImageStyle } source={ outfitItem.image } />
             <View style={ styles.swipers }>
-              <Swiper height={wh*0.43} key='top' showsPagination={false} style={ styles.swiperTopStyle    } onMomentumScrollEnd={ this.scrolledTop }>
+              <Swiper height={wh*0.45} key='top' showsPagination={false} style={ styles.swiperTopStyle    } onMomentumScrollEnd={ this.scrolledTop }>
                 { topItems }
               </Swiper>
-              <Swiper height={wh*0.1} key='mid' showsPagination={false} style={ styles.swiperMiddleStyle } onMomentumScrollEnd={ this.scrolledMiddle }>
+              <Swiper height={wh*0.08} key='mid' showsPagination={false} style={ styles.swiperMiddleStyle } onMomentumScrollEnd={ this.scrolledMiddle }>
                 { middleItems }
               </Swiper>
               <Swiper height={wh*0.47} key='bot' showsPagination={false} style={ styles.swiperBottomStyle } onMomentumScrollEnd={ this.scrolledBottom }>
