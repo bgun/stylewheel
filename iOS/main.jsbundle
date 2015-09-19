@@ -51730,10 +51730,10 @@ React.createElement(View,{style:[styles.mainContainer,this.state.showMenu?styles
 React.createElement(View,{ref:'outfit',style:styles.outfitContainer},
 React.createElement(Image,{style:styles.outfitImageStyle,source:outfitItem.image}),
 React.createElement(View,{style:styles.swipers},
-React.createElement(Swiper,{height:wh * 0.43,key:'top',showsPagination:false,style:styles.swiperTopStyle,onMomentumScrollEnd:this.scrolledTop},
+React.createElement(Swiper,{height:wh * 0.45,key:'top',showsPagination:false,style:styles.swiperTopStyle,onMomentumScrollEnd:this.scrolledTop},
 topItems),
 
-React.createElement(Swiper,{height:wh * 0.1,key:'mid',showsPagination:false,style:styles.swiperMiddleStyle,onMomentumScrollEnd:this.scrolledMiddle},
+React.createElement(Swiper,{height:wh * 0.08,key:'mid',showsPagination:false,style:styles.swiperMiddleStyle,onMomentumScrollEnd:this.scrolledMiddle},
 middleItems),
 
 React.createElement(Swiper,{height:wh * 0.47,key:'bot',showsPagination:false,style:styles.swiperBottomStyle,onMomentumScrollEnd:this.scrolledBottom},
@@ -65106,7 +65106,7 @@ __d('stylewheel/app/data.js',["image!_blank","image!_blank","image!bracelet1","i
 
 var BRACELETS=[
 {
-name:'None selected',
+name:'No bracelet selected',
 image:require('image!_blank'),
 image_detail:require('image!_blank'),
 description:'Swipe left or right to show accessories!',
@@ -65189,7 +65189,7 @@ link:'http://prettybracelet.com'}];
 
 var NECKLACES=[
 {
-name:'None selected',
+name:'No necklace selected',
 image:require('image!_blank'),
 image_detail:require('image!_blank'),
 description:'Swipe left or right to show accessories!',
@@ -65345,7 +65345,7 @@ link:'http://prettyoutfit.com'}];
 
 var PURSES=[
 {
-name:'None selected',
+name:'No purse selected',
 image:require('image!_blank'),
 image_detail:require('image!_blank'),
 description:'Swipe left or right to show accessories!',
@@ -65428,7 +65428,7 @@ link:'http://prettypurses.com'}];
 
 var SCARVES=[
 {
-name:'None selected',
+name:'No scarf selected',
 image:require('image!_blank'),
 image_detail:require('image!_blank'),
 description:'Swipe left or right to show accessories!',
@@ -65580,7 +65580,7 @@ __d('image!necklace6-sadie',[],function(global, require, requireDynamic, require
 });
 __d('image!necklace7',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/necklace7.imageset/necklace7.png","uri":"necklace7","width":700,"height":1050,"deprecated":true};
 });
-__d('image!necklace7-livvy',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/necklace7-livvy.imageset/necklace7-livvy.jpg","uri":"necklace7-livvy","width":400,"height":400,"deprecated":true};
+__d('image!necklace7-livvy',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/necklace7-livvy.imageset/necklace7-livvy.jpg","uri":"necklace7-livvy","width":500,"height":500,"deprecated":true};
 });
 __d('image!necklace8',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/necklace8.imageset/necklace8.png","uri":"necklace8","width":700,"height":1050,"deprecated":true};
 });
@@ -65690,7 +65690,7 @@ __d('image!ic_tag',[],function(global, require, requireDynamic, requireLazy, mod
 });
 __d('image!ic_heart',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/ic_heart.imageset/ic_heart.png","uri":"ic_heart","width":128,"height":128,"deprecated":true};
 });
-__d('image!instructions',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/instructions.imageset/instructions.png","uri":"instructions","width":700,"height":1050,"deprecated":true};
+__d('image!instructions',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/instructions.imageset/instructions.png","uri":"instructions","width":640,"height":1136,"deprecated":true};
 });
 __d('image!launch',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {"__packager_asset":true,"isStatic":true,"path":"/Users/ben/Dev/stylewheel/iOS/Images.xcassets/launch.imageset/launch.png","uri":"launch","width":540,"height":700,"deprecated":true};
 });

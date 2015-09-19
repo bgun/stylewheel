@@ -191,7 +191,7 @@ module.exports = StyleSheet.create({
     height: wh,
     width: ww,
     position: 'absolute',
-    top: -(wh * 0.43),
+    top: -(wh * 0.45),
     left: 3
   },
   bottomImageStyle: {

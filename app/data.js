@@ -2,7 +2,7 @@ var React = require('react-native');
 
 var BRACELETS = [
   {
-    name  : 'None selected',
+    name  : 'No bracelet selected',
     image : require('image!_blank'),
     image_detail: require('image!_blank'),
     description: 'Swipe left or right to show accessories!',
@@ -85,7 +85,7 @@ var BRACELETS = [
 
 var NECKLACES = [
   {
-    name  : 'None selected',
+    name  : 'No necklace selected',
     image : require('image!_blank'),
     image_detail: require('image!_blank'),
     description: 'Swipe left or right to show accessories!',
@@ -241,7 +241,7 @@ var OUTFITS = [
 
 var PURSES = [
   {
-    name  : 'None selected',
+    name  : 'No purse selected',
     image : require('image!_blank'),
     image_detail: require('image!_blank'),
     description: 'Swipe left or right to show accessories!',
@@ -324,7 +324,7 @@ var PURSES = [
 
 var SCARVES = [
   {
-    name  : 'None selected',
+    name  : 'No scarf selected',
     image : require('image!_blank'),
     image_detail: require('image!_blank'),
     description: 'Swipe left or right to show accessories!',

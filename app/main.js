@@ -138,13 +138,15 @@ module.exports = React.createClass({
 
   getRenderImage: function() {
     var topItemType = this.state.topType    === 'SCARVES'   ? 'scarves' : 'necklace';
-    var midItemType = 'bracelets';
+    var midItemType = 'bracelet';
     var botItemType = 'purses';
     var layer0 = 'outfit' +    (this.state.outfitIndex+1);
     var layer1 = topItemType + (this.state.topIndex);
-    var layer1 = midItemType + (this.state.middleIndex);
+    var layer2 = midItemType + (this.state.middleIndex);
     var layer3 = botItemType + (this.state.bottomIndex);
-    return 'http://stylewheel-backend.herokuapp.com/render?layer1='+layer1+'&layer2='+layer2+'&layer3='+layer3;
+    var url = 'http://stylewheel-backend.herokuapp.com/render?layer0='+layer0+'&layer1='+layer1+'&layer2='+layer2+'&layer3='+layer3;
+    console.log(url);
+    return url;
   },
 
   selectItem: function(itemGroup, track) {
